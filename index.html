@@ -447,8 +447,8 @@
         /* --- FEATURE 1: WOD GENERATOR ENGINE --- */
         
         const movements = {
-            mono: ['Row (Calories)', 'Run (400m)', 'Bike (Calories)', 'Double Unders', 'Burpees'],
-            bodyweight: ['Pull-ups', 'Push-ups', 'Air Squats', 'Sit-ups', 'Box Jumps', 'Lunges', 'Jumping Lunges', 'Toes to Bar'],
+            mono: ['Row (Calories)', 'Bike (Calories)', 'Ski (Calories)', 'Double Unders', 'Burpees'],
+            bodyweight: ['Pull-ups', 'Push-ups', 'Air Squats', 'Sit-ups', 'Box Jumps', 'Lunges', 'Weighted Walking Lunges', 'Toes to Bar'],
             weightlifting: ['Thrusters', 'Deadlifts', 'Power Cleans', 'Snatches', 'Wall Balls', 'Kettlebell Swings', 'Dumbbell Lunges', 'Sumo Deadlift High Pull'],
             gymnastics: ['Handstand Push-ups', 'Ring Dips', 'Chest-to-Bar Pull-ups', 'Muscle-ups', 'Pistols', 'Handstand Walk']
         };
@@ -459,7 +459,7 @@
                 name: "Murph", 
                 type: "Chipper", 
                 content: "Run 1 mile\n100 Pull-ups\n200 Push-ups\n300 Squats\nRun 1 mile\n(Partition as needed, Vest 20/14)",
-                story: "Lt. Michael P. Murphy (SEAL) was killed in Afghanistan June 28, 2005. He was 29. This workout was one of Mike's favorites and he'd named it 'Body Armor'. We do it to remember his sacrifice and the ultimate test of mental fortitude."
+                story: "Lt. Michael P. Murphy (SEAL) was killed in Afghanistan June 28, 2005. He was 29. This workout was one of Mike's favorites and he'd named it 'Body Armor'. We do it to remember h[...]" 
             },
             { 
                 name: "Griff", 
@@ -477,7 +477,7 @@
                 name: "Randy", 
                 type: "For Time", 
                 content: "75 Power Snatches (75/55 lbs)",
-                story: "In honor of Randy Simmons, 51, a 27 year LAPD veteran and SWAT team member who was killed February 6, 2008 in the line of duty. We do this to honor the lightest, fastest, and fittest."
+                story: "In honor of Randy Simmons, 51, a 27 year LAPD veteran and SWAT team member who was killed February 6, 2008 in the line of duty. We do this to honor the lightest, fastest, and f[...]"
             },
             { 
                 name: "Josh", 
@@ -505,7 +505,7 @@
         const nameNouns = ["Chief", "Whale", "Sponge", "Ball", "Cakes", "Monster", "Cheese", "Pony", "Demon", "Thunder", "Grinder", "Hurricane"];
         const nameSuffixes = ["Jr.", "Lite", "Lite", "Burn", "Shred", "Smash"];
 
-        // Weight Prescriptions Database
+        // Weight Prescriptions Database (added Weighted Walking Lunges)
         const weightPrescriptions = {
             "Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
             "Power Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
@@ -517,7 +517,8 @@
             "Wall Ball": { rx: "20/14", int: "14/10", beg: "10/6" },
             "Kettlebell Swing": { rx: "53/35", int: "35/26", beg: "26/18" },
             "Sumo Deadlift High Pull": { rx: "75/55", int: "55/35", beg: "35/15" },
-            "Dumbbell": { rx: "50/35", int: "35/20", beg: "20/15" } // Generic DB catch-all
+            "Dumbbell": { rx: "50/35", int: "35/20", beg: "20/15" }, // Generic DB catch-all
+            "Weighted Walking Lunges": { rx: "50/35", int: "35/25", beg: "20/15" }
         };
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -585,6 +586,10 @@
                     moveName = "Kettlebell Swing";
                     weights = weightPrescriptions["Kettlebell Swing"];
                     found = true;
+                } else if (line.includes("Weighted Walking Lunges")) {
+                    moveName = "Weighted Walking Lunges";
+                    weights = weightPrescriptions["Weighted Walking Lunges"];
+                    found = true;
                 }
 
                 if (found && weights) {
@@ -614,26 +619,33 @@
             else {
                 isGenerated = true;
                 const types = ['AMRAP', 'EMOM', 'RFT', 'For Time', 'Chipper'];
-                const selectedType = typeSelect === 'any' ? getRandom(types) : typeSelect.toUpperCase();
+                let selectedType = typeSelect === 'any' ? getRandom(types) : typeSelect;
+                // normalize capitalization differences
+                const selNorm = (typeof selectedType === 'string') ? selectedType.toUpperCase() : selectedType;
                 
                 wod.type = selectedType;
                 
                 let generatedMoves = [];
-                if (selectedType === 'AMRAP') {
+                if (selNorm === 'AMRAP') {
                     const time = durSelect === 'short' ? 7 : (durSelect === 'medium' ? 15 : 30);
-                    wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3, 4);
+                    wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3, 4, { selectedType: 'AMRAP', durSelect });
                     generatedMoves = parseMovements(wod.content);
-                } else if (selectedType === 'EMOM') {
+                } else if (selNorm === 'EMOM') {
                     const min = durSelect === 'short' ? 8 : (durSelect === 'medium' ? 16 : 24);
                     const move = getRandom(movements.weightlifting) + ' / ' + getRandom(movements.mono);
                     wod.content = `Every Minute on the Minute for ${min} minutes:\nEven: ${getRandom(movements.gymnastics)}\nOdd: ${move}`;
                     generatedMoves = parseMovements(wod.content);
-                } else if (selectedType === 'RFT') {
+                } else if (selNorm === 'RFT') {
                     const rounds = durSelect === 'short' ? 3 : (durSelect === 'medium' ? 5 : 8);
-                    wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3, 3);
+                    wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3, 3, { selectedType: 'RFT', durSelect });
+                    generatedMoves = parseMovements(wod.content);
+                } else if (selNorm === 'CHIPPER') {
+                    // Chipper: allow higher single-movement reps and chipper-style erg series
+                    wod.content = `For Time:\n` + buildMovementList(5, 7, { selectedType: 'CHIPPER', durSelect, allowHighReps: true });
                     generatedMoves = parseMovements(wod.content);
                 } else {
-                    wod.content = `For Time:\n` + buildMovementList(4, 6);
+                    // For Time / default
+                    wod.content = `For Time:\n` + buildMovementList(4, 6, { selectedType: 'For Time', durSelect });
                     generatedMoves = parseMovements(wod.content);
                 }
 
@@ -716,26 +728,110 @@
                 if(line.includes("Pull-up")) moves.push("Pull-up");
                 if(line.includes("Push-up")) moves.push("Push-up");
                 if(line.includes("Squat")) moves.push("Squat");
+                if(line.includes("Handstand Walk")) moves.push("Handstand Walk");
             });
             return moves;
         }
 
-        function buildMovementList(min, max) {
+        /**
+         * Build a list of movements and rep quantities.
+         * - options: { selectedType, durSelect, allowHighReps }
+         * - By default, rep choices are kept to a manageable range (3-10) unless:
+         *    - movement is an erg (Calories) -> use calorie values
+         *    - movement is handstand walk -> use feet (25 or 50)
+         *    - movement is double unders -> allow larger rep counts as an exception
+         *    - chipper -> allow high reps/series
+         */
+        function buildMovementList(min, max, options = {}) {
             const count = Math.floor(Math.random() * (max - min + 1)) + min;
             let list = [];
             for(let i=0; i<count; i++) {
                 const category = getRandom(Object.keys(movements));
                 const move = getRandom(movements[category]);
-                const reps = generateReps(category);
-                list.push(`${reps} ${move}`);
+                const repsOrUnit = generateReps(category, move, options);
+                // repsOrUnit is a string already formatted (e.g., "10/8 Cals", "25ft", "8 Thrusters")
+                // If it looks numeric with unit at start, place after unit if necessary
+                if (typeof repsOrUnit === 'string') {
+                    // For calorie/ft strings we format as "<value> <move>" or already contains Cals/ft (we return strings like "10/8 Cals")
+                    // If repsOrUnit contains 'Cals' or 'ft' or contains a space + number abbreviation, handle accordingly
+                    if (repsOrUnit.toLowerCase().includes('cals') || repsOrUnit.toLowerCase().includes('ft') || repsOrUnit.includes('-')) {
+                        // place the unit first then move for readability where appropriate
+                        // e.g. "10/8 Cals Bike (Calories)" -> convert to "Bike, 10/8 Cals"
+                        if (repsOrUnit.includes('Cals')) {
+                            list.push(`${move.replace(' (Calories)', '')}, ${repsOrUnit}`);
+                        } else if (repsOrUnit.toLowerCase().includes('ft')) {
+                            list.push(`${repsOrUnit} ${move}`);
+                        } else {
+                            list.push(`${repsOrUnit} ${move}`);
+                        }
+                    } else {
+                        // default string like "8" or "21-15-9"
+                        list.push(`${repsOrUnit} ${move}`);
+                    }
+                } else {
+                    // fallback: number
+                    list.push(`${repsOrUnit} ${move}`);
+                }
             }
             return list.join('\n');
         }
 
-        function generateReps(cat) {
-            if (cat === 'mono') return '1:00 of';
-            const r = [5, 10, 12, 15, 20, 21, 50, 100];
-            return r[Math.floor(Math.random() * r.length)];
+        /**
+         * generateReps(cat, move, options)
+         * - Handles ergs (Calories), handstand walks (ft), double unders (higher volumes), and default small rep sets.
+         */
+        function generateReps(cat, move, options = {}) {
+            const selectedType = (options.selectedType || '').toString().toUpperCase();
+            const durSelect = options.durSelect || 'medium';
+            const allowHigh = !!options.allowHighReps || selectedType === 'CHIPPER';
+
+            // Handstand Walks -> always 25 or 50 ft (intervals of 25)
+            if (move.toLowerCase().includes('handstand walk')) {
+                const choices = [25, 50];
+                const pick = getRandom(choices);
+                return `${pick}ft`; // buildMovementList will render "25ft Handstand Walk"
+            }
+
+            // Ergs (calorie-based): Row (Calories), Bike (Calories), Ski (Calories)
+            if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
+                // For chippers: use a descending chipper series
+                if (allowHigh) {
+                    // If it's a chipper, prefer the classic series
+                    return '50-40-30-20-10 Cals';
+                }
+
+                // Otherwise return a manageable calorie target based on duration
+                if (durSelect === 'short') return '8/6 Cals';
+                if (durSelect === 'long') return '15/12 Cals';
+                return '10/8 Cals'; // medium
+            }
+
+            // Double Unders: allow higher volume than normal (user-allowed exception)
+            if (move.toLowerCase().includes('double under')) {
+                if (allowHigh) {
+                    return getRandom([150, 200]); // chipper or deliberate high-double-under workouts
+                }
+                // reasonable DU counts for most workouts
+                if (durSelect === 'short') return getRandom([30, 40, 50]);
+                if (durSelect === 'long') return getRandom([100, 150]);
+                return getRandom([50, 75, 100]);
+            }
+
+            // Chippers allowed higher reps for many movements (e.g., single-movement chippers)
+            if (allowHigh) {
+                const highR = [15,20,25,30,40,50];
+                return getRandom(highR);
+            }
+
+            // Mono category used to be "1:00 of" — we've replaced time-based monos with calories above.
+            if (cat === 'mono') {
+                // If mono but not a calorie erg (e.g., Burpees), return small reps
+                return getRandom([8,10,12]);
+            }
+
+            // Default manageable rep counts per round (3-10)
+            const r = [3,4,5,6,7,8,9,10];
+            return getRandom(r);
         }
 
         /* --- FEATURE 2: SCALING ADVISOR --- */
