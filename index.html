@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh WODs | Triforce Companion</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            /* Triforce Inspired Colors: Orange & Navy Blue */
+            --primary: #F7A407; /* Gold/Orange */
+            --primary-hover: #d68c00;
+            --accent-blue: #1A3A5E; /* Navy Blue */
+            --bg-dark: #0B1621; /* Very Dark Blue/Black */
+            --bg-card: #122538; /* Lighter Navy for cards */
+            --bg-input: #1E3A52; /* Input background */
+            --text-main: #ffffff;
+            --text-muted: #8fa1b3;
+            --border-radius: 8px;
+            --font-main: 'Segoe UI', 'Helvetica', sans-serif;
+            --shadow: 0 4px 20px rgba(0,0,0,0.6);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: radial-gradient(circle at top right, #1a3a5e 0%, #0b1621 40%);
+        }
+
+        /* --- LAYOUT --- */
+        header {
+            background: var(--accent-blue);
+            padding: 1rem 1.5rem;
+            border-bottom: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .brand {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-style: italic;
+        }
+
+        .brand span { color: var(--primary); font-style: normal; }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 0.5rem 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 4px;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover { color: var(--primary); background: rgba(255,255,255,0.1); }
+        .nav-btn.active { background: var(--primary); color: var(--bg-dark); border-color: var(--primary); font-weight: 900; }
+
+        main {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* --- SECTIONS --- */
+        section { display: none; animation: fadeIn 0.4s ease; }
+        section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 900;
+            font-style: italic;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid #233b52;
+        }
+
+        /* --- CONTROLS --- */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-input);
+            border: 1px solid #335373;
+            color: white;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(247, 164, 7, 0.2);
+        }
+
+        button.action-btn {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            width: 100%;
+            font-style: italic;
+            box-shadow: 0 4px 0 #b37200;
+        }
+
+        button.action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #b37200;
+        }
+
+        button.action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 #b37200;
+        }
+
+        /* --- WOD GENERATOR SPECIFIC --- */
+        .wod-result {
+            background: #0f1e2e;
+            padding: 0; /* Padding handled by inner divs */
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            margin-top: 1rem;
+            position: relative;
+            box-shadow: 0 0 20px rgba(247, 164, 7, 0.1);
+            overflow: hidden;
+        }
+
+        .wod-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #335373;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .wod-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        .wod-type-badge {
+            background: var(--accent-blue);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            border: 1px solid var(--primary);
+        }
+
+        .wod-content {
+            padding: 1.5rem;
+            font-size: 1.25rem;
+            white-space: pre-line;
+            font-weight: 500;
+            color: #dceefb;
+        }
+
+        /* Hero Story Box */
+        .wod-story {
+            padding: 1.5rem;
+            background: rgba(247, 164, 7, 0.1);
+            border-bottom: 1px solid #335373;
+            border-top: 1px solid #335373;
+            font-style: italic;
+            color: #dceefb;
+        }
+        .wod-story h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-style: normal;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Prescriptions Table */
+        .wod-prescriptions {
+            padding: 1.5rem;
+            background: #162b3f;
+            border-top: 1px solid var(--primary);
+        }
+        .presc-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .presc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .presc-header {
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #335373;
+            margin-bottom: 0.5rem;
+        }
+
+        .presc-row {
+            display: contents; /* Allows children to participate in grid */
+        }
+        .presc-row > div {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- SCALING SPECIFIC --- */
+        .scaling-option {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid transparent;
+            transition: var(--transition);
+        }
+
+        .scaling-option:hover { border-left-color: var(--primary); background: rgba(255,255,255,0.05); }
+        .scaling-option h4 { color: var(--primary); margin-bottom: 0.3rem; text-transform: uppercase; font-style: italic; font-weight: 800; }
+
+        /* --- TOAST NOTIFICATION --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--primary);
+            color: #000;
+            text-align: center;
+            border-radius: 4px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        /* --- MOBILE TWEAKS --- */
+        @media (max-width: 600px) {
+            .brand { font-size: 1.3rem; }
+            nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--accent-blue); padding: 12px; justify-content: space-around; border-top: 2px solid var(--primary); z-index: 99; }
+            main { padding-bottom: 80px; }
+            .nav-btn { flex: 1; text-align: center; padding: 0.5rem; font-size: 0.8rem; }
+            .wod-title { font-size: 1.5rem; }
+            .presc-grid { font-size: 0.8rem; grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            Fresh <span>WODs</span>
+        </div>
+        <nav>
+            <button class="nav-btn active" onclick="switchTab('wod')">WOD Gen</button>
+            <button class="nav-btn" onclick="switchTab('scale')">Scale</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SECTION 1: WOD GENERATOR -->
+        <section id="wod-section" class="active">
+            <h2>Generate Workout</h2>
+            <div class="card">
+                <div class="controls">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label>Type</label>
+                        <select id="wodType">
+                            <option value="any">Surprise Me</option>
+                            <option value="girls">"The Girls" (Benchmark)</option>
+                            <option value="heroes">"Heroes" (Tribute)</option>
+                            <option value="amrap">AMRAP</option>
+                            <option value="emom">EMOM</option>
+                            <option value="rft">Rounds For Time</option>
+                            <option value="chipper">Chipper</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <label>Duration / Intensity</label>
+                        <select id="wodDuration">
+                            <option value="short">Short (Sprint)</option>
+                            <option value="medium" selected>Medium (Classic)</option>
+                            <option value="long">Long (Endurance)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="action-btn" onclick="generateWOD()">Generate WOD</button>
+            </div>
+
+            <div id="wodDisplayArea"></div>
+        </section>
+
+        <!-- SECTION 2: SCALING ADVISOR -->
+        <section id="scale-section">
+            <h2>Scaling Advisor</h2>
+            <div class="card">
+                <p style="margin-bottom: 1rem; color: var(--text-muted); font-style: italic;">Select a common movement or type your own.</p>
+                <div class="controls">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label>Common Movements</label>
+                        <select id="movementSelect" onchange="clearCustomInput(); updateScalingAdvice();">
+                            <option value="mu">Muscle Up</option>
+                            <option value="du">Double Unders</option>
+                            <option value="hsq">Heavy Squat Clean</option>
+                            <option value="hspu">Handstand Push Up (HSPU)</option>
+                            <option value="pullup">Strict / Chest-to-Bar Pull-up</option>
+                            <option value="toes2bar">Toes to Bar</option>
+                            <option value="thruster">Thruster</option>
+                            <option value="pistols">Pistol Squat</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <label>Or Type Custom</label>
+                        <input type="text" id="customMovementInput" placeholder="e.g. Snatch, Burpee..." oninput="updateScalingAdvice()">
+                    </div>
+                </div>
+
+                <div id="scalingResults">
+                    <!-- Results injected via JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast">Notification</div>
+
+    <script>
+        /* --- GLOBAL STATE --- */
+        function switchTab(tabId) {
+            document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId + '-section').classList.add('active');
+            
+            const buttons = Array.from(document.querySelectorAll('.nav-btn'));
+            const activeBtn = buttons.find(b => b.getAttribute('onclick').includes(tabId));
+            if(activeBtn) activeBtn.classList.add('active');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        /* --- FEATURE 1: WOD GENERATOR ENGINE --- */
+        
+        const movements = {
+            mono: ['Row (Calories)', 'Run (400m)', 'Bike (Calories)', 'Double Unders', 'Burpees'],
+            bodyweight: ['Pull-ups', 'Push-ups', 'Air Squats', 'Sit-ups', 'Box Jumps', 'Lunges', 'Jumping Lunges', 'Toes to Bar'],
+            weightlifting: ['Thrusters', 'Deadlifts', 'Power Cleans', 'Snatches', 'Wall Balls', 'Kettlebell Swings', 'Dumbbell Lunges', 'Sumo Deadlift High Pull'],
+            gymnastics: ['Handstand Push-ups', 'Ring Dips', 'Chest-to-Bar Pull-ups', 'Muscle-ups', 'Pistols', 'Handstand Walk']
+        };
+
+        // Hero WODs with Stories
+        const heroWods = [
+            { 
+                name: "Murph", 
+                type: "Chipper", 
+                content: "Run 1 mile\n100 Pull-ups\n200 Push-ups\n300 Squats\nRun 1 mile\n(Partition as needed, Vest 20/14)",
+                story: "Lt. Michael P. Murphy (SEAL) was killed in Afghanistan June 28, 2005. He was 29. This workout was one of Mike's favorites and he'd named it 'Body Armor'. We do it to remember his sacrifice and the ultimate test of mental fortitude."
+            },
+            { 
+                name: "Griff", 
+                type: "For Time", 
+                content: "Run 800m\n30 Back Squats (135/95)\nRun 800m",
+                story: "In honor of USAF SSgt Travis L. Griffen, 28, who was killed by an IED attack on October 17, 2004. This WOD tests lung power and leg endurance."
+            },
+            { 
+                name: "Michael", 
+                type: "Three Rounds for Time", 
+                content: "Run 800m\n50 Back Extensions\n50 Sit-ups",
+                story: "Navy Lieutenant Michael McGreevy, 30, of Portville, NY, was killed in Afghanistan on June 28, 2005. This workout is a test of stamina and core strength."
+            },
+            { 
+                name: "Randy", 
+                type: "For Time", 
+                content: "75 Power Snatches (75/55 lbs)",
+                story: "In honor of Randy Simmons, 51, a 27 year LAPD veteran and SWAT team member who was killed February 6, 2008 in the line of duty. We do this to honor the lightest, fastest, and fittest."
+            },
+            { 
+                name: "Josh", 
+                type: "Five Rounds for Time", 
+                content: "95-lb. Overhead squats, 21 reps\n42 Pull-ups",
+                story: "Josh Whitaker, 32, of Fort Worth, Texas, died on Feb. 15, 2011, after a battle with brain cancer. He was a member of CrossFit Fort Worth. We do this to honor his fight."
+            }
+        ];
+
+        // Girl WODs
+        const girlWods = [
+            { name: "Fran", type: "RFT", content: "21-15-9 reps of:\nThrusters (95/65 lbs)\nPull-ups" },
+            { name: "Cindy", type: "AMRAP", content: "20-minute AMRAP of:\n5 Pull-ups\n10 Push-ups\n15 Squats" },
+            { name: "Grace", type: "RFT", content: "30 Clean and Jerks (135/95 lbs)" },
+            { name: "Helen", type: "RFT", content: "3 Rounds for time of:\nRun 400m\n21 Kettlebell Swings (53/35 lbs)\n12 Pull-ups" },
+            { name: "Annie", type: "RFT", content: "50-40-30-20-10 reps of:\nDouble-unders\nSit-ups" },
+            { name: "Karen", type: "For Time", content: "150 Wall Balls (20/14 lbs) for time" },
+            { name: "Elizabeth", type: "RFT", content: "21-15-9 reps of:\nCleans (135/95 lbs)\nRing Dips" },
+            { name: "Nancy", type: "Five Rounds for Time", content: "400-meter Run\n15 Overhead Squats (95/65)" },
+            { name: "Diane", type: "RFT", content: "21-15-9 Deadlifts (225/155)\nHandstand Push-ups" }
+        ];
+
+        // Naming parts
+        const namePrefixes = ["The", "Bad", "Little", "Super", "Unstable", "Crazy", "Hot", "Wicked", "Tiny", "Big"];
+        const nameNouns = ["Chief", "Whale", "Sponge", "Ball", "Cakes", "Monster", "Cheese", "Pony", "Demon", "Thunder", "Grinder", "Hurricane"];
+        const nameSuffixes = ["Jr.", "Lite", "Lite", "Burn", "Shred", "Smash"];
+
+        // Weight Prescriptions Database
+        const weightPrescriptions = {
+            "Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
+            "Power Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
+            "Squat Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
+            "Snatch": { rx: "135/95", int: "115/75", beg: "95/65" },
+            "Thruster": { rx: "95/65", int: "75/55", beg: "65/45" },
+            "Deadlift": { rx: "225/155", int: "185/125", beg: "135/95" },
+            "Overhead Squat": { rx: "95/65", int: "75/55", beg: "PVC/Bar" },
+            "Wall Ball": { rx: "20/14", int: "14/10", beg: "10/6" },
+            "Kettlebell Swing": { rx: "53/35", int: "35/26", beg: "26/18" },
+            "Sumo Deadlift High Pull": { rx: "75/55", int: "55/35", beg: "35/15" },
+            "Dumbbell": { rx: "50/35", int: "35/20", beg: "20/15" } // Generic DB catch-all
+        };
+
+        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function generateWODName(type, generatedMovements) {
+            const hasRun = generatedMovements.some(m => m.includes("Run"));
+            const hasPull = generatedMovements.some(m => m.includes("Pull-up"));
+            const hasPush = generatedMovements.some(m => m.includes("Push-up"));
+            const hasSquat = generatedMovements.some(m => m.includes("Squat"));
+
+            if (hasRun && hasPull && hasPush && hasSquat) return "Murph Lite";
+            if (hasPull && hasPush && hasSquat) return "Murph Micro";
+            if (type === "EMOM") return getRandom(["The Clockwork", "Every Minute", "Minute Man", "Tick Tock"]);
+            if (type === "AMRAP") return getRandom(["The Grinder", "Non-Stop", "Never Ending", "Volume Junkie"]);
+            
+            const p = getRandom(namePrefixes);
+            const n = getRandom(nameNouns);
+            const s = Math.random() > 0.6 ? getRandom(nameSuffixes) : "";
+            return `${p} ${n} ${s}`.trim();
+        }
+
+        function getPrescriptionsForContent(content) {
+            const lines = content.split('\n');
+            const prescriptionRows = [];
+
+            lines.forEach(line => {
+                let found = false;
+                let moveName = "";
+                let weights = null;
+
+                // Check keywords
+                if (line.includes("Dumbbell") || line.includes("DB")) {
+                    moveName = "Dumbbell Movements";
+                    weights = weightPrescriptions["Dumbbell"];
+                    found = true;
+                } else if (line.includes("Snatch") && !line.includes("Power")) {
+                    moveName = "Snatch";
+                    weights = weightPrescriptions["Snatch"];
+                    found = true;
+                } else if (line.includes("Power Clean") || line.includes("Squat Clean")) {
+                    moveName = line.includes("Squat") ? "Squat Clean" : "Power Clean";
+                    weights = weightPrescriptions[moveName];
+                    found = true;
+                } else if (line.includes("Clean") && !line.includes("Snatch")) {
+                    moveName = "Power Clean"; // Default to Power
+                    weights = weightPrescriptions[moveName];
+                    found = true;
+                } else if (line.includes("Thruster")) {
+                    moveName = "Thruster";
+                    weights = weightPrescriptions["Thruster"];
+                    found = true;
+                } else if (line.includes("Deadlift")) {
+                    moveName = "Deadlift";
+                    weights = weightPrescriptions["Deadlift"];
+                    found = true;
+                } else if (line.includes("Overhead Squat")) {
+                    moveName = "Overhead Squat";
+                    weights = weightPrescriptions["Overhead Squat"];
+                    found = true;
+                } else if (line.includes("Wall Ball")) {
+                    moveName = "Wall Ball";
+                    weights = weightPrescriptions["Wall Ball"];
+                    found = true;
+                } else if (line.includes("Kettlebell Swing") || line.includes("Swing")) {
+                    moveName = "Kettlebell Swing";
+                    weights = weightPrescriptions["Kettlebell Swing"];
+                    found = true;
+                }
+
+                if (found && weights) {
+                    // Check if we already added this movement type to avoid duplicates
+                    if (!prescriptionRows.some(r => r.move === moveName)) {
+                        prescriptionRows.push({ move: moveName, weights: weights });
+                    }
+                }
+            });
+
+            return prescriptionRows;
+        }
+        
+        function generateWOD() {
+            const typeSelect = document.getElementById('wodType').value;
+            const durSelect = document.getElementById('wodDuration').value;
+            let wod = {};
+            let isGenerated = false;
+
+            // 1. Girls or Heroes
+            if (typeSelect === 'girls') {
+                wod = getRandom(girlWods);
+            } else if (typeSelect === 'heroes') {
+                wod = getRandom(heroWods);
+            } 
+            // 2. Generate Custom
+            else {
+                isGenerated = true;
+                const types = ['AMRAP', 'EMOM', 'RFT', 'For Time', 'Chipper'];
+                const selectedType = typeSelect === 'any' ? getRandom(types) : typeSelect.toUpperCase();
+                
+                wod.type = selectedType;
+                
+                let generatedMoves = [];
+                if (selectedType === 'AMRAP') {
+                    const time = durSelect === 'short' ? 7 : (durSelect === 'medium' ? 15 : 30);
+                    wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3, 4);
+                    generatedMoves = parseMovements(wod.content);
+                } else if (selectedType === 'EMOM') {
+                    const min = durSelect === 'short' ? 8 : (durSelect === 'medium' ? 16 : 24);
+                    const move = getRandom(movements.weightlifting) + ' / ' + getRandom(movements.mono);
+                    wod.content = `Every Minute on the Minute for ${min} minutes:\nEven: ${getRandom(movements.gymnastics)}\nOdd: ${move}`;
+                    generatedMoves = parseMovements(wod.content);
+                } else if (selectedType === 'RFT') {
+                    const rounds = durSelect === 'short' ? 3 : (durSelect === 'medium' ? 5 : 8);
+                    wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3, 3);
+                    generatedMoves = parseMovements(wod.content);
+                } else {
+                    wod.content = `For Time:\n` + buildMovementList(4, 6);
+                    generatedMoves = parseMovements(wod.content);
+                }
+
+                wod.name = generateWODName(selectedType, generatedMoves);
+            }
+
+            // Render
+            const display = document.getElementById('wodDisplayArea');
+            
+            let html = `<div class="wod-result">`;
+            
+            // Header
+            html += `
+                <div class="wod-header">
+                    <div class="wod-title">${wod.name}</div>
+                    <span class="wod-type-badge">${wod.type}</span>
+                </div>
+            `;
+
+            // Hero Story (if applicable)
+            if (wod.story) {
+                html += `
+                    <div class="wod-story">
+                        <h4>In Honor</h4>
+                        "${wod.story}"
+                    </div>
+                `;
+            }
+
+            // Content
+            html += `<div class="wod-content">${wod.content}</div>`;
+
+            // Prescriptions (ONLY for Generated WODs)
+            if (isGenerated) {
+                const prescriptions = getPrescriptionsForContent(wod.content);
+                
+                if (prescriptions.length > 0) {
+                    html += `
+                        <div class="wod-prescriptions">
+                            <span class="presc-title">Weight Prescriptions (M/F)</span>
+                            <div class="presc-grid">
+                                <div class="presc-header">Movement</div>
+                                <div class="presc-header">RX</div>
+                                <div class="presc-header">Intermediate</div>
+                                <div class="presc-header">Beginner</div>
+                    `;
+                    
+                    prescriptions.forEach(row => {
+                        html += `
+                            <div class="presc-row">
+                                <div style="font-weight:bold; color:white;">${row.move}</div>
+                                <div style="color:var(--primary); font-weight:bold;">${row.weights.rx}</div>
+                                <div style="color:white;">${row.weights.int}</div>
+                                <div style="color:var(--text-muted);">${row.weights.beg}</div>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div></div>`;
+                }
+            }
+
+            // Footer
+            html += `
+                <div style="padding: 1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; border-top: 1px solid #335373;">
+                    <small style="color:var(--text-muted)">Est. Duration: ${durSelect === 'short' ? 'Fast & Heavy' : (durSelect === 'medium' ? 'Grueling' : 'Endurance Test')}</small>
+                    <button class="nav-btn" style="font-size: 0.8rem; padding: 6px 12px;" onclick="showToast('WOD Saved to Favorites ❤️')">Save WOD</button>
+                </div>
+            </div>`;
+
+            display.innerHTML = html;
+            display.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function parseMovements(content) {
+            const lines = content.split('\n');
+            let moves = [];
+            lines.forEach(line => {
+                if(line.includes("Run")) moves.push("Run");
+                if(line.includes("Pull-up")) moves.push("Pull-up");
+                if(line.includes("Push-up")) moves.push("Push-up");
+                if(line.includes("Squat")) moves.push("Squat");
+            });
+            return moves;
+        }
+
+        function buildMovementList(min, max) {
+            const count = Math.floor(Math.random() * (max - min + 1)) + min;
+            let list = [];
+            for(let i=0; i<count; i++) {
+                const category = getRandom(Object.keys(movements));
+                const move = getRandom(movements[category]);
+                const reps = generateReps(category);
+                list.push(`${reps} ${move}`);
+            }
+            return list.join('\n');
+        }
+
+        function generateReps(cat) {
+            if (cat === 'mono') return '1:00 of';
+            const r = [5, 10, 12, 15, 20, 21, 50, 100];
+            return r[Math.floor(Math.random() * r.length)];
+        }
+
+        /* --- FEATURE 2: SCALING ADVISOR --- */
+        
+        const scalingDatabase = {
+            mu: {
+                title: "Muscle Up",
+                levels: [
+                    { label: "No Muscle Up Yet", desc: "Perform 3 Pull-ups + 3 Ring Dips (strict). If bar muscle up, perform 4 Chest-to-Bar Pull-ups." },
+                    { label: "Building Consistency", desc: "Perform 1-2 Reps at a time. Use a band for assistance or perform jumping muscle ups focusing on the transition." },
+                    { label: "RX", desc: "Perform strict kipping muscle ups as prescribed." }
+                ]
+            },
+            du: {
+                title: "Double Unders",
+                levels: [
+                    { label: "Learning", desc: "60 Single Unders for every prescribed 20 Double Unders. Focus on wrist flick and staying tall." },
+                    { label: "Inconsistent", desc: "Reduce volume by half (e.g., 25 instead of 50). Or perform 5-10 Single Unders, 1 Double Under attempt." },
+                    { label: "RX", desc: "Unbroken sets or large sets with short rest." }
+                ]
+            },
+            hsq: {
+                title: "Heavy Squat Clean",
+                levels: [
+                    { label: "Technique Focus", desc: "Reduce load to 60-65% of 1RM. Focus on speed under the bar." },
+                    { label: "Mobility Issue", desc: "Switch to Power Cleans + Front Squats. This allows you to catch high and squat separately." },
+                    { label: "New Lifter", desc: "Use Dumbbells (Hang Dumbbell Clean) or Kettlebells to learn the hip pop." }
+                ]
+            },
+            hspu: {
+                title: "Handstand Push Up",
+                levels: [
+                    { label: "Strict Strength", desc: "Perform Pike Push-ups (feet on box) to build shoulder strength. Aim for 15 reps." },
+                    { label: "Volume Issue", desc: "Perform Box HSPUs (hands on box, feet on floor) to reduce range of motion." },
+                    { label: "Kipping but Struggling", desc: "Perform 1 Strict HSPU + 2 Kipping HSPUs. Or use 1 abmat for elevation." }
+                ]
+            },
+            pullup: {
+                title: "Pull-ups / C2B",
+                levels: [
+                    { label: "Strict Pull-up", desc: "Use a band (light/medium) or Jumping Pull-ups. Negatives are key for strength." },
+                    { label: "Chest to Bar (C2B)", desc: "Scale to Chin-over-bar Pull-ups if the height isn't there yet." },
+                    { label: "High Volume", desc: "Break into small sets early (e.g., 5 sets of 5 instead of 25 unbroken)." }
+                ]
+            },
+            toes2bar: {
+                title: "Toes to Bar",
+                levels: [
+                    { label: "Core Strength", desc: "Perform Knees to Elbows or Knees to Chest (hanging). Focus on avoiding the 'kip' swing initially." },
+                    { label: "Flexibility", desc: "Perform Hanging Leg Raises (90 degrees) instead of full extension." },
+                    { label: "Grip Failure", desc: "Break sets early (e.g., 5s) before hands rip." }
+                ]
+            },
+            thruster: {
+                title: "Thruster",
+                levels: [
+                    { label: "Mobility", desc: "Separate movements: Front Squats + Push Press. This saves the shoulders." },
+                    { label: "Load", desc: "Use one Dumbbell or Kettlebell in the 'Goblet' position to learn the movement pattern." },
+                    { label: "Cardio Dump", desc: "Lower the weight significantly (e.g., 75lbs / 35lbs) to keep the intensity high." }
+                ]
+            },
+            pistols: {
+                title: "Pistol Squat",
+                levels: [
+                    { label: "Balance/Strength", desc: "Hold onto a rig for assistance. Use a box behind you to sit down to." },
+                    { label: "Standard Scaling", desc: "Perform Air Squats on one leg (weighted leg, free leg lightly touching floor)." },
+                    { label: "No Rig", desc: "Perform 2 or 3 standard Air Squats for every 1 Pistol." }
+                ]
+            }
+        };
+
+        function clearCustomInput() {
+            document.getElementById('customMovementInput').value = '';
+        }
+
+        function updateScalingAdvice() {
+            const customVal = document.getElementById('customMovementInput').value.trim();
+            const container = document.getElementById('scalingResults');
+            
+            let data;
+
+            if (customVal) {
+                data = {
+                    title: customVal + " (Custom)",
+                    levels: [
+                        { label: "Technique", desc: `Break down the ${customVal} into its constituent parts. Drill the mechanics without load or speed.` },
+                        { label: "Reduce Load/Volume", desc: `If ${customVal} involves weight, drop to 50-60% to ensure safe mechanics. If bodyweight, reduce reps by half.` },
+                        { label: "Substitute", desc: "Find a movement with a similar stimulus (muscle groups/metabolic demand) but lower complexity." }
+                    ]
+                };
+            } else {
+                const key = document.getElementById('movementSelect').value;
+                data = scalingDatabase[key];
+            }
+            
+            let html = `<h3 style="margin-bottom:1rem; border-bottom:1px solid #335373; padding-bottom:0.5rem; color:white;">${data.title} Scaling</h3>`;
+            
+            data.levels.forEach((level, index) => {
+                const color = index === 0 ? '#F7A407' : (index === 1 ? '#ffffff' : '#8fa1b3'); 
+                html += `
+                    <div class="scaling-option" style="border-left-color: ${color}">
+                        <h4>${level.label}</h4>
+                        <p style="font-size: 0.95rem; color: #cbd5e1;">${level.desc}</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
