@@ -631,9 +631,8 @@
                     wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3, 4, { selectedType: 'AMRAP', durSelect });
                     generatedMoves = parseMovements(wod.content);
                 } else if (selNorm === 'EMOM') {
-                    const min = durSelect === 'short' ? 8 : (durSelect === 'medium' ? 16 : 24);
-                    const move = getRandom(movements.weightlifting) + ' / ' + getRandom(movements.mono);
-                    wod.content = `Every Minute on the Minute for ${min} minutes:\nEven: ${getRandom(movements.gymnastics)}\nOdd: ${move}`;
+                    // EMOM: choose minutes between 8 and 12 and produce one of the common patterns
+                    wod.content = buildEMOM(null, durSelect);
                     generatedMoves = parseMovements(wod.content);
                 } else if (selNorm === 'RFT') {
                     const rounds = durSelect === 'short' ? 3 : (durSelect === 'medium' ? 5 : 8);
@@ -711,7 +710,7 @@
             // Footer
             html += `
                 <div style="padding: 1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; border-top: 1px solid #335373;">
-                    <small style="color:var(--text-muted)">Est. Duration: ${durSelect === 'short' ? 'Fast & Heavy' : (durSelect === 'medium' ? 'Grueling' : 'Endurance Test')}</small>
+                    <small style="color:var(--text-muted)">Est. Duration: ${document.getElementById('wodDuration').value === 'short' ? 'Fast & Heavy' : (document.getElementById('wodDuration').value === 'medium' ? 'Grueling' : 'Endurance Test')}</small>
                     <button class="nav-btn" style="font-size: 0.8rem; padding: 6px 12px;" onclick="showToast('WOD Saved to Favorites ❤️')">Save WOD</button>
                 </div>
             </div>`;
@@ -734,13 +733,7 @@
         }
 
         /**
-         * Build a list of movements and rep quantities.
-         * - options: { selectedType, durSelect, allowHighReps }
-         * - By default, rep choices are kept to a manageable range (3-10) unless:
-         *    - movement is an erg (Calories) -> use calorie values
-         *    - movement is handstand walk -> use feet (25 or 50)
-         *    - movement is double unders -> allow larger rep counts as an exception
-         *    - chipper -> allow high reps/series
+         * Build a list of movements and rep quantities for generic RFT/AMRAP/Chipper.
          */
         function buildMovementList(min, max, options = {}) {
             const count = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -749,27 +742,15 @@
                 const category = getRandom(Object.keys(movements));
                 const move = getRandom(movements[category]);
                 const repsOrUnit = generateReps(category, move, options);
-                // repsOrUnit is a string already formatted (e.g., "10/8 Cals", "25ft", "8 Thrusters")
-                // If it looks numeric with unit at start, place after unit if necessary
                 if (typeof repsOrUnit === 'string') {
-                    // For calorie/ft strings we format as "<value> <move>" or already contains Cals/ft (we return strings like "10/8 Cals")
-                    // If repsOrUnit contains 'Cals' or 'ft' or contains a space + number abbreviation, handle accordingly
-                    if (repsOrUnit.toLowerCase().includes('cals') || repsOrUnit.toLowerCase().includes('ft') || repsOrUnit.includes('-')) {
-                        // place the unit first then move for readability where appropriate
-                        // e.g. "10/8 Cals Bike (Calories)" -> convert to "Bike, 10/8 Cals"
-                        if (repsOrUnit.includes('Cals')) {
-                            list.push(`${move.replace(' (Calories)', '')}, ${repsOrUnit}`);
-                        } else if (repsOrUnit.toLowerCase().includes('ft')) {
-                            list.push(`${repsOrUnit} ${move}`);
-                        } else {
-                            list.push(`${repsOrUnit} ${move}`);
-                        }
+                    if (repsOrUnit.toLowerCase().includes('cals')) {
+                        list.push(`${move.replace(' (Calories)', '')}, ${repsOrUnit}`);
+                    } else if (repsOrUnit.toLowerCase().includes('ft') || repsOrUnit.includes('-')) {
+                        list.push(`${repsOrUnit} ${move}`);
                     } else {
-                        // default string like "8" or "21-15-9"
                         list.push(`${repsOrUnit} ${move}`);
                     }
                 } else {
-                    // fallback: number
                     list.push(`${repsOrUnit} ${move}`);
                 }
             }
@@ -777,8 +758,161 @@
         }
 
         /**
+         * New EMOM builder:
+         * - Force EMOM length to 8-12 minutes.
+         * - Choose one of three common patterns:
+         *   1) 3-move repeating cycle (Minute 1, 2, 3 are listed and repeat for whole EMOM)
+         *   2) Odd/Even split (two moves)
+         *   3) Single repeating move (one movement every minute)
+         * - Always include explicit volumes for each movement (using emom rules).
+         * - Never generate a new movement for every single minute.
+         */
+        function buildEMOM(_minutes, durSelect) {
+            // pick minutes between 8 and 12
+            const minutes = Math.floor(Math.random() * 5) + 8; // 8..12
+            const choosePattern = Math.random();
+            // 55% chance 3-move cycle, 35% odd/even, 10% single-move EMOM
+            if (choosePattern < 0.55) {
+                // 3-move repeating cycle
+                const move1 = chooseEMOMMoveForPattern();
+                const move2 = chooseEMOMMoveForPattern();
+                const move3 = chooseEMOMMoveForPattern();
+                const m1 = formatSingleMoveVolume(move1, durSelect);
+                const m2 = formatSingleMoveVolume(move2, durSelect);
+                const m3 = formatSingleMoveVolume(move3, durSelect);
+                return `EMOM ${minutes}\n\nMinute 1: ${m1}\nMinute 2: ${m2}\nMinute 3: ${m3}`;
+            } else if (choosePattern < 0.9) {
+                // odd/even split
+                const odd = chooseEMOMMoveForPattern();
+                const even = chooseEMOMMoveForPattern();
+                const oddFmt = formatSingleMoveVolume(odd, durSelect);
+                const evenFmt = formatSingleMoveVolume(even, durSelect);
+                return `EMOM ${minutes}\n\nOdd minutes: ${oddFmt}\nEven minutes: ${evenFmt}`;
+            } else {
+                // single repeating move
+                const move = chooseEMOMMoveForPattern();
+                const formatted = formatSingleMoveVolume(move, durSelect);
+                return `EMOM ${minutes}\n\nEvery minute: ${formatted}`;
+            }
+        }
+
+        // Choose an EMOM move (single move, not composite). Favor gymnastics/weightlifting/mono mix.
+        function chooseEMOMMoveForPattern() {
+            const bucket = Math.random();
+            if (bucket < 0.35) return getRandom(movements.gymnastics);
+            if (bucket < 0.7) return getRandom(movements.weightlifting);
+            return getRandom(movements.mono);
+        }
+
+        // Return "<reps> <MoveTitle>" or "Bike, 10/8 Cals" or "25ft Handstand Walk"
+        function formatSingleMoveVolume(move, durSelect) {
+            // If it's an erg (Calories)
+            if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
+                const cals = ergCalsForEMOM(durSelect);
+                return `${move.replace(' (Calories)', '')}, ${cals}`;
+            }
+
+            // Handstand Walk -> use 25ft preferred for EMOMs
+            if (move.toLowerCase().includes('handstand walk')) {
+                const pick = Math.random() < 0.75 ? 25 : 50; // prefer 25ft for EMOMs
+                return `${pick}ft Handstand Walk`;
+            }
+
+            // Double Unders -> higher counts allowed
+            if (move.toLowerCase().includes('double under')) {
+                const du = durSelect === 'short' ? getRandom([30,40,50]) : (durSelect === 'long' ? getRandom([100,120]) : getRandom([50,75,100]));
+                return `${du} Double Unders`;
+            }
+
+            // Otherwise return movement-aware reps approximating ~20-30s of work
+            return emomRepsForMove(move, durSelect);
+        }
+
+        function ergCalsForEMOM(durSelect) {
+            if (durSelect === 'short') return '6/5 Cals';
+            if (durSelect === 'long') return '12/10 Cals';
+            return '10/8 Cals';
+        }
+
+        // Approximates reps so the movement takes ~20-30s depending on move.
+        function emomRepsForMove(move, durSelect) {
+            const lower = str => str.toLowerCase();
+            const m = lower(move);
+
+            // chest-to-bar / pull-ups
+            if (m.includes('chest-to-bar') || m.includes('chest to bar') || m.includes('c2b')) {
+                const base = durSelect === 'short' ? 10 : (durSelect === 'long' ? 15 : 12);
+                return `${base} Chest-to-Bar Pull-ups`;
+            }
+            if (m.includes('pull-up') || m.includes('pullups') || m.includes('pull ups')) {
+                const base = durSelect === 'short' ? 8 : (durSelect === 'long' ? 15 : 10);
+                return `${base} Pull-ups`;
+            }
+            if (m.includes('push-up')) {
+                const base = durSelect === 'short' ? 10 : (durSelect === 'long' ? 20 : 12);
+                return `${base} Push-ups`;
+            }
+            if (m.includes('thruster')) {
+                const rep = durSelect === 'short' ? getRandom([5,6]) : (durSelect === 'long' ? getRandom([8,9,10]) : getRandom([6,7,8]));
+                return `${rep} Thrusters`;
+            }
+            if (m.includes('snatch') || m.includes('power clean') || m.includes('clean')) {
+                const rep = getRandom([1,2,3]);
+                return `${rep} ${capitalizeWords(move)}`;
+            }
+            if (m.includes('deadlift')) {
+                const rep = durSelect === 'short' ? getRandom([1,2,3]) : getRandom([3,5]);
+                return `${rep} Deadlifts`;
+            }
+            if (m.includes('wall ball')) {
+                const rep = durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15]);
+                return `${rep} Wall Balls`;
+            }
+            if (m.includes('kettlebell') || m.includes('kb swing')) {
+                const rep = durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15]);
+                return `${rep} Kettlebell Swings`;
+            }
+            if (m.includes('handstand push')) {
+                const rep = durSelect === 'short' ? getRandom([3,4,5]) : getRandom([5,8]);
+                return `${rep} Handstand Push-ups`;
+            }
+            if (m.includes('muscle-up')) {
+                const rep = getRandom([1,2,3,4]);
+                return `${rep} Muscle-ups`;
+            }
+            if (m.includes('pistol')) {
+                const rep = getRandom([3,5,8]);
+                return `${rep} Pistols (each leg)`;
+            }
+            if (m.includes('box jump')) {
+                const rep = getRandom([8,10,12]);
+                return `${rep} Box Jumps`;
+            }
+            if (m.includes('weighted walking lunges')) {
+                return `20 Weighted Walking Lunges`;
+            }
+            if (m.includes('toes to bar')) {
+                const rep = durSelect === 'short' ? getRandom([8,10]) : getRandom([10,15]);
+                return `${rep} Toes to Bar`;
+            }
+            if (m.includes('burpee')) {
+                const rep = getRandom([8,10,12]);
+                return `${rep} Burpees`;
+            }
+
+            // fallback: small rep count 5-10
+            const fallback = getRandom([5,6,7,8,9,10]);
+            return `${fallback} ${capitalizeWords(move)}`;
+        }
+
+        function capitalizeWords(s) {
+            return s.replace(' (Calories)', '').trim().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+
+        /**
          * generateReps(cat, move, options)
          * - Handles ergs (Calories), handstand walks (ft), double unders (higher volumes), and default small rep sets.
+         * (Kept for non-EMOM generation; EMOM uses the dedicated functions above to produce the simpler patterns)
          */
         function generateReps(cat, move, options = {}) {
             const selectedType = (options.selectedType || '').toString().toUpperCase();
@@ -789,47 +923,39 @@
             if (move.toLowerCase().includes('handstand walk')) {
                 const choices = [25, 50];
                 const pick = getRandom(choices);
-                return `${pick}ft`; // buildMovementList will render "25ft Handstand Walk"
+                return `${pick}ft`;
             }
 
             // Ergs (calorie-based): Row (Calories), Bike (Calories), Ski (Calories)
             if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
-                // For chippers: use a descending chipper series
                 if (allowHigh) {
-                    // If it's a chipper, prefer the classic series
                     return '50-40-30-20-10 Cals';
                 }
-
-                // Otherwise return a manageable calorie target based on duration
                 if (durSelect === 'short') return '8/6 Cals';
                 if (durSelect === 'long') return '15/12 Cals';
-                return '10/8 Cals'; // medium
+                return '10/8 Cals';
             }
 
-            // Double Unders: allow higher volume than normal (user-allowed exception)
+            // Double Unders
             if (move.toLowerCase().includes('double under')) {
                 if (allowHigh) {
-                    return getRandom([150, 200]); // chipper or deliberate high-double-under workouts
+                    return getRandom([150, 200]);
                 }
-                // reasonable DU counts for most workouts
                 if (durSelect === 'short') return getRandom([30, 40, 50]);
                 if (durSelect === 'long') return getRandom([100, 150]);
                 return getRandom([50, 75, 100]);
             }
 
-            // Chippers allowed higher reps for many movements (e.g., single-movement chippers)
+            // Chippers allowed higher reps
             if (allowHigh) {
                 const highR = [15,20,25,30,40,50];
                 return getRandom(highR);
             }
 
-            // Mono category used to be "1:00 of" — we've replaced time-based monos with calories above.
             if (cat === 'mono') {
-                // If mono but not a calorie erg (e.g., Burpees), return small reps
                 return getRandom([8,10,12]);
             }
 
-            // Default manageable rep counts per round (3-10)
             const r = [3,4,5,6,7,8,9,10];
             return getRandom(r);
         }
