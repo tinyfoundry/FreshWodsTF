@@ -447,65 +447,377 @@
         /* --- FEATURE 1: WOD GENERATOR ENGINE --- */
         
         const movements = {
-            mono: ['Row (Calories)', 'Bike (Calories)', 'Ski (Calories)', 'Double Unders', 'Burpees'],
+            mono: ['Row (Calories)', 'Run (400m)', 'Bike (Calories)', 'Double Unders', 'Burpees'],
             bodyweight: ['Pull-ups', 'Push-ups', 'Air Squats', 'Sit-ups', 'Box Jumps', 'Lunges', 'Weighted Walking Lunges', 'Toes to Bar'],
             weightlifting: ['Thrusters', 'Deadlifts', 'Power Cleans', 'Snatches', 'Wall Balls', 'Kettlebell Swings', 'Dumbbell Lunges', 'Sumo Deadlift High Pull'],
             gymnastics: ['Handstand Push-ups', 'Ring Dips', 'Chest-to-Bar Pull-ups', 'Muscle-ups', 'Pistols', 'Handstand Walk']
         };
 
-        // Hero WODs with Stories
+        // Expanded Hero WODs (with RX where canonical/available)
         const heroWods = [
-            { 
-                name: "Murph", 
-                type: "Chipper", 
-                content: "Run 1 mile\n100 Pull-ups\n200 Push-ups\n300 Squats\nRun 1 mile\n(Partition as needed, Vest 20/14)",
-                story: "Lt. Michael P. Murphy (SEAL) was killed in Afghanistan June 28, 2005. He was 29. This workout was one of Mike's favorites and he'd named it 'Body Armor'. We do it to remember h[...]" 
+            {
+                name: "Murph",
+                type: "Chipper",
+                content: "Run 1 mile\n100 Pull-ups\n200 Push-ups\n300 Squats\nRun 1 mile\n(Partition as needed; Vest 20/14)",
+                story: "Lt. Michael P. Murphy (SEAL) was killed in Afghanistan on June 28, 2005. This workout (originally called 'Body Armor') is done in his honor.",
+                stimulus: "Endurance + mental grit; long chipper combining running, high-volume calisthenics and muscular endurance.",
+                rx: { men: "20 lb vest", women: "14 lb vest" }
             },
-            { 
-                name: "Griff", 
-                type: "For Time", 
+            {
+                name: "DT",
+                type: "Rounds for Time",
+                content: "5 Rounds for time of:\n12 Deadlifts\n9 Hang Power Cleans\n6 Push Jerks (155/105 lb)",
+                story: "Named in honor of Staff Sergeant Timothy P. Davis (DT).",
+                stimulus: "Power-endurance and barbell cycling.",
+                rx: { men: "155 lb", women: "105 lb" }
+            },
+            {
+                name: "Michael",
+                type: "Three Rounds for Time",
+                content: "3 rounds for time:\nRun 800m\n50 Back Extensions\n50 Sit-ups",
+                story: "In memory of Navy Lieutenant Michael McGreevy, killed in Afghanistan on June 28, 2005.",
+                stimulus: "Aerobic capacity and core/endurance.",
+                rx: {}
+            },
+            {
+                name: "Randy",
+                type: "For Time",
+                content: "75 Power Snatches (75/55 lb)",
+                story: "Honors Randy Simmons, a 27-year LAPD veteran killed in the line of duty.",
+                stimulus: "Power-endurance and barbell speed.",
+                rx: { men: "75 lb", women: "55 lb" }
+            },
+            {
+                name: "Josh",
+                type: "Rounds for Time",
+                content: "5 Rounds for time:\n21 Overhead Squats (95/65 lb)\n42 Pull-ups",
+                story: "In honor of Josh Whitaker, who passed after battling brain cancer.",
+                stimulus: "Leg strength and high-volume pulling.",
+                rx: { men: "95 lb", women: "65 lb" }
+            },
+            {
+                name: "The Seven",
+                type: "Rounds for Time",
+                content: "7 rounds for time of:\n7 Handstand Push-ups\n7 Thrusters (135/95 lb)\n7 Knees-to-elbows\n7 Deadlifts (245/165 lb)\n7 Burpees\n7 Kettlebell Swings (70/53 lb)\n7 Pull-ups",
+                story: "A brutal hero honoring seven fallen CIA officers.",
+                stimulus: "Full-body, high-intensity, mixed modal — strength, gymnastics, metabolic conditioning.",
+                weights: {
+                    Thrusters: "135/95",
+                    Deadlifts: "245/165",
+                    "Kettlebell Swings": "70/53"
+                }
+            },
+            {
+                name: "Badger",
+                type: "For Time",
+                content: "3 rounds of:\n10 Snatches\n20 Burpees\n400m Run",
+                story: "A brutal metcon hero used in some boxes.",
+                stimulus: "Power + aerobic work.",
+                rx: {}
+            },
+            {
+                name: "Jerry",
+                type: "Rounds for Time",
+                content: "5 rounds for time:\n10 Pull-ups\n10 Push-ups\n10 Sit-ups\n10 Squats",
+                story: "A longer hero-style bodyweight grinder.",
+                stimulus: "Muscular endurance and aerobic contribution.",
+                rx: {}
+            },
+            {
+                name: "J.T.",
+                type: "Rounds for Time",
+                content: "21-15-9:\nHandstand Push-ups\nRing Dips\nPush-ups",
+                story: "In honor of Petty Officer 2nd Class John 'JT' Tomlinson.",
+                stimulus: "Gymnastics strength-endurance (upper body).",
+                rx: {}
+            },
+            {
+                name: "Nate",
+                type: "AMRAP",
+                content: "Max reps in 20 minutes of:\n2 Muscle-ups\n4 Handstand Push-ups\n8 Kettlebell Swings",
+                story: "Hero WOD honoring a fallen servicemember.",
+                stimulus: "Gymnastics + power-endurance.",
+                rx: {}
+            },
+            {
+                name: "Tommy V",
+                type: "For Time",
+                content: "800m Run\n50 Pull-ups\n200 Push-ups\n300 Squats\n800m Run",
+                story: "Tribute WOD with high-volume bodyweight and runs.",
+                stimulus: "High-rep calisthenics and aerobic demand.",
+                rx: {}
+            },
+            {
+                name: "Luce",
+                type: "Rounds for Time",
+                content: "10 rounds of:\n10 Deadlifts (225/155 lb)\n10 Burpees\n100m Run",
+                story: "Honoring a fallen first responder with repeated deadlifts and runs.",
+                stimulus: "Heavy metabolic work; repeated posterior chain stress.",
+                weights: { Deadlifts: "225/155" }
+            },
+            {
+                name: "Ryan",
+                type: "For Time",
+                content: "10 rounds:\n15 Calorie Row\n15 Box Jumps\n15 Wall Balls",
+                story: "An intense mixed-modal hero.",
+                stimulus: "Metabolic conditioning with mixed modalities.",
+                rx: {}
+            },
+            {
+                name: "Hansen",
+                type: "For Time",
+                content: "21-15-9:\nBurpees\nPower Cleans (135/95 lb)",
+                story: "A hero-style metcon combining burpees and cleans.",
+                stimulus: "Barbell cycling + burpees; anaerobic demand.",
+                weights: { "Power Cleans": "135/95" }
+            },
+            {
+                name: "Whitten",
+                type: "For Time",
+                content: "800m Run\n50 Back Squats (185/135 lb)\n800m Run",
+                story: "Tribute-style hero combining running and heavy squats.",
+                stimulus: "Leg strength and aerobic stress.",
+                weights: { "Back Squats": "185/135" }
+            },
+            {
+                name: "Holleyman",
+                type: "For Time",
+                content: "5 rounds for time:\n10 Deadlifts\n12 Burpees\n400m Run",
+                story: "Honoring a fallen firefighter; balanced between heavy and aerobic work.",
+                stimulus: "Strength-endurance and aerobic capacity.",
+                rx: {}
+            },
+            {
+                name: "Coe",
+                type: "EMOM/For Time",
+                content: "5 rounds:\n5 Power Cleans\n10 Push-ups\n15 Sit-ups",
+                story: "Short hero-style WOD focusing on quick power and core.",
+                stimulus: "Power + core conditioning.",
+                rx: {}
+            },
+            {
+                name: "Nutts",
+                type: "For Time",
+                content: "21-15-9:\nThrusters (95/65 lb)\nBurpees",
+                story: "A tribute WOD used in many boxes.",
+                stimulus: "High heart-rate leg and full-body work.",
+                weights: { Thrusters: "95/65" }
+            },
+            {
+                name: "Manion",
+                type: "For Time",
+                content: "4 rounds for time:\n400m Run\n25 Pull-ups\n50 Push-ups",
+                story: "High-volume community hero WOD.",
+                stimulus: "Endurance + calisthenics capacity.",
+                rx: {}
+            },
+            {
+                name: "Loredo",
+                type: "For Time",
+                content: "21-15-9:\nDeadlifts (225/155 lb)\nHandstand Push-ups",
+                story: "Hero WOD named for a fallen public servant; heavy + gymnastic.",
+                stimulus: "Strength and upper-body gymnastics.",
+                weights: { Deadlifts: "225/155" }
+            },
+            {
+                name: "Riley",
+                type: "Rounds for Time",
+                content: "5 rounds for time:\n200m Run\n21 Kettlebell Swings\n12 Pull-ups",
+                story: "Tribute WOD combining running, swings, and pull volume.",
+                stimulus: "Mixed modal endurance with pulling and hip power demands.",
+                rx: {}
+            },
+            {
+                name: "Tommy V2",
+                type: "Chipper",
+                content: "800m Run\n50 Pull-ups\n100 Push-ups\n150 Squats",
+                story: "Variation used to honor first responders with high-volume bodyweight loads.",
+                stimulus: "High-volume muscular endurance and aerobic demand.",
+                rx: {}
+            },
+            {
+                name: "Ben",
+                type: "For Time",
+                content: "10 rounds:\n10 Thrusters (95/65 lb)\n10 Bar-Facing Burpees",
+                story: "Used to honor a fallen hero; thruster-heavy metcon.",
+                stimulus: "Thruster conditioning and repeated anaerobic work.",
+                weights: { Thrusters: "95/65" }
+            },
+            {
+                name: "Ryan A.",
+                type: "AMRAP",
+                content: "AMRAP 30:\n5 Muscle-ups\n10 Deadlifts (225/155 lb)\n15 Burpees",
+                story: "Long hero AMRAP honoring a servicemember.",
+                stimulus: "Gymnastics + heavy lifts + high-cardiovascular cost.",
+                weights: { Deadlifts: "225/155" }
+            },
+            {
+                name: "Small",
+                type: "For Time",
+                content: "3 rounds for time:\n400m Run\n50 Sit-ups\n30 Wall Balls",
+                story: "Memorial WOD used in boxes to build endurance and grit.",
+                stimulus: "Aerobic + core + wall ball volume.",
+                rx: {}
+            },
+            {
+                name: "Lore",
+                type: "For Time",
+                content: "5 rounds:\n10 Overhead Squats\n400m Run",
+                story: "An overhead squat + run tribute WOD.",
+                stimulus: "Shoulder and leg endurance under metabolic stress.",
+                rx: {}
+            },
+            {
+                name: "CWID",
+                type: "For Time",
+                content: "21-15-9:\nClean and Jerks\nBox Jumps",
+                story: "A tribute WOD often used locally to honor service members.",
+                stimulus: "Barbell cycling and plyometrics.",
+                rx: {}
+            },
+            {
+                name: "Custom Hero (placeholder)",
+                type: "For Time",
                 content: "Run 800m\n30 Back Squats (135/95)\nRun 800m",
-                story: "In honor of USAF SSgt Travis L. Griffen, 28, who was killed by an IED attack on October 17, 2004. This WOD tests lung power and leg endurance."
-            },
-            { 
-                name: "Michael", 
-                type: "Three Rounds for Time", 
-                content: "Run 800m\n50 Back Extensions\n50 Sit-ups",
-                story: "Navy Lieutenant Michael McGreevy, 30, of Portville, NY, was killed in Afghanistan on June 28, 2005. This workout is a test of stamina and core strength."
-            },
-            { 
-                name: "Randy", 
-                type: "For Time", 
-                content: "75 Power Snatches (75/55 lbs)",
-                story: "In honor of Randy Simmons, 51, a 27 year LAPD veteran and SWAT team member who was killed February 6, 2008 in the line of duty. We do this to honor the lightest, fastest, and f[...]"
-            },
-            { 
-                name: "Josh", 
-                type: "Five Rounds for Time", 
-                content: "95-lb. Overhead squats, 21 reps\n42 Pull-ups",
-                story: "Josh Whitaker, 32, of Fort Worth, Texas, died on Feb. 15, 2011, after a battle with brain cancer. He was a member of CrossFit Fort Worth. We do this to honor his fight."
+                story: "Example hero-style WOD — replace or expand as needed.",
+                stimulus: "Aerobic and lower-body strength endurance.",
+                weights: { "Back Squats": "135/95" }
             }
         ];
 
-        // Girl WODs
+        // Expanded Girl WODs (canonical list + content, short background & intended stimulus)
         const girlWods = [
-            { name: "Fran", type: "RFT", content: "21-15-9 reps of:\nThrusters (95/65 lbs)\nPull-ups" },
-            { name: "Cindy", type: "AMRAP", content: "20-minute AMRAP of:\n5 Pull-ups\n10 Push-ups\n15 Squats" },
-            { name: "Grace", type: "RFT", content: "30 Clean and Jerks (135/95 lbs)" },
-            { name: "Helen", type: "RFT", content: "3 Rounds for time of:\nRun 400m\n21 Kettlebell Swings (53/35 lbs)\n12 Pull-ups" },
-            { name: "Annie", type: "RFT", content: "50-40-30-20-10 reps of:\nDouble-unders\nSit-ups" },
-            { name: "Karen", type: "For Time", content: "150 Wall Balls (20/14 lbs) for time" },
-            { name: "Elizabeth", type: "RFT", content: "21-15-9 reps of:\nCleans (135/95 lbs)\nRing Dips" },
-            { name: "Nancy", type: "Five Rounds for Time", content: "400-meter Run\n15 Overhead Squats (95/65)" },
-            { name: "Diane", type: "RFT", content: "21-15-9 Deadlifts (225/155)\nHandstand Push-ups" }
+            {
+                name: "Angie",
+                type: "For Time",
+                content: "100 Pull-ups\n100 Push-ups\n100 Sit-ups\n100 Squats",
+                story: "Classic 'girl' benchmark — long bodyweight test.",
+                stimulus: "Muscular endurance; high rep calisthenics."
+            },
+            {
+                name: "Barbara",
+                type: "Rounds for Time",
+                content: "5 rounds, each for time:\n20 Pull-ups\n30 Push-ups\n40 Sit-ups\n50 Squats (rest 3 minutes between rounds)",
+                story: "A benchmark reminiscent of long, repeated high-volume sets (classic CrossFit Girls list).",
+                stimulus: "Conditioning and repeated strength endurance across rounds."
+            },
+            {
+                name: "Chelsea",
+                type: "EMOM",
+                content: "EMOM 30:\n5 Pull-ups\n10 Push-ups\n15 Squats",
+                story: "A simple, steady EMOM benchmark that measures consistency.",
+                stimulus: "Work-rest pacing and muscular endurance."
+            },
+            {
+                name: "Diane",
+                type: "RFT",
+                content: "21-15-9:\nDeadlifts (225/155 lb)\nHandstand Push-ups",
+                story: "Classic benchmark combining heavy deadlifts with gymnastic presses.",
+                stimulus: "Posterior chain strength + shoulder gymnastic strength/endurance.",
+                weights: { Deadlifts: "225/155" }
+            },
+            {
+                name: "Elizabeth",
+                type: "RFT",
+                content: "21-15-9:\nCleans (135/95 lb)\nRing Dips",
+                story: "Test of power cleans and upper body pushing strength.",
+                stimulus: "Speed-strength on the clean + upper body strength-endurance.",
+                weights: { Cleans: "135/95" }
+            },
+            {
+                name: "Fran",
+                type: "RFT",
+                content: "21-15-9:\nThrusters (95/65 lb)\nPull-ups",
+                story: "Perhaps the most famous 'girl'—short, brutal, and high-intensity.",
+                stimulus: "Power-endurance and anaerobic capacity.",
+                weights: { Thrusters: "95/65" }
+            },
+            {
+                name: "Helen",
+                type: "RFT",
+                content: "3 Rounds for time:\nRun 400m\n21 Kettlebell Swings (53/35 lb)\n12 Pull-ups",
+                story: "Classic benchmark that blends run, swing and pull-up station work.",
+                stimulus: "Aerobic capacity + posterior chain power + pulling volume.",
+                weights: { "Kettlebell Swings": "53/35" }
+            },
+            {
+                name: "Grace",
+                type: "RFT",
+                content: "30 Clean and Jerks (135/95 lb)",
+                story: "Short, heavy barbell cycling benchmark.",
+                stimulus: "Barbell power-endurance.",
+                weights: { "Clean and Jerks": "135/95" }
+            },
+            {
+                name: "Jackie",
+                type: "For Time",
+                content: "1000m Row\n50 Thrusters (45/35 lb)\n30 Pull-ups",
+                story: "Classic benchmark mixing an erg, thrusters and pull-ups.",
+                stimulus: "Mixed modal aerobic + thruster power and pulling volume.",
+                weights: { Thrusters: "45/35" }
+            },
+            {
+                name: "Karen",
+                type: "For Time",
+                content: "150 Wall Balls (20/14 lb)",
+                story: "Simple high-volume wall-ball benchmark.",
+                stimulus: "Shoulder and leg endurance + conditioning.",
+                weights: { "Wall Balls": "20/14" }
+            },
+            {
+                name: "Isabel",
+                type: "For Time",
+                content: "30 Snatches (135/95 lb)",
+                story: "Single-movement snatch test for speed-strength.",
+                stimulus: "Maximal power and barbell speed under fatigue.",
+                weights: { Snatches: "135/95" }
+            },
+            {
+                name: "Annie",
+                type: "For Time",
+                content: "50-40-30-20-10:\nDouble-unders\nSit-ups",
+                story: "Classic double-under and core benchmark.",
+                stimulus: "Coordination (jump rope) and core endurance."
+            },
+            {
+                name: "Nancy",
+                type: "Rounds for Time",
+                content: "5 rounds for time:\n400m Run\n15 Overhead Squats (95/65 lb)",
+                story: "Run and overhead squat blend for aerobic + shoulder/leg stability.",
+                stimulus: "Aerobic and shoulder/leg endurance with technical demands.",
+                weights: { "Overhead Squats": "95/65" }
+            },
+            {
+                name: "Mary",
+                type: "Max Reps",
+                content: "20-minute AMRAP:\nMax Muscle-ups",
+                story: "Benchmark for muscle-up capacity.",
+                stimulus: "Gymnastics strength and endurance."
+            },
+            {
+                name: "Nicole",
+                type: "AMRAP",
+                content: "AMRAP 20:\n400m Run\nMax Pull-ups",
+                story: "Aerobic test with pulling volume; tests recovery and pulling capacity.",
+                stimulus: "Aerobic repeatability and pulling endurance."
+            },
+            {
+                name: "Cindy",
+                type: "AMRAP",
+                content: "20-minute AMRAP:\n5 Pull-ups\n10 Push-ups\n15 Air Squats",
+                story: "A long, classic benchmark that measures consistent effort across time.",
+                stimulus: "General conditioning and bodyweight strength endurance."
+            },
+            {
+                name: "Eva",
+                type: "Rounds for Time",
+                content: "5 rounds of:\n800m Run\n30 Kettlebell Swings\n30 Pull-ups",
+                story: "High-volume mixed modal benchmark.",
+                stimulus: "Aerobic and mixed-modal endurance."
+            }
         ];
 
-        // Naming parts
-        const namePrefixes = ["The", "Bad", "Little", "Super", "Unstable", "Crazy", "Hot", "Wicked", "Tiny", "Big"];
-        const nameNouns = ["Chief", "Whale", "Sponge", "Ball", "Cakes", "Monster", "Cheese", "Pony", "Demon", "Thunder", "Grinder", "Hurricane"];
-        const nameSuffixes = ["Jr.", "Lite", "Lite", "Burn", "Shred", "Smash"];
-
-        // Weight Prescriptions Database (added Weighted Walking Lunges)
+        // Weight Prescriptions Database (keeps earlier values)
         const weightPrescriptions = {
             "Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
             "Power Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
@@ -534,9 +846,12 @@
             if (type === "EMOM") return getRandom(["The Clockwork", "Every Minute", "Minute Man", "Tick Tock"]);
             if (type === "AMRAP") return getRandom(["The Grinder", "Non-Stop", "Never Ending", "Volume Junkie"]);
             
-            const p = getRandom(namePrefixes);
-            const n = getRandom(nameNouns);
-            const s = Math.random() > 0.6 ? getRandom(nameSuffixes) : "";
+            const prefixes = ["The", "Bad", "Little", "Super", "Unstable", "Crazy", "Hot", "Wicked", "Tiny", "Big"];
+            const nouns = ["Chief", "Whale", "Sponge", "Ball", "Cakes", "Monster", "Cheese", "Pony", "Demon", "Thunder", "Grinder", "Hurricane"];
+            const suffixes = ["Jr.", "Lite", "Burn", "Shred", "Smash"];
+            const p = getRandom(prefixes);
+            const n = getRandom(nouns);
+            const s = Math.random() > 0.6 ? getRandom(suffixes) : "";
             return `${p} ${n} ${s}`.trim();
         }
 
@@ -619,26 +934,24 @@
             else {
                 isGenerated = true;
                 const types = ['AMRAP', 'EMOM', 'RFT', 'For Time', 'Chipper'];
-                let selectedType = typeSelect === 'any' ? getRandom(types) : typeSelect;
-                // normalize capitalization differences
-                const selNorm = (typeof selectedType === 'string') ? selectedType.toUpperCase() : selectedType;
+                const selectedType = typeSelect === 'any' ? getRandom(types) : typeSelect.toUpperCase();
                 
                 wod.type = selectedType;
                 
                 let generatedMoves = [];
-                if (selNorm === 'AMRAP') {
+                if (selectedType === 'AMRAP') {
                     const time = durSelect === 'short' ? 7 : (durSelect === 'medium' ? 15 : 30);
                     wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3, 4, { selectedType: 'AMRAP', durSelect });
                     generatedMoves = parseMovements(wod.content);
-                } else if (selNorm === 'EMOM') {
-                    // EMOM: choose minutes between 8 and 12 and produce one of the common patterns
+                } else if (selectedType === 'EMOM') {
+                    // Keep EMOM behavior simplified and sensible (8-12 minutes, typical patterns)
                     wod.content = buildEMOM(null, durSelect);
                     generatedMoves = parseMovements(wod.content);
-                } else if (selNorm === 'RFT') {
+                } else if (selectedType === 'RFT') {
                     const rounds = durSelect === 'short' ? 3 : (durSelect === 'medium' ? 5 : 8);
                     wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3, 3, { selectedType: 'RFT', durSelect });
                     generatedMoves = parseMovements(wod.content);
-                } else if (selNorm === 'CHIPPER') {
+                } else if (selectedType === 'CHIPPER') {
                     // Chipper: allow higher single-movement reps and chipper-style erg series
                     wod.content = `For Time:\n` + buildMovementList(5, 7, { selectedType: 'CHIPPER', durSelect, allowHighReps: true });
                     generatedMoves = parseMovements(wod.content);
@@ -668,8 +981,9 @@
             if (wod.story) {
                 html += `
                     <div class="wod-story">
-                        <h4>In Honor</h4>
+                        <h4>Background</h4>
                         "${wod.story}"
+                        <div style="margin-top:0.5rem;color:var(--text-muted);font-size:0.9rem;"><strong>Intended stimulus:</strong> ${wod.stimulus || 'Mixed modal — see workout.'}</div>
                     </div>
                 `;
             }
@@ -707,11 +1021,10 @@
                 }
             }
 
-            // Footer
+            // Footer (removed Est. Duration and Save button as requested)
             html += `
-                <div style="padding: 1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; border-top: 1px solid #335373;">
-                    <small style="color:var(--text-muted)">Est. Duration: ${document.getElementById('wodDuration').value === 'short' ? 'Fast & Heavy' : (document.getElementById('wodDuration').value === 'medium' ? 'Grueling' : 'Endurance Test')}</small>
-                    <button class="nav-btn" style="font-size: 0.8rem; padding: 6px 12px;" onclick="showToast('WOD Saved to Favorites ❤️')">Save WOD</button>
+                <div style="padding: 1rem 1.5rem; display:flex; justify-content:flex-end; align-items:center; border-top: 1px solid #335373;">
+                    <small style="color:var(--text-muted); font-style: italic;">Generated by FreshWODs</small>
                 </div>
             </div>`;
 
@@ -719,6 +1032,7 @@
             display.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        /* --- MOVEMENT / REP GENERATION HELPERS --- */
         function parseMovements(content) {
             const lines = content.split('\n');
             let moves = [];
@@ -732,71 +1046,91 @@
             return moves;
         }
 
-        /**
-         * Build a list of movements and rep quantities for generic RFT/AMRAP/Chipper.
-         */
         function buildMovementList(min, max, options = {}) {
             const count = Math.floor(Math.random() * (max - min + 1)) + min;
             let list = [];
             for(let i=0; i<count; i++) {
                 const category = getRandom(Object.keys(movements));
                 const move = getRandom(movements[category]);
-                const repsOrUnit = generateReps(category, move, options);
-                if (typeof repsOrUnit === 'string') {
-                    if (repsOrUnit.toLowerCase().includes('cals')) {
-                        list.push(`${move.replace(' (Calories)', '')}, ${repsOrUnit}`);
-                    } else if (repsOrUnit.toLowerCase().includes('ft') || repsOrUnit.includes('-')) {
-                        list.push(`${repsOrUnit} ${move}`);
+                const reps = generateReps(category, move, options);
+                if (typeof reps === 'string' && (reps.toLowerCase().includes('cals') || reps.toLowerCase().includes('ft') || reps.includes('-'))) {
+                    if (reps.toLowerCase().includes('cals')) {
+                        list.push(`${move.replace(' (Calories)', '')}, ${reps}`);
                     } else {
-                        list.push(`${repsOrUnit} ${move}`);
+                        list.push(`${reps} ${move}`);
                     }
                 } else {
-                    list.push(`${repsOrUnit} ${move}`);
+                    list.push(`${reps} ${move}`);
                 }
             }
             return list.join('\n');
         }
 
-        /**
-         * New EMOM builder:
-         * - Force EMOM length to 8-12 minutes.
-         * - Choose one of three common patterns:
-         *   1) 3-move repeating cycle (Minute 1, 2, 3 are listed and repeat for whole EMOM)
-         *   2) Odd/Even split (two moves)
-         *   3) Single repeating move (one movement every minute)
-         * - Always include explicit volumes for each movement (using emom rules).
-         * - Never generate a new movement for every single minute.
-         */
+        function generateReps(cat, move, options = {}) {
+            const selectedType = (options.selectedType || '').toString().toUpperCase();
+            const durSelect = options.durSelect || 'medium';
+            const allowHigh = !!options.allowHighReps || selectedType === 'CHIPPER';
+
+            // Handstand Walks -> always 25 or 50 ft
+            if (move.toLowerCase().includes('handstand walk')) {
+                const choices = [25, 50];
+                return getRandom(choices) + 'ft';
+            }
+
+            // Ergs calorie-based
+            if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
+                if (allowHigh) return '50-40-30-20-10 Cals';
+                if (durSelect === 'short') return '8/6 Cals';
+                if (durSelect === 'long') return '15/12 Cals';
+                return '10/8 Cals';
+            }
+
+            // Double Unders exception
+            if (move.toLowerCase().includes('double under')) {
+                if (allowHigh) return getRandom([150,200]);
+                if (durSelect === 'short') return getRandom([30,40,50]);
+                if (durSelect === 'long') return getRandom([100,150]);
+                return getRandom([50,75,100]);
+            }
+
+            // For chippers allow high reps
+            if (allowHigh) {
+                const highR = [15,20,25,30,40,50];
+                return getRandom(highR);
+            }
+
+            // Mono used to be timed — replaced with calories above. If still mono fallback small reps
+            if (cat === 'mono') {
+                return getRandom([8,10,12]);
+            }
+
+            // Default small, manageable reps (3-10)
+            const r = [3,4,5,6,7,8,9,10];
+            return getRandom(r);
+        }
+
+        /* --- EMOM builder (simplified patterns) --- */
         function buildEMOM(_minutes, durSelect) {
-            // pick minutes between 8 and 12
             const minutes = Math.floor(Math.random() * 5) + 8; // 8..12
             const choosePattern = Math.random();
-            // 55% chance 3-move cycle, 35% odd/even, 10% single-move EMOM
             if (choosePattern < 0.55) {
                 // 3-move repeating cycle
-                const move1 = chooseEMOMMoveForPattern();
-                const move2 = chooseEMOMMoveForPattern();
-                const move3 = chooseEMOMMoveForPattern();
-                const m1 = formatSingleMoveVolume(move1, durSelect);
-                const m2 = formatSingleMoveVolume(move2, durSelect);
-                const m3 = formatSingleMoveVolume(move3, durSelect);
+                const m1 = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
+                const m2 = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
+                const m3 = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
                 return `EMOM ${minutes}\n\nMinute 1: ${m1}\nMinute 2: ${m2}\nMinute 3: ${m3}`;
             } else if (choosePattern < 0.9) {
-                // odd/even split
-                const odd = chooseEMOMMoveForPattern();
-                const even = chooseEMOMMoveForPattern();
-                const oddFmt = formatSingleMoveVolume(odd, durSelect);
-                const evenFmt = formatSingleMoveVolume(even, durSelect);
-                return `EMOM ${minutes}\n\nOdd minutes: ${oddFmt}\nEven minutes: ${evenFmt}`;
+                // odd/even
+                const odd = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
+                const even = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
+                return `EMOM ${minutes}\n\nOdd minutes: ${odd}\nEven minutes: ${even}`;
             } else {
                 // single repeating move
-                const move = chooseEMOMMoveForPattern();
-                const formatted = formatSingleMoveVolume(move, durSelect);
-                return `EMOM ${minutes}\n\nEvery minute: ${formatted}`;
+                const every = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
+                return `EMOM ${minutes}\n\nEvery minute: ${every}`;
             }
         }
 
-        // Choose an EMOM move (single move, not composite). Favor gymnastics/weightlifting/mono mix.
         function chooseEMOMMoveForPattern() {
             const bucket = Math.random();
             if (bucket < 0.35) return getRandom(movements.gymnastics);
@@ -804,160 +1138,48 @@
             return getRandom(movements.mono);
         }
 
-        // Return "<reps> <MoveTitle>" or "Bike, 10/8 Cals" or "25ft Handstand Walk"
-        function formatSingleMoveVolume(move, durSelect) {
-            // If it's an erg (Calories)
+        function formatEMOMMove(move, durSelect) {
+            // Ergs -> calories
             if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
-                const cals = ergCalsForEMOM(durSelect);
-                return `${move.replace(' (Calories)', '')}, ${cals}`;
+                return `${move.replace(' (Calories)', '')}, ${durSelect === 'short' ? '6/5 Cals' : (durSelect === 'long' ? '12/10 Cals' : '10/8 Cals')}`;
             }
-
-            // Handstand Walk -> use 25ft preferred for EMOMs
+            // Handstand Walk -> 25ft typical for EMOM
             if (move.toLowerCase().includes('handstand walk')) {
-                const pick = Math.random() < 0.75 ? 25 : 50; // prefer 25ft for EMOMs
-                return `${pick}ft Handstand Walk`;
+                return `${Math.random() < 0.75 ? 25 : 50}ft Handstand Walk`;
             }
-
-            // Double Unders -> higher counts allowed
+            // Double Unders -> higher counts
             if (move.toLowerCase().includes('double under')) {
-                const du = durSelect === 'short' ? getRandom([30,40,50]) : (durSelect === 'long' ? getRandom([100,120]) : getRandom([50,75,100]));
-                return `${du} Double Unders`;
+                return `${durSelect === 'short' ? getRandom([30,40,50]) : (durSelect === 'long' ? getRandom([100,120]) : getRandom([50,75,100]))} Double Unders`;
             }
-
-            // Otherwise return movement-aware reps approximating ~20-30s of work
+            // otherwise get reps approximating 20-30s of work
             return emomRepsForMove(move, durSelect);
         }
 
-        function ergCalsForEMOM(durSelect) {
-            if (durSelect === 'short') return '6/5 Cals';
-            if (durSelect === 'long') return '12/10 Cals';
-            return '10/8 Cals';
-        }
-
-        // Approximates reps so the movement takes ~20-30s depending on move.
         function emomRepsForMove(move, durSelect) {
-            const lower = str => str.toLowerCase();
-            const m = lower(move);
-
-            // chest-to-bar / pull-ups
-            if (m.includes('chest-to-bar') || m.includes('chest to bar') || m.includes('c2b')) {
+            const m = move.toLowerCase();
+            if (m.includes('chest-to-bar') || m.includes('c2b')) {
                 const base = durSelect === 'short' ? 10 : (durSelect === 'long' ? 15 : 12);
                 return `${base} Chest-to-Bar Pull-ups`;
             }
-            if (m.includes('pull-up') || m.includes('pullups') || m.includes('pull ups')) {
-                const base = durSelect === 'short' ? 8 : (durSelect === 'long' ? 15 : 10);
-                return `${base} Pull-ups`;
-            }
-            if (m.includes('push-up')) {
-                const base = durSelect === 'short' ? 10 : (durSelect === 'long' ? 20 : 12);
-                return `${base} Push-ups`;
-            }
-            if (m.includes('thruster')) {
-                const rep = durSelect === 'short' ? getRandom([5,6]) : (durSelect === 'long' ? getRandom([8,9,10]) : getRandom([6,7,8]));
-                return `${rep} Thrusters`;
-            }
-            if (m.includes('snatch') || m.includes('power clean') || m.includes('clean')) {
-                const rep = getRandom([1,2,3]);
-                return `${rep} ${capitalizeWords(move)}`;
-            }
-            if (m.includes('deadlift')) {
-                const rep = durSelect === 'short' ? getRandom([1,2,3]) : getRandom([3,5]);
-                return `${rep} Deadlifts`;
-            }
-            if (m.includes('wall ball')) {
-                const rep = durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15]);
-                return `${rep} Wall Balls`;
-            }
-            if (m.includes('kettlebell') || m.includes('kb swing')) {
-                const rep = durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15]);
-                return `${rep} Kettlebell Swings`;
-            }
-            if (m.includes('handstand push')) {
-                const rep = durSelect === 'short' ? getRandom([3,4,5]) : getRandom([5,8]);
-                return `${rep} Handstand Push-ups`;
-            }
-            if (m.includes('muscle-up')) {
-                const rep = getRandom([1,2,3,4]);
-                return `${rep} Muscle-ups`;
-            }
-            if (m.includes('pistol')) {
-                const rep = getRandom([3,5,8]);
-                return `${rep} Pistols (each leg)`;
-            }
-            if (m.includes('box jump')) {
-                const rep = getRandom([8,10,12]);
-                return `${rep} Box Jumps`;
-            }
-            if (m.includes('weighted walking lunges')) {
-                return `20 Weighted Walking Lunges`;
-            }
-            if (m.includes('toes to bar')) {
-                const rep = durSelect === 'short' ? getRandom([8,10]) : getRandom([10,15]);
-                return `${rep} Toes to Bar`;
-            }
-            if (m.includes('burpee')) {
-                const rep = getRandom([8,10,12]);
-                return `${rep} Burpees`;
-            }
-
-            // fallback: small rep count 5-10
-            const fallback = getRandom([5,6,7,8,9,10]);
-            return `${fallback} ${capitalizeWords(move)}`;
+            if (m.includes('pull-up')) return `${durSelect === 'short' ? 8 : (durSelect === 'long' ? 15 : 10)} Pull-ups`;
+            if (m.includes('push-up')) return `${durSelect === 'short' ? 10 : (durSelect === 'long' ? 20 : 12)} Push-ups`;
+            if (m.includes('thruster')) return `${durSelect === 'short' ? getRandom([5,6]) : getRandom([6,7,8])} Thrusters`;
+            if (m.includes('snatch') || m.includes('power clean') || m.includes('clean')) return `${getRandom([1,2,3])} ${capitalizeWords(move)}`;
+            if (m.includes('deadlift')) return `${durSelect === 'short' ? getRandom([1,2,3]) : getRandom([3,5])} Deadlifts`;
+            if (m.includes('wall ball')) return `${durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15])} Wall Balls`;
+            if (m.includes('kettlebell') || m.includes('kb swing')) return `${durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15])} Kettlebell Swings`;
+            if (m.includes('handstand push')) return `${durSelect === 'short' ? getRandom([3,4]) : getRandom([5,8])} Handstand Push-ups`;
+            if (m.includes('muscle-up')) return `${getRandom([1,2,3])} Muscle-ups`;
+            if (m.includes('pistol')) return `${getRandom([3,5,8])} Pistols (each leg)`;
+            if (m.includes('box jump')) return `${getRandom([8,10,12])} Box Jumps`;
+            if (m.includes('toes to bar')) return `${durSelect === 'short' ? getRandom([8,10]) : getRandom([10,15])} Toes to Bar`;
+            if (m.includes('burpee')) return `${getRandom([8,10,12])} Burpees`;
+            // default
+            return `${getRandom([5,6,7,8,9,10])} ${capitalizeWords(move)}`;
         }
 
         function capitalizeWords(s) {
             return s.replace(' (Calories)', '').trim().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        }
-
-        /**
-         * generateReps(cat, move, options)
-         * - Handles ergs (Calories), handstand walks (ft), double unders (higher volumes), and default small rep sets.
-         * (Kept for non-EMOM generation; EMOM uses the dedicated functions above to produce the simpler patterns)
-         */
-        function generateReps(cat, move, options = {}) {
-            const selectedType = (options.selectedType || '').toString().toUpperCase();
-            const durSelect = options.durSelect || 'medium';
-            const allowHigh = !!options.allowHighReps || selectedType === 'CHIPPER';
-
-            // Handstand Walks -> always 25 or 50 ft (intervals of 25)
-            if (move.toLowerCase().includes('handstand walk')) {
-                const choices = [25, 50];
-                const pick = getRandom(choices);
-                return `${pick}ft`;
-            }
-
-            // Ergs (calorie-based): Row (Calories), Bike (Calories), Ski (Calories)
-            if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
-                if (allowHigh) {
-                    return '50-40-30-20-10 Cals';
-                }
-                if (durSelect === 'short') return '8/6 Cals';
-                if (durSelect === 'long') return '15/12 Cals';
-                return '10/8 Cals';
-            }
-
-            // Double Unders
-            if (move.toLowerCase().includes('double under')) {
-                if (allowHigh) {
-                    return getRandom([150, 200]);
-                }
-                if (durSelect === 'short') return getRandom([30, 40, 50]);
-                if (durSelect === 'long') return getRandom([100, 150]);
-                return getRandom([50, 75, 100]);
-            }
-
-            // Chippers allowed higher reps
-            if (allowHigh) {
-                const highR = [15,20,25,30,40,50];
-                return getRandom(highR);
-            }
-
-            if (cat === 'mono') {
-                return getRandom([8,10,12]);
-            }
-
-            const r = [3,4,5,6,7,8,9,10];
-            return getRandom(r);
         }
 
         /* --- FEATURE 2: SCALING ADVISOR --- */
