@@ -1,356 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Fresh WODs | Crossfit Companion</title>
     <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            /* Triforce Inspired Colors: Orange & Navy Blue */
-            --primary: #F7A407; /* Gold/Orange */
-            --primary-hover: #d68c00;
-            --accent-blue: #1A3A5E; /* Navy Blue */
-            --bg-dark: #0B1621; /* Very Dark Blue/Black */
-            --bg-card: #122538; /* Lighter Navy for cards */
-            --bg-input: #1E3A52; /* Input background */
-            --text-main: #ffffff;
-            --text-muted: #8fa1b3;
-            --border-radius: 8px;
-            --font-main: 'Segoe UI', 'Helvetica', sans-serif;
-            --shadow: 0 4px 20px rgba(0,0,0,0.6);
-            --transition: all 0.3s ease;
+        :root{
+            --primary:#F7A407;
+            --primary-hover:#d68c00;
+            --accent-blue:#1A3A5E;
+            --bg-dark:#0B1621;
+            --bg-card:#122538;
+            --bg-input:#1E3A52;
+            --text-main:#ffffff;
+            --text-muted:#8fa1b3;
+            --border-radius:8px;
+            --font-main:'Segoe UI', 'Helvetica', sans-serif;
+            --shadow:0 4px 20px rgba(0,0,0,0.6);
+            --transition:all 0.3s ease;
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{
+            font-family:var(--font-main);
+            background-color:var(--bg-dark);
+            color:var(--text-main);
+            line-height:1.6;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            background-image:radial-gradient(circle at top right,#1a3a5e 0%,#0b1621 40%);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        header{
+            background:var(--accent-blue);
+            padding:1rem 1.5rem;
+            border-bottom:4px solid var(--primary);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            position:sticky;
+            top:0;
+            z-index:100;
+            box-shadow:0 4px 15px rgba(0,0,0,0.4);
         }
 
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-image: radial-gradient(circle at top right, #1a3a5e 0%, #0b1621 40%);
+        .brand{font-size:1.8rem;font-weight:900;letter-spacing:-1px;color:var(--text-main);text-transform:uppercase;display:flex;align-items:center;gap:10px;font-style:italic}
+        .brand span{color:var(--primary);font-style:normal}
+
+        nav{display:flex;gap:.5rem}
+        .nav-btn{
+            background:rgba(255,255,255,.05);
+            border:1px solid transparent;
+            color:var(--text-muted);
+            padding:.5rem 1.2rem;
+            font-weight:700;
+            text-transform:uppercase;
+            cursor:pointer;
+            transition:var(--transition);
+            border-radius:4px;
+            font-style:italic;
+            font-size:.9rem;
         }
+        .nav-btn:hover{color:var(--primary);background:rgba(255,255,255,.1)}
+        .nav-btn.active{background:var(--primary);color:var(--bg-dark);border-color:var(--primary);font-weight:900}
 
-        /* --- LAYOUT --- */
-        header {
-            background: var(--accent-blue);
-            padding: 1rem 1.5rem;
-            border-bottom: 4px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        main{flex:1;padding:2rem 1rem;max-width:900px;margin:0 auto;width:100%}
+        section{display:none;animation:fadeIn .4s ease}
+        section.active{display:block}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+        h2{font-size:2rem;margin-bottom:1.5rem;color:var(--primary);text-transform:uppercase;font-weight:900;font-style:italic;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+
+        .card{background:var(--bg-card);border-radius:var(--border-radius);padding:2rem;box-shadow:var(--shadow);margin-bottom:2rem;border:1px solid #233b52}
+
+        .controls{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+        label{display:block;margin-bottom:.5rem;color:var(--primary);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+        select,input[type="text"]{width:100%;padding:.8rem;background:var(--bg-input);border:1px solid #335373;color:white;border-radius:4px;font-size:1rem;font-weight:600}
+        select:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(247,164,7,.2)}
+
+        button.action-btn{
+            background:var(--primary);
+            color:var(--bg-dark);
+            border:none;
+            padding:1rem 1.5rem;
+            border-radius:4px;
+            font-weight:900;
+            text-transform:uppercase;
+            cursor:pointer;
+            font-size:1.1rem;
+            letter-spacing:1px;
+            transition:var(--transition);
+            width:100%;
+            font-style:italic;
+            box-shadow:0 4px 0 #b37200;
         }
+        button.action-btn:hover{background:var(--primary-hover);transform:translateY(-2px);box-shadow:0 6px 0 #b37200}
+        button.action-btn:active{transform:translateY(2px);box-shadow:0 0 0 #b37200}
 
-        .brand {
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            color: var(--text-main);
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-style: italic;
-        }
+        .wod-result{background:#0f1e2e;padding:0;border-radius:8px;border:1px solid var(--primary);margin-top:1rem;position:relative;box-shadow:0 0 20px rgba(247,164,7,.1);overflow:hidden}
+        .wod-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #335373;padding:1.5rem;background:rgba(255,255,255,.02)}
+        .wod-title{font-size:2rem;font-weight:900;color:white;text-transform:uppercase;font-style:italic}
+        .wod-type-badge{background:var(--accent-blue);color:var(--primary);font-size:.75rem;font-weight:900;padding:4px 12px;border-radius:4px;text-transform:uppercase;border:1px solid var(--primary)}
+        .wod-content{padding:1.5rem;font-size:1.25rem;white-space:pre-line;font-weight:500;color:#dceefb}
+        .wod-story{padding:1.5rem;background:rgba(247,164,7,.1);border-bottom:1px solid #335373;border-top:1px solid #335373;font-style:italic;color:#dceefb}
+        .wod-story h4{color:var(--primary);margin-bottom:.5rem;text-transform:uppercase;font-style:normal;font-size:.9rem;letter-spacing:1px}
+        .wod-prescriptions{padding:1.5rem;background:#162b3f;border-top:1px solid var(--primary)}
+        .presc-title{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:1rem;display:block}
+        .presc-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.5rem;font-size:.9rem}
+        .presc-header{font-weight:700;color:var(--primary);text-transform:uppercase;padding-bottom:.5rem;border-bottom:1px solid #335373;margin-bottom:.5rem}
+        .presc-row{display:contents}
+        .presc-row>div{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
 
-        .brand span { color: var(--primary); font-style: normal; }
+        .scaling-option{background:rgba(255,255,255,.03);padding:1rem;border-radius:4px;margin-bottom:1rem;border-left:4px solid transparent;transition:var(--transition)}
+        .scaling-option:hover{border-left-color:var(--primary);background:rgba(255,255,255,.05)}
+        .scaling-option h4{color:var(--primary);margin-bottom:.3rem;text-transform:uppercase;font-style:italic;font-weight:800}
 
-        nav {
-            display: flex;
-            gap: 0.5rem;
-        }
+        #toast{visibility:hidden;min-width:250px;background-color:var(--primary);color:#000;text-align:center;border-radius:4px;padding:16px;position:fixed;z-index:1000;left:50%;bottom:30px;transform:translateX(-50%);box-shadow:0 5px 15px rgba(0,0,0,.5);font-weight:800;text-transform:uppercase;font-style:italic}
+        #toast.show{visibility:visible;animation:fadein .5s,fadeout .5s 3.5s}
+        @keyframes fadein{from{bottom:0;opacity:0}to{bottom:30px;opacity:1}} @keyframes fadeout{from{bottom:30px;opacity:1}to{bottom:0;opacity:0}}
 
-        .nav-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            padding: 0.5rem 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: var(--transition);
-            border-radius: 4px;
-            font-style: italic;
-            font-size: 0.9rem;
-        }
-
-        .nav-btn:hover { color: var(--primary); background: rgba(255,255,255,0.1); }
-        .nav-btn.active { background: var(--primary); color: var(--bg-dark); border-color: var(--primary); font-weight: 900; }
-
-        main {
-            flex: 1;
-            padding: 2rem 1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        /* --- SECTIONS --- */
-        section { display: none; animation: fadeIn 0.4s ease; }
-        section.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            font-weight: 900;
-            font-style: italic;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            margin-bottom: 2rem;
-            border: 1px solid #233b52;
-        }
-
-        /* --- CONTROLS --- */
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        select, input[type="text"] {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--bg-input);
-            border: 1px solid #335373;
-            color: white;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(247, 164, 7, 0.2);
-        }
-
-        button.action-btn {
-            background: var(--primary);
-            color: var(--bg-dark);
-            border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 900;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            transition: var(--transition);
-            width: 100%;
-            font-style: italic;
-            box-shadow: 0 4px 0 #b37200;
-        }
-
-        button.action-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #b37200;
-        }
-
-        button.action-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 0 0 #b37200;
-        }
-
-        /* --- WOD GENERATOR SPECIFIC --- */
-        .wod-result {
-            background: #0f1e2e;
-            padding: 0; /* Padding handled by inner divs */
-            border-radius: 8px;
-            border: 1px solid var(--primary);
-            margin-top: 1rem;
-            position: relative;
-            box-shadow: 0 0 20px rgba(247, 164, 7, 0.1);
-            overflow: hidden;
-        }
-
-        .wod-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #335373;
-            padding: 1.5rem;
-            background: rgba(255,255,255,0.02);
-        }
-
-        .wod-title {
-            font-size: 2rem;
-            font-weight: 900;
-            color: white;
-            text-transform: uppercase;
-            font-style: italic;
-        }
-
-        .wod-type-badge {
-            background: var(--accent-blue);
-            color: var(--primary);
-            font-size: 0.75rem;
-            font-weight: 900;
-            padding: 4px 12px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            border: 1px solid var(--primary);
-        }
-
-        .wod-content {
-            padding: 1.5rem;
-            font-size: 1.25rem;
-            white-space: pre-line;
-            font-weight: 500;
-            color: #dceefb;
-        }
-
-        /* Hero Story Box */
-        .wod-story {
-            padding: 1.5rem;
-            background: rgba(247, 164, 7, 0.1);
-            border-bottom: 1px solid #335373;
-            border-top: 1px solid #335373;
-            font-style: italic;
-            color: #dceefb;
-        }
-        .wod-story h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            font-style: normal;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        /* Prescriptions Table */
-        .wod-prescriptions {
-            padding: 1.5rem;
-            background: #162b3f;
-            border-top: 1px solid var(--primary);
-        }
-        .presc-title {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .presc-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .presc-header {
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #335373;
-            margin-bottom: 0.5rem;
-        }
-
-        .presc-row {
-            display: contents; /* Allows children to participate in grid */
-        }
-        .presc-row > div {
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* --- SCALING SPECIFIC --- */
-        .scaling-option {
-            background: rgba(255,255,255,0.03);
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            border-left: 4px solid transparent;
-            transition: var(--transition);
-        }
-
-        .scaling-option:hover { border-left-color: var(--primary); background: rgba(255,255,255,0.05); }
-        .scaling-option h4 { color: var(--primary); margin-bottom: 0.3rem; text-transform: uppercase; font-style: italic; font-weight: 800; }
-
-        /* --- TOAST NOTIFICATION --- */
-        #toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: var(--primary);
-            color: #000;
-            text-align: center;
-            border-radius: 4px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1000;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            font-weight: 800;
-            text-transform: uppercase;
-            font-style: italic;
-        }
-
-        #toast.show {
-            visibility: visible;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-
-        /* --- MOBILE TWEAKS --- */
         @media (max-width: 600px) {
-            .brand { font-size: 1.3rem; }
-            nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--accent-blue); padding: 12px; justify-content: space-around; border-top: 2px solid var(--primary); z-index: 99; }
-            main { padding-bottom: 80px; }
-            .nav-btn { flex: 1; text-align: center; padding: 0.5rem; font-size: 0.8rem; }
-            .wod-title { font-size: 1.5rem; }
-            .presc-grid { font-size: 0.8rem; grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr; }
+            .brand{font-size:1.3rem}
+            nav{position:fixed;bottom:0;left:0;width:100%;background:var(--accent-blue);padding:12px;justify-content:space-around;border-top:2px solid var(--primary);z-index:99}
+            main{padding-bottom:80px}
+            .nav-btn{flex:1;text-align:center;padding:.5rem;font-size:.8rem}
+            .wod-title{font-size:1.5rem}
+            .presc-grid{font-size:.8rem;grid-template-columns:1.2fr .8fr .8fr .8fr}
         }
     </style>
 </head>
 <body>
-
     <header>
-        <div class="brand">
-            Fresh <span>WODs</span>
-        </div>
+        <div class="brand">Fresh <span>WODs</span></div>
         <nav>
             <button class="nav-btn active" onclick="switchTab('wod')">WOD Gen</button>
             <button class="nav-btn" onclick="switchTab('scale')">Scale</button>
@@ -358,12 +139,12 @@
     </header>
 
     <main>
-        <!-- SECTION 1: WOD GENERATOR -->
+        <!-- WOD Generator -->
         <section id="wod-section" class="active">
             <h2>Generate Workout</h2>
             <div class="card">
                 <div class="controls">
-                    <div style="flex: 1; min-width: 200px;">
+                    <div style="flex: 1; min-width:200px">
                         <label>Type</label>
                         <select id="wodType">
                             <option value="any">Surprise Me</option>
@@ -373,9 +154,10 @@
                             <option value="emom">EMOM</option>
                             <option value="rft">Rounds For Time</option>
                             <option value="chipper">Chipper</option>
+                            <option value="home">Home / Limited Equipment</option>
                         </select>
                     </div>
-                    <div style="flex: 1; min-width: 200px;">
+                    <div style="flex: 1; min-width:200px">
                         <label>Duration / Intensity</label>
                         <select id="wodDuration">
                             <option value="short">Short (Sprint)</option>
@@ -390,13 +172,13 @@
             <div id="wodDisplayArea"></div>
         </section>
 
-        <!-- SECTION 2: SCALING ADVISOR -->
+        <!-- Scaling Advisor -->
         <section id="scale-section">
             <h2>Scaling Advisor</h2>
             <div class="card">
-                <p style="margin-bottom: 1rem; color: var(--text-muted); font-style: italic;">Select a common movement or type your own.</p>
+                <p style="margin-bottom:1rem;color:var(--text-muted);font-style:italic">Select a common movement or type your own.</p>
                 <div class="controls">
-                    <div style="flex: 1; min-width: 200px;">
+                    <div style="flex:1;min-width:200px">
                         <label>Common Movements</label>
                         <select id="movementSelect" onchange="clearCustomInput(); updateScalingAdvice();">
                             <option value="mu">Muscle Up</option>
@@ -409,15 +191,13 @@
                             <option value="pistols">Pistol Squat</option>
                         </select>
                     </div>
-                    <div style="flex: 1; min-width: 200px;">
+                    <div style="flex:1;min-width:200px">
                         <label>Or Type Custom</label>
-                        <input type="text" id="customMovementInput" placeholder="e.g. Snatch, Burpee..." oninput="updateScalingAdvice()">
+                        <input type="text" id="customMovementInput" placeholder="e.g. Snatch, Burpee..." oninput="updateScalingAdvice()"/>
                     </div>
                 </div>
 
-                <div id="scalingResults">
-                    <!-- Results injected via JS -->
-                </div>
+                <div id="scalingResults"></div>
             </div>
         </section>
     </main>
@@ -425,843 +205,583 @@
     <div id="toast">Notification</div>
 
     <script>
-        /* --- GLOBAL STATE --- */
-        function switchTab(tabId) {
-            document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabId + '-section').classList.add('active');
-            
+        // Top-level diagnostics for testing
+        window.addEventListener('error', function (e) {
+            console.error('Uncaught error (window):', e.error || e.message || e);
+            try { window.__FW_LAST_ERROR = e.error || e; } catch (ex) {}
+        });
+        window.addEventListener('unhandledrejection', function (ev) {
+            console.error('Unhandled promise rejection:', ev.reason);
+            try { window.__FW_LAST_ERROR = ev.reason; } catch (ex) {}
+        });
+
+        // Basic helpers
+        function switchTab(tabId){
+            document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+            document.getElementById(tabId+'-section').classList.add('active');
             const buttons = Array.from(document.querySelectorAll('.nav-btn'));
-            const activeBtn = buttons.find(b => b.getAttribute('onclick').includes(tabId));
+            const activeBtn = buttons.find(b=>b.getAttribute('onclick').includes(tabId));
             if(activeBtn) activeBtn.classList.add('active');
         }
+        function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.className='show'; setTimeout(()=>t.className=t.className.replace('show',''),4000); }
+        function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+        function capitalizeWords(s){ return s.replace(' (Calories)','').trim().split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '); }
 
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.textContent = message;
-            toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        // Movements
+        const movements = {
+            mono: ['Row (Calories)','Run','Bike (Calories)','Double Unders','Burpees'],
+            bodyweight: ['Pull-ups','Push-ups','Air Squats','Sit-ups','Box Jumps','Lunges','Weighted Walking Lunges','Toes to Bar'],
+            weightlifting: ['Thrusters','Deadlifts','Power Cleans','Snatches','Wall Balls','Kettlebell Swings','Dumbbell Lunges','Sumo Deadlift High Pull'],
+            gymnastics: ['Handstand Push-ups','Ring Dips','Chest-to-Bar Pull-ups','Muscle-ups','Pistols','Handstand Walk']
+        };
+
+        // Equipment exclusions for Home mode
+        const excludedForHome = [
+            '(Calories)','row','rower','bike','ski','erg',
+            'box jump','box jumps','box','ring','rings','ring dip','ring dips',
+            'muscle-up','muscle ups','muscle-ups'
+        ];
+        function isAllowedForHome(move){ const m = (move||'').toLowerCase(); return !excludedForHome.some(tok => m.includes(tok)); }
+
+        // Weight prescriptions
+        const weightPrescriptions = {
+            "Clean":{rx:"135/95",int:"115/75",beg:"95/65"},
+            "Power Clean":{rx:"135/95",int:"115/75",beg:"95/65"},
+            "Squat Clean":{rx:"135/95",int:"115/75",beg:"95/65"},
+            "Snatch":{rx:"135/95",int:"115/75",beg:"95/65"},
+            "Thruster":{rx:"95/65",int:"75/55",beg:"65/45"},
+            "Deadlift":{rx:"225/155",int:"185/125",beg:"135/95"},
+            "Overhead Squat":{rx:"95/65",int:"75/55",beg:"PVC/Bar"},
+            "Wall Ball":{rx:"20/14",int:"14/10",beg:"10/6"},
+            "Kettlebell Swing":{rx:"53/35",int:"35/26",beg:"26/18"},
+            "Sumo Deadlift High Pull":{rx:"75/55",int:"55/35",beg:"35/15"},
+            "Dumbbell":{rx:"50/35",int:"35/20",beg:"20/15"},
+            "Weighted Walking Lunges":{rx:"50/35",int:"35/25",beg:"20/15"}
+        };
+
+        // HERO and GIRL arrays (kept same as previous v8)
+        const heroWods = [
+            { name:"Murph", type:"Chipper", content:"Run 1 mile\n100 Pull-ups\n200 Push-ups\n300 Squats\nRun 1 mile\n(Partition as needed; Vest 20/14)", story:"Lt. Michael P. Murphy (SEAL) was killed in Afghanistan on June 28, 2005. This workout is done in his honor.", stimulus:"Endurance + mental grit", rx:{men:"20 lb vest", women:"14 lb vest"} },
+            { name:"DT", type:"Rounds for Time", content:"5 rounds for time of:\n12 Deadlifts\n9 Hang Power Cleans\n6 Push Jerks (155/105 lb)", story:"Named in honor of Staff Sergeant Timothy P. Davis (DT).", stimulus:"Power-endurance and barbell cycling", rx:{men:"155 lb", women:"105 lb"} },
+            { name:"Michael", type:"Three Rounds for Time", content:"3 rounds for time:\nRun 800m\n50 Back Extensions\n50 Sit-ups", story:"In memory of Navy Lieutenant Michael McGreevy.", stimulus:"Aerobic capacity and core endurance", rx:{} },
+            { name:"Randy", type:"For Time", content:"75 Power Snatches (75/55 lb)", story:"Honors Randy Simmons, a 27-year LAPD veteran.", stimulus:"Power-endurance and barbell speed", rx:{men:"75 lb", women:"55 lb"} },
+            { name:"Josh", type:"Rounds for Time", content:"5 Rounds for time:\n21 Overhead Squats (95/65 lb)\n42 Pull-ups", story:"In honor of Josh Whitaker.", stimulus:"Leg strength and high-volume pulling", rx:{men:"95 lb", women:"65 lb"} },
+            { name:"The Seven", type:"Rounds for Time", content:"7 rounds for time of:\n7 Handstand Push-ups\n7 Thrusters (135/95 lb)\n7 Knees-to-elbows\n7 Deadlifts (245/165 lb)\n7 Burpees\n7 Kettlebell Swings (70/53 lb)\n7 Pull-ups", story:"Honors seven fallen CIA officers.", stimulus:"Full-body high-intensity mixed modal", weights:{Thrusters:"135/95",Deadlifts:"245/165","Kettlebell Swings":"70/53"} },
+            { name:"Badger", type:"For Time", content:"3 rounds of:\n10 Snatches\n20 Burpees\n400m Run", story:"A brutal metcon hero used in some boxes.", stimulus:"Power + aerobic work", rx:{} },
+            { name:"Jerry", type:"Rounds for Time", content:"5 rounds for time:\n10 Pull-ups\n10 Push-ups\n10 Sit-ups\n10 Squats", story:"A longer hero-style bodyweight grinder.", stimulus:"Muscular endurance", rx:{} },
+            { name:"J.T.", type:"Rounds for Time", content:"21-15-9:\nHandstand Push-ups\nRing Dips\nPush-ups", story:"In honor of Petty Officer John 'JT' Tomlinson.", stimulus:"Upper-body gymnastics strength-endurance", rx:{} },
+            { name:"Nate", type:"AMRAP", content:"Max reps in 20 minutes of:\n2 Muscle-ups\n4 Handstand Push-ups\n8 Kettlebell Swings", story:"Hero WOD honoring a fallen servicemember.", stimulus:"Gymnastics + power-endurance", rx:{} },
+            { name:"Tommy V", type:"For Time", content:"800m Run\n50 Pull-ups\n200 Push-ups\n300 Squats\n800m Run", story:"Tribute WOD with high-volume calisthenics and runs.", stimulus:"High-rep calisthenics and aerobic demand", rx:{} },
+            { name:"Luce", type:"Rounds for Time", content:"10 rounds of:\n10 Deadlifts (225/155 lb)\n10 Burpees\n100m Run", story:"Honoring a fallen first responder.", stimulus:"Heavy metabolic work", weights:{Deadlifts:"225/155"} },
+            { name:"Ryan", type:"For Time", content:"10 rounds:\n15 Calorie Row\n15 Box Jumps\n15 Wall Balls", story:"An intense mixed-modal hero.", stimulus:"Metabolic conditioning", rx:{} },
+            { name:"Hansen", type:"For Time", content:"21-15-9:\nBurpees\nPower Cleans (135/95 lb)", story:"A hero-style metcon combining burpees and cleans.", stimulus:"Barbell cycling + burpees", weights:{"Power Cleans":"135/95"} },
+            { name:"Whitten", type:"For Time", content:"800m Run\n50 Back Squats (185/135 lb)\n800m Run", story:"Tribute-style hero combining running and heavy squats.", stimulus:"Leg strength and aerobic stress", weights:{"Back Squats":"185/135"} },
+            { name:"Holleyman", type:"For Time", content:"5 rounds for time:\n10 Deadlifts\n12 Burpees\n400m Run", story:"Honoring a fallen firefighter.", stimulus:"Strength-endurance and aerobic capacity", rx:{} },
+            { name:"Coe", type:"EMOM/For Time", content:"5 rounds:\n5 Power Cleans\n10 Push-ups\n15 Sit-ups", story:"Short hero-style WOD focusing on quick power and core.", stimulus:"Power + core conditioning", rx:{} },
+            { name:"Nutts", type:"For Time", content:"21-15-9:\nThrusters (95/65 lb)\nBurpees", story:"A tribute WOD used in many boxes.", stimulus:"High heart-rate leg and full-body work", weights:{"Thrusters":"95/65"} },
+            { name:"Manion", type:"For Time", content:"4 rounds for time:\n400m Run\n25 Pull-ups\n50 Push-ups", story:"High-volume community hero WOD.", stimulus:"Endurance + calisthenics capacity", rx:{} },
+            { name:"Loredo", type:"For Time", content:"21-15-9:\nDeadlifts (225/155 lb)\nHandstand Push-ups", story:"Hero WOD named for a fallen public servant.", stimulus:"Strength + gymnastics", weights:{Deadlifts:"225/155"} },
+            { name:"Riley", type:"Rounds for Time", content:"5 rounds for time:\n200m Run\n21 Kettlebell Swings\n12 Pull-ups", story:"Tribute WOD combining running, swings, and pull volume.", stimulus:"Mixed modal endurance", rx:{} },
+            { name:"Tommy V2", type:"Chipper", content:"800m Run\n50 Pull-ups\n100 Push-ups\n150 Squats", story:"Variation used to honor first responders.", stimulus:"High-volume muscular endurance", rx:{} },
+            { name:"Ben", type:"For Time", content:"10 rounds:\n10 Thrusters (95/65 lb)\n10 Bar-Facing Burpees", story:"Used to honor a fallen hero.", stimulus:"Thruster conditioning", weights:{"Thrusters":"95/65"} },
+            { name:"Ryan A.", type:"AMRAP", content:"AMRAP 30:\n5 Muscle-ups\n10 Deadlifts (225/155 lb)\n15 Burpees", story:"Long hero AMRAP honoring a servicemember.", stimulus:"Gymnastics + heavy lifts", weights:{Deadlifts:"225/155"} },
+            { name:"Small", type:"For Time", content:"3 rounds for time:\n400m Run\n50 Sit-ups\n30 Wall Balls", story:"Memorial WOD used in boxes.", stimulus:"Aerobic + core + wall ball volume", rx:{} },
+            { name:"Lore", type:"For Time", content:"5 rounds:\n10 Overhead Squats\n400m Run", story:"An overhead squat + run tribute WOD.", stimulus:"Shoulder and leg endurance", rx:{} },
+            { name:"CWID", type:"For Time", content:"21-15-9:\nClean and Jerks\nBox Jumps", story:"A tribute WOD often used locally.", stimulus:"Barbell cycling and plyometrics", rx:{} },
+            { name:"Custom Hero (placeholder)", type:"For Time", content:"Run 800m\n30 Back Squats (135/95)\nRun 800m", story:"Example hero-style WOD — replace or expand as needed.", stimulus:"Aerobic and lower-body strength endurance", weights:{"Back Squats":"135/95"} }
+        ];
+
+        const girlWods = [
+            { name:"Angie", type:"For Time", content:"100 Pull-ups\n100 Push-ups\n100 Sit-ups\n100 Squats", story:"Classic 'girl' benchmark — long bodyweight test.", stimulus:"Muscular endurance" },
+            { name:"Barbara", type:"Rounds for Time", content:"5 rounds, each for time:\n20 Pull-ups\n30 Push-ups\n40 Sit-ups\n50 Squats (rest 3 minutes between rounds)", story:"A classic benchmark of long repeated high-volume sets.", stimulus:"Conditioning and repeated strength endurance" },
+            { name:"Chelsea", type:"EMOM", content:"EMOM 30:\n5 Pull-ups\n10 Push-ups\n15 Squats", story:"A steady EMOM benchmark that measures consistency.", stimulus:"Work-rest pacing and muscular endurance" },
+            { name:"Diane", type:"RFT", content:"21-15-9:\nDeadlifts (225/155 lb)\nHandstand Push-ups", story:"Combines heavy deadlifts with gymnastic presses.", stimulus:"Posterior chain strength + shoulder gymnastics", weights:{Deadlifts:"225/155"} },
+            { name:"Elizabeth", type:"RFT", content:"21-15-9:\nCleans (135/95 lb)\nRing Dips", story:"Power cleans and upper body pushing benchmark.", stimulus:"Speed-strength and upper body endurance", weights:{Cleans:"135/95"} },
+            { name:"Fran", type:"RFT", content:"21-15-9:\nThrusters (95/65 lb)\nPull-ups", story:"Short, brutal, high-intensity benchmark.", stimulus:"Power-endurance", weights:{"Thrusters":"95/65"} },
+            { name:"Helen", type:"RFT", content:"3 Rounds for time:\nRun 400m\n21 Kettlebell Swings (53/35 lb)\n12 Pull-ups", story:"Blends run, swing and pull-up work.", stimulus:"Aerobic capacity + posterior chain power", weights:{"Kettlebell Swings":"53/35"} },
+            { name:"Grace", type:"RFT", content:"30 Clean and Jerks (135/95 lb)", story:"Short heavy barbell cycling benchmark.", stimulus:"Barbell power-endurance", weights:{"Clean and Jerks":"135/95"} },
+            { name:"Jackie", type:"For Time", content:"1000m Row\n50 Thrusters (45/35 lb)\n30 Pull-ups", story:"Classic mix of erg, thrusters and pull-ups.", stimulus:"Mixed modal aerobic + thruster power", weights:{"Thrusters":"45/35"} },
+            { name:"Karen", type:"For Time", content:"150 Wall Balls (20/14 lb)", story:"High-volume wall-ball benchmark.", stimulus:"Shoulder and leg endurance", weights:{"Wall Balls":"20/14"} },
+            { name:"Isabel", type:"For Time", content:"30 Snatches (135/95 lb)", story:"Single-movement snatch test for speed-strength.", stimulus:"Maximal power and barbell speed", weights:{Snatches:"135/95"} },
+            { name:"Annie", type:"For Time", content:"50-40-30-20-10:\nDouble-unders\nSit-ups", story:"Double-unders and core benchmark.", stimulus:"Coordination and core endurance" },
+            { name:"Nancy", type:"Rounds for Time", content:"5 rounds for time:\n400m Run\n15 Overhead Squats (95/65 lb)", story:"Run + overhead squat blend.", stimulus:"Aerobic and shoulder/leg endurance", weights:{"Overhead Squats":"95/65"} },
+            { name:"Mary", type:"Max Reps", content:"20-minute AMRAP:\nMax Muscle-ups", story:"Benchmark for muscle-up capacity.", stimulus:"Gymnastics strength and endurance" },
+            { name:"Nicole", type:"AMRAP", content:"AMRAP 20:\n400m Run\nMax Pull-ups", story:"Aerobic test with pulling volume.", stimulus:"Aerobic repeatability and pulling endurance" },
+            { name:"Cindy", type:"AMRAP", content:"20-minute AMRAP:\n5 Pull-ups\n10 Push-ups\n15 Air Squats", story:"Long classic benchmark measuring consistent effort.", stimulus:"General conditioning and bodyweight strength endurance" },
+            { name:"Eva", type:"Rounds for Time", content:"5 rounds of:\n800m Run\n30 Kettlebell Swings\n30 Pull-ups", story:"High-volume mixed modal benchmark.", stimulus:"Aerobic and mixed-modal endurance" }
+        ];
+
+        // HELPER: pick run distance taking workout type/context into account
+        function chooseRunDistance(options = {}) {
+            const sel = (options.selectedType || '').toString().toUpperCase();
+            const dur = options.durSelect || 'medium';
+            if (sel === 'EMOM') return null;
+            if (sel === 'AMRAP') {
+                if (dur === 'short') return 100;
+                return 200;
+            }
+            if (sel === 'RFT' || sel === 'FOR TIME' || sel === 'CHIPPER' || sel === '') {
+                if (dur === 'short') return getRandom([100, 200]);
+                if (dur === 'medium') return getRandom([200, 400]);
+                return getRandom([200, 400]);
+            }
+            return 200;
         }
 
-        /* --- FEATURE 1: WOD GENERATOR ENGINE --- */
-        
-        const movements = {
-            mono: ['Row (Calories)', 'Run (400m)', 'Bike (Calories)', 'Double Unders', 'Burpees'],
-            bodyweight: ['Pull-ups', 'Push-ups', 'Air Squats', 'Sit-ups', 'Box Jumps', 'Lunges', 'Weighted Walking Lunges', 'Toes to Bar'],
-            weightlifting: ['Thrusters', 'Deadlifts', 'Power Cleans', 'Snatches', 'Wall Balls', 'Kettlebell Swings', 'Dumbbell Lunges', 'Sumo Deadlift High Pull'],
-            gymnastics: ['Handstand Push-ups', 'Ring Dips', 'Chest-to-Bar Pull-ups', 'Muscle-ups', 'Pistols', 'Handstand Walk']
-        };
+        // Erg target generator for chippers (descending)
+        function getErgCalTargets(count, durSelect) {
+            const base = (durSelect === 'short')
+                ? [30, 25, 20, 15, 10]
+                : (durSelect === 'long')
+                    ? [80, 60, 40, 20, 10]
+                    : [50, 40, 30, 20, 10];
+            if (count <= base.length) return base.slice(0, count);
+            const max = count, high = base[0], low = 10;
+            const step = Math.floor((high - low) / (max - 1)) || 1;
+            const out = [];
+            for (let i = 0; i < max; i++) out.push(Math.max(low, high - step * i));
+            return out;
+        }
 
-        // Expanded Hero WODs (with RX where canonical/available)
-        const heroWods = [
-            {
-                name: "Murph",
-                type: "Chipper",
-                content: "Run 1 mile\n100 Pull-ups\n200 Push-ups\n300 Squats\nRun 1 mile\n(Partition as needed; Vest 20/14)",
-                story: "Lt. Michael P. Murphy (SEAL) was killed in Afghanistan on June 28, 2005. This workout (originally called 'Body Armor') is done in his honor.",
-                stimulus: "Endurance + mental grit; long chipper combining running, high-volume calisthenics and muscular endurance.",
-                rx: { men: "20 lb vest", women: "14 lb vest" }
-            },
-            {
-                name: "DT",
-                type: "Rounds for Time",
-                content: "5 Rounds for time of:\n12 Deadlifts\n9 Hang Power Cleans\n6 Push Jerks (155/105 lb)",
-                story: "Named in honor of Staff Sergeant Timothy P. Davis (DT).",
-                stimulus: "Power-endurance and barbell cycling.",
-                rx: { men: "155 lb", women: "105 lb" }
-            },
-            {
-                name: "Michael",
-                type: "Three Rounds for Time",
-                content: "3 rounds for time:\nRun 800m\n50 Back Extensions\n50 Sit-ups",
-                story: "In memory of Navy Lieutenant Michael McGreevy, killed in Afghanistan on June 28, 2005.",
-                stimulus: "Aerobic capacity and core/endurance.",
-                rx: {}
-            },
-            {
-                name: "Randy",
-                type: "For Time",
-                content: "75 Power Snatches (75/55 lb)",
-                story: "Honors Randy Simmons, a 27-year LAPD veteran killed in the line of duty.",
-                stimulus: "Power-endurance and barbell speed.",
-                rx: { men: "75 lb", women: "55 lb" }
-            },
-            {
-                name: "Josh",
-                type: "Rounds for Time",
-                content: "5 Rounds for time:\n21 Overhead Squats (95/65 lb)\n42 Pull-ups",
-                story: "In honor of Josh Whitaker, who passed after battling brain cancer.",
-                stimulus: "Leg strength and high-volume pulling.",
-                rx: { men: "95 lb", women: "65 lb" }
-            },
-            {
-                name: "The Seven",
-                type: "Rounds for Time",
-                content: "7 rounds for time of:\n7 Handstand Push-ups\n7 Thrusters (135/95 lb)\n7 Knees-to-elbows\n7 Deadlifts (245/165 lb)\n7 Burpees\n7 Kettlebell Swings (70/53 lb)\n7 Pull-ups",
-                story: "A brutal hero honoring seven fallen CIA officers.",
-                stimulus: "Full-body, high-intensity, mixed modal — strength, gymnastics, metabolic conditioning.",
-                weights: {
-                    Thrusters: "135/95",
-                    Deadlifts: "245/165",
-                    "Kettlebell Swings": "70/53"
+        // generateReps: returns reps/units or null for run/erg handling in buildMovementList
+        function generateReps(cat, move, options = {}) {
+            const selectedType = (options.selectedType || '').toString().toUpperCase();
+            const durSelect = options.durSelect || 'medium';
+            const allowHigh = !!options.allowHighReps || selectedType === 'CHIPPER';
+            const m = (move || '').toLowerCase();
+
+            if (m.includes('run')) return null;
+            if (m.includes('handstand walk')) return getRandom([25, 50]) + 'ft';
+            if (move && (move.includes('(Calories)') || /row|bike|ski|erg|rower/i.test(move))) {
+                if (options.equipment === 'home') return null;
+                if (selectedType === 'CHIPPER' || allowHigh) return null;
+                if (durSelect === 'short') return '8 Cals';
+                if (durSelect === 'long') return '12 Cals';
+                return '10 Cals';
+            }
+            if (m.includes('double under') || m.includes('du')) {
+                if (allowHigh) return getRandom([150, 200]) + ' Double Unders';
+                if (durSelect === 'short') return getRandom([30, 40, 50]) + ' Double Unders';
+                if (durSelect === 'long') return getRandom([100, 150]) + ' Double Unders';
+                return getRandom([50, 75, 100]) + ' Double Unders';
+            }
+            if (allowHigh) return getRandom([15, 20, 25, 30, 40, 50]);
+            if (cat === 'mono') return getRandom([8, 10, 12]);
+            return getRandom([3, 4, 5, 6, 7, 8, 9, 10]);
+        }
+
+        function emomRepsForMove(move, durSelect){
+            const m = (move || '').toLowerCase();
+            if(m.includes('chest-to-bar')||m.includes('c2b')){ const base = durSelect==='short'?10:(durSelect==='long'?15:12); return `${base} Chest-to-Bar Pull-ups`; }
+            if(m.includes('pull-up')) return `${durSelect==='short'?8:(durSelect==='long'?15:10)} Pull-ups`;
+            if(m.includes('push-up')) return `${durSelect==='short'?10:(durSelect==='long'?20:12)} Push-ups`;
+            if(m.includes('thruster')) return `${durSelect==='short'?getRandom([5,6]):getRandom([6,7,8])} Thrusters`;
+            if(m.includes('snatch')||m.includes('power clean')||m.includes('clean')) return `${getRandom([1,2,3])} ${capitalizeWords(move)}`;
+            if(m.includes('deadlift')) return `${durSelect==='short'?getRandom([1,2,3]):getRandom([3,5])} Deadlifts`;
+            if(m.includes('wall ball')) return `${durSelect==='short'?getRandom([8,10]):getRandom([12,15])} Wall Balls`;
+            if(m.includes('kettlebell')||m.includes('kb swing')) return `${durSelect==='short'?getRandom([8,10]):getRandom([12,15])} Kettlebell Swings`;
+            if(m.includes('handstand push')) return `${durSelect==='short'?getRandom([3,4]):getRandom([5,8])} Handstand Push-ups`;
+            if(m.includes('muscle-up')) return `${getRandom([1,2,3])} Muscle-ups`;
+            if(m.includes('pistol')) return `${getRandom([3,5,8])} Pistols (each leg)`;
+            if(m.includes('box jump')) return `${getRandom([8,10,12])} Box Jumps`;
+            if(m.includes('toes to bar')) return `${durSelect==='short'?getRandom([8,10]):getRandom([10,15])} Toes to Bar`;
+            if(m.includes('burpee')) return `${getRandom([8,10,12])} Burpees`;
+            return `${getRandom([5,6,7,8,9,10])} ${capitalizeWords(move)}`;
+        }
+
+        function formatEMOMMove(move, durSelect){
+            if((move && move.includes('(Calories)')) || (move && /row|bike|ski|erg|rower/i.test(move))) {
+                return `${move.replace(' (Calories)','')}, ${durSelect==='short'?'6/5 Cals':(durSelect==='long'?'12/10 Cals':'10/8 Cals')}`;
+            }
+            if(move && move.toLowerCase().includes('handstand walk')) return `${Math.random()<0.75?25:50}ft Handstand Walk`;
+            if(move && move.toLowerCase().includes('double under')) return `${durSelect==='short'?getRandom([30,40,50]):(durSelect==='long'?getRandom([100,120]):getRandom([50,75,100]))} Double Unders`;
+            return emomRepsForMove(move,durSelect);
+        }
+
+        // EMOM helpers
+        function chooseEMOMPatternAndMinutes(durRange = [8,12], patternOverride = null) {
+            const patterns = patternOverride ? [patternOverride] : ['3','2','1'];
+            const p = getRandom(patterns);
+            let min = durRange[0], max = durRange[1];
+            for (let tries=0; tries<10; tries++){
+                let cand = Math.floor(Math.random()*(max-min+1))+min;
+                const len = parseInt(p,10) || 1;
+                if (len > 1) {
+                    const minMult = Math.ceil(min/len);
+                    const maxMult = Math.floor(max/len);
+                    if (maxMult >= minMult) {
+                        const mult = Math.floor(Math.random()*(maxMult-minMult+1))+minMult;
+                        cand = mult * len;
+                        return { pattern: p, minutes: cand };
+                    }
+                    cand = Math.max(min, Math.min(max, Math.round(cand/len)*len));
                 }
-            },
-            {
-                name: "Badger",
-                type: "For Time",
-                content: "3 rounds of:\n10 Snatches\n20 Burpees\n400m Run",
-                story: "A brutal metcon hero used in some boxes.",
-                stimulus: "Power + aerobic work.",
-                rx: {}
-            },
-            {
-                name: "Jerry",
-                type: "Rounds for Time",
-                content: "5 rounds for time:\n10 Pull-ups\n10 Push-ups\n10 Sit-ups\n10 Squats",
-                story: "A longer hero-style bodyweight grinder.",
-                stimulus: "Muscular endurance and aerobic contribution.",
-                rx: {}
-            },
-            {
-                name: "J.T.",
-                type: "Rounds for Time",
-                content: "21-15-9:\nHandstand Push-ups\nRing Dips\nPush-ups",
-                story: "In honor of Petty Officer 2nd Class John 'JT' Tomlinson.",
-                stimulus: "Gymnastics strength-endurance (upper body).",
-                rx: {}
-            },
-            {
-                name: "Nate",
-                type: "AMRAP",
-                content: "Max reps in 20 minutes of:\n2 Muscle-ups\n4 Handstand Push-ups\n8 Kettlebell Swings",
-                story: "Hero WOD honoring a fallen servicemember.",
-                stimulus: "Gymnastics + power-endurance.",
-                rx: {}
-            },
-            {
-                name: "Tommy V",
-                type: "For Time",
-                content: "800m Run\n50 Pull-ups\n200 Push-ups\n300 Squats\n800m Run",
-                story: "Tribute WOD with high-volume bodyweight and runs.",
-                stimulus: "High-rep calisthenics and aerobic demand.",
-                rx: {}
-            },
-            {
-                name: "Luce",
-                type: "Rounds for Time",
-                content: "10 rounds of:\n10 Deadlifts (225/155 lb)\n10 Burpees\n100m Run",
-                story: "Honoring a fallen first responder with repeated deadlifts and runs.",
-                stimulus: "Heavy metabolic work; repeated posterior chain stress.",
-                weights: { Deadlifts: "225/155" }
-            },
-            {
-                name: "Ryan",
-                type: "For Time",
-                content: "10 rounds:\n15 Calorie Row\n15 Box Jumps\n15 Wall Balls",
-                story: "An intense mixed-modal hero.",
-                stimulus: "Metabolic conditioning with mixed modalities.",
-                rx: {}
-            },
-            {
-                name: "Hansen",
-                type: "For Time",
-                content: "21-15-9:\nBurpees\nPower Cleans (135/95 lb)",
-                story: "A hero-style metcon combining burpees and cleans.",
-                stimulus: "Barbell cycling + burpees; anaerobic demand.",
-                weights: { "Power Cleans": "135/95" }
-            },
-            {
-                name: "Whitten",
-                type: "For Time",
-                content: "800m Run\n50 Back Squats (185/135 lb)\n800m Run",
-                story: "Tribute-style hero combining running and heavy squats.",
-                stimulus: "Leg strength and aerobic stress.",
-                weights: { "Back Squats": "185/135" }
-            },
-            {
-                name: "Holleyman",
-                type: "For Time",
-                content: "5 rounds for time:\n10 Deadlifts\n12 Burpees\n400m Run",
-                story: "Honoring a fallen firefighter; balanced between heavy and aerobic work.",
-                stimulus: "Strength-endurance and aerobic capacity.",
-                rx: {}
-            },
-            {
-                name: "Coe",
-                type: "EMOM/For Time",
-                content: "5 rounds:\n5 Power Cleans\n10 Push-ups\n15 Sit-ups",
-                story: "Short hero-style WOD focusing on quick power and core.",
-                stimulus: "Power + core conditioning.",
-                rx: {}
-            },
-            {
-                name: "Nutts",
-                type: "For Time",
-                content: "21-15-9:\nThrusters (95/65 lb)\nBurpees",
-                story: "A tribute WOD used in many boxes.",
-                stimulus: "High heart-rate leg and full-body work.",
-                weights: { Thrusters: "95/65" }
-            },
-            {
-                name: "Manion",
-                type: "For Time",
-                content: "4 rounds for time:\n400m Run\n25 Pull-ups\n50 Push-ups",
-                story: "High-volume community hero WOD.",
-                stimulus: "Endurance + calisthenics capacity.",
-                rx: {}
-            },
-            {
-                name: "Loredo",
-                type: "For Time",
-                content: "21-15-9:\nDeadlifts (225/155 lb)\nHandstand Push-ups",
-                story: "Hero WOD named for a fallen public servant; heavy + gymnastic.",
-                stimulus: "Strength and upper-body gymnastics.",
-                weights: { Deadlifts: "225/155" }
-            },
-            {
-                name: "Riley",
-                type: "Rounds for Time",
-                content: "5 rounds for time:\n200m Run\n21 Kettlebell Swings\n12 Pull-ups",
-                story: "Tribute WOD combining running, swings, and pull volume.",
-                stimulus: "Mixed modal endurance with pulling and hip power demands.",
-                rx: {}
-            },
-            {
-                name: "Tommy V2",
-                type: "Chipper",
-                content: "800m Run\n50 Pull-ups\n100 Push-ups\n150 Squats",
-                story: "Variation used to honor first responders with high-volume bodyweight loads.",
-                stimulus: "High-volume muscular endurance and aerobic demand.",
-                rx: {}
-            },
-            {
-                name: "Ben",
-                type: "For Time",
-                content: "10 rounds:\n10 Thrusters (95/65 lb)\n10 Bar-Facing Burpees",
-                story: "Used to honor a fallen hero; thruster-heavy metcon.",
-                stimulus: "Thruster conditioning and repeated anaerobic work.",
-                weights: { Thrusters: "95/65" }
-            },
-            {
-                name: "Ryan A.",
-                type: "AMRAP",
-                content: "AMRAP 30:\n5 Muscle-ups\n10 Deadlifts (225/155 lb)\n15 Burpees",
-                story: "Long hero AMRAP honoring a servicemember.",
-                stimulus: "Gymnastics + heavy lifts + high-cardiovascular cost.",
-                weights: { Deadlifts: "225/155" }
-            },
-            {
-                name: "Small",
-                type: "For Time",
-                content: "3 rounds for time:\n400m Run\n50 Sit-ups\n30 Wall Balls",
-                story: "Memorial WOD used in boxes to build endurance and grit.",
-                stimulus: "Aerobic + core + wall ball volume.",
-                rx: {}
-            },
-            {
-                name: "Lore",
-                type: "For Time",
-                content: "5 rounds:\n10 Overhead Squats\n400m Run",
-                story: "An overhead squat + run tribute WOD.",
-                stimulus: "Shoulder and leg endurance under metabolic stress.",
-                rx: {}
-            },
-            {
-                name: "CWID",
-                type: "For Time",
-                content: "21-15-9:\nClean and Jerks\nBox Jumps",
-                story: "A tribute WOD often used locally to honor service members.",
-                stimulus: "Barbell cycling and plyometrics.",
-                rx: {}
-            },
-            {
-                name: "Custom Hero (placeholder)",
-                type: "For Time",
-                content: "Run 800m\n30 Back Squats (135/95)\nRun 800m",
-                story: "Example hero-style WOD — replace or expand as needed.",
-                stimulus: "Aerobic and lower-body strength endurance.",
-                weights: { "Back Squats": "135/95" }
+                return { pattern: p, minutes: cand };
             }
-        ];
+            return { pattern: '1', minutes: durRange[0] };
+        }
 
-        // Expanded Girl WODs (canonical list + content, short background & intended stimulus)
-        const girlWods = [
-            {
-                name: "Angie",
-                type: "For Time",
-                content: "100 Pull-ups\n100 Push-ups\n100 Sit-ups\n100 Squats",
-                story: "Classic 'girl' benchmark — long bodyweight test.",
-                stimulus: "Muscular endurance; high rep calisthenics."
-            },
-            {
-                name: "Barbara",
-                type: "Rounds for Time",
-                content: "5 rounds, each for time:\n20 Pull-ups\n30 Push-ups\n40 Sit-ups\n50 Squats (rest 3 minutes between rounds)",
-                story: "A benchmark reminiscent of long, repeated high-volume sets (classic CrossFit Girls list).",
-                stimulus: "Conditioning and repeated strength endurance across rounds."
-            },
-            {
-                name: "Chelsea",
-                type: "EMOM",
-                content: "EMOM 30:\n5 Pull-ups\n10 Push-ups\n15 Squats",
-                story: "A simple, steady EMOM benchmark that measures consistency.",
-                stimulus: "Work-rest pacing and muscular endurance."
-            },
-            {
-                name: "Diane",
-                type: "RFT",
-                content: "21-15-9:\nDeadlifts (225/155 lb)\nHandstand Push-ups",
-                story: "Classic benchmark combining heavy deadlifts with gymnastic presses.",
-                stimulus: "Posterior chain strength + shoulder gymnastic strength/endurance.",
-                weights: { Deadlifts: "225/155" }
-            },
-            {
-                name: "Elizabeth",
-                type: "RFT",
-                content: "21-15-9:\nCleans (135/95 lb)\nRing Dips",
-                story: "Test of power cleans and upper body pushing strength.",
-                stimulus: "Speed-strength on the clean + upper body strength-endurance.",
-                weights: { Cleans: "135/95" }
-            },
-            {
-                name: "Fran",
-                type: "RFT",
-                content: "21-15-9:\nThrusters (95/65 lb)\nPull-ups",
-                story: "Perhaps the most famous 'girl'—short, brutal, and high-intensity.",
-                stimulus: "Power-endurance and anaerobic capacity.",
-                weights: { Thrusters: "95/65" }
-            },
-            {
-                name: "Helen",
-                type: "RFT",
-                content: "3 Rounds for time:\nRun 400m\n21 Kettlebell Swings (53/35 lb)\n12 Pull-ups",
-                story: "Classic benchmark that blends run, swing and pull-up station work.",
-                stimulus: "Aerobic capacity + posterior chain power + pulling volume.",
-                weights: { "Kettlebell Swings": "53/35" }
-            },
-            {
-                name: "Grace",
-                type: "RFT",
-                content: "30 Clean and Jerks (135/95 lb)",
-                story: "Short, heavy barbell cycling benchmark.",
-                stimulus: "Barbell power-endurance.",
-                weights: { "Clean and Jerks": "135/95" }
-            },
-            {
-                name: "Jackie",
-                type: "For Time",
-                content: "1000m Row\n50 Thrusters (45/35 lb)\n30 Pull-ups",
-                story: "Classic benchmark mixing an erg, thrusters and pull-ups.",
-                stimulus: "Mixed modal aerobic + thruster power and pulling volume.",
-                weights: { Thrusters: "45/35" }
-            },
-            {
-                name: "Karen",
-                type: "For Time",
-                content: "150 Wall Balls (20/14 lb)",
-                story: "Simple high-volume wall-ball benchmark.",
-                stimulus: "Shoulder and leg endurance + conditioning.",
-                weights: { "Wall Balls": "20/14" }
-            },
-            {
-                name: "Isabel",
-                type: "For Time",
-                content: "30 Snatches (135/95 lb)",
-                story: "Single-movement snatch test for speed-strength.",
-                stimulus: "Maximal power and barbell speed under fatigue.",
-                weights: { Snatches: "135/95" }
-            },
-            {
-                name: "Annie",
-                type: "For Time",
-                content: "50-40-30-20-10:\nDouble-unders\nSit-ups",
-                story: "Classic double-under and core benchmark.",
-                stimulus: "Coordination (jump rope) and core endurance."
-            },
-            {
-                name: "Nancy",
-                type: "Rounds for Time",
-                content: "5 rounds for time:\n400m Run\n15 Overhead Squats (95/65 lb)",
-                story: "Run and overhead squat blend for aerobic + shoulder/leg stability.",
-                stimulus: "Aerobic and shoulder/leg endurance with technical demands.",
-                weights: { "Overhead Squats": "95/65" }
-            },
-            {
-                name: "Mary",
-                type: "Max Reps",
-                content: "20-minute AMRAP:\nMax Muscle-ups",
-                story: "Benchmark for muscle-up capacity.",
-                stimulus: "Gymnastics strength and endurance."
-            },
-            {
-                name: "Nicole",
-                type: "AMRAP",
-                content: "AMRAP 20:\n400m Run\nMax Pull-ups",
-                story: "Aerobic test with pulling volume; tests recovery and pulling capacity.",
-                stimulus: "Aerobic repeatability and pulling endurance."
-            },
-            {
-                name: "Cindy",
-                type: "AMRAP",
-                content: "20-minute AMRAP:\n5 Pull-ups\n10 Push-ups\n15 Air Squats",
-                story: "A long, classic benchmark that measures consistent effort across time.",
-                stimulus: "General conditioning and bodyweight strength endurance."
-            },
-            {
-                name: "Eva",
-                type: "Rounds for Time",
-                content: "5 rounds of:\n800m Run\n30 Kettlebell Swings\n30 Pull-ups",
-                story: "High-volume mixed modal benchmark.",
-                stimulus: "Aerobic and mixed-modal endurance."
+        function chooseEMOMMoveForPatternDistinct(options = {}, avoidSet = new Set()) {
+            for (let attempt=0; attempt<12; attempt++){
+                const bucket = Math.random();
+                let candidate;
+                if (bucket < 0.35) candidate = getRandom(movements.gymnastics);
+                else if (bucket < 0.7) candidate = getRandom(movements.weightlifting);
+                else candidate = getRandom(movements.mono);
+                if (options.selectedType && options.selectedType.toString().toUpperCase() === 'EMOM' && candidate.toLowerCase().includes('run')) continue;
+                if (options.equipment === 'home' && !isAllowedForHome(candidate)) continue;
+                const canonical = (candidate || '').replace(/\s*\(.*\)$/, '').toLowerCase();
+                if (avoidSet.has(canonical)) continue;
+                return candidate;
             }
-        ];
+            return getRandom(movements.bodyweight);
+        }
 
-        // Weight Prescriptions Database (keeps earlier values)
-        const weightPrescriptions = {
-            "Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
-            "Power Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
-            "Squat Clean": { rx: "135/95", int: "115/75", beg: "95/65" },
-            "Snatch": { rx: "135/95", int: "115/75", beg: "95/65" },
-            "Thruster": { rx: "95/65", int: "75/55", beg: "65/45" },
-            "Deadlift": { rx: "225/155", int: "185/125", beg: "135/95" },
-            "Overhead Squat": { rx: "95/65", int: "75/55", beg: "PVC/Bar" },
-            "Wall Ball": { rx: "20/14", int: "14/10", beg: "10/6" },
-            "Kettlebell Swing": { rx: "53/35", int: "35/26", beg: "26/18" },
-            "Sumo Deadlift High Pull": { rx: "75/55", int: "55/35", beg: "35/15" },
-            "Dumbbell": { rx: "50/35", int: "35/20", beg: "20/15" }, // Generic DB catch-all
-            "Weighted Walking Lunges": { rx: "50/35", int: "35/25", beg: "20/15" }
-        };
+        function formatEMOMMoveWithVolume(move,durSelect,options={}){
+            if(options.equipment==='home' && (move && (move.includes('(Calories)')||/row|bike|ski|erg|rower/i.test(move)))){
+                const alt=getRandom(['Burpees','Air Squats','Push-ups','Sit-ups','Jumping Jacks']);
+                return emomRepsForMove(alt,durSelect);
+            }
+            if(options.equipment==='home' && /box jump/i.test(move)){
+                const alt=getRandom(['Step-ups','Jumping Jacks','Air Squats']);
+                return emomRepsForMove(alt,durSelect);
+            }
+            if(options.equipment==='home' && /ring|muscle-up/i.test(move)) return emomRepsForMove('Pull-ups',durSelect);
+            if(options.selectedType && options.selectedType.toString().toUpperCase() === 'EMOM' && move && move.toLowerCase().includes('run')){
+                return emomRepsForMove(getRandom(['Air Squats','Burpees','Row (Calories)']), durSelect);
+            }
+            return formatEMOMMove(move,durSelect);
+        }
 
-        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        function buildEMOM(_minutes,durSelect,options={}){
+            const durRange = [8,12];
+            const { pattern, minutes } = chooseEMOMPatternAndMinutes(durRange);
+            if (pattern === '3') {
+                const avoid = new Set();
+                const m1 = chooseEMOMMoveForPatternDistinct(options, avoid); avoid.add((m1||'').replace(/\s*\(.*\)$/, '').toLowerCase());
+                const m2 = chooseEMOMMoveForPatternDistinct(options, avoid); avoid.add((m2||'').replace(/\s*\(.*\)$/, '').toLowerCase());
+                const m3 = chooseEMOMMoveForPatternDistinct(options, avoid);
+                return `EMOM ${minutes}\n\nMinute 1: ${formatEMOMMoveWithVolume(m1,durSelect,options)}\nMinute 2: ${formatEMOMMoveWithVolume(m2,durSelect,options)}\nMinute 3: ${formatEMOMMoveWithVolume(m3,durSelect,options)}\n\n(repeat ${minutes/3}x)`;
+            } else if (pattern === '2') {
+                const odd = chooseEMOMMoveForPatternDistinct(options, new Set());
+                let even = chooseEMOMMoveForPatternDistinct(options, new Set([(odd||'').replace(/\s*\(.*\)$/, '').toLowerCase()]));
+                if (!even) even = odd;
+                return `EMOM ${minutes}\n\nOdd minutes: ${formatEMOMMoveWithVolume(odd,durSelect,options)}\nEven minutes: ${formatEMOMMoveWithVolume(even,durSelect,options)}\n\n(repeat ${minutes/2}x)`;
+            } else {
+                const move = chooseEMOMMoveForPatternDistinct(options, new Set());
+                return `EMOM ${minutes}\n\nEvery minute: ${formatEMOMMoveWithVolume(move,durSelect,options)}`;
+            }
+        }
 
+        // Movement list builder with chipper erg distribution & home filtering; avoid immediate duplicates and adjacent erg slots
+        function buildMovementList(min,max,options={}){
+            const count = Math.floor(Math.random()*(max-min+1))+min;
+            const lines=[];
+            const isChipper = (options.selectedType||'').toString().toUpperCase()==='CHIPPER' || !!options.allowHighReps;
+            const ergCandidates = movements.mono.filter(m=>m.includes('(Calories)'));
+            const ergMove = ergCandidates.length ? getRandom(ergCandidates) : null;
+            const ergName = ergMove ? ergMove.replace(' (Calories)', '') : null;
+            const ergCount = isChipper && ergMove ? Math.min(5, Math.max(1, Math.floor(count/2))) : 0;
+            let ergTargets=[];
+            if(ergCount>0) ergTargets = getErgCalTargets(ergCount, options.durSelect || 'medium');
+            const ergPositions=new Set();
+            if(ergCount>0){
+                let attempts = 0;
+                while(ergPositions.size < ergCount && attempts < 200){
+                    const pos = Math.floor(Math.random()*count);
+                    let adjacent = false;
+                    for(const e of ergPositions) {
+                        if (Math.abs(e - pos) <= 1) { adjacent = true; break; }
+                    }
+                    if(!adjacent) ergPositions.add(pos);
+                    attempts++;
+                }
+                if (ergPositions.size < ergCount) {
+                    while(ergPositions.size < ergCount) ergPositions.add(Math.floor(Math.random()*count));
+                }
+            }
+            const chosen=new Set();
+            let prevCanonical = null;
+            let runCount = 0;
+
+            for(let i=0;i<count;i++){
+                if(ergPositions.has(i) && ergName){
+                    const cal = ergTargets.shift();
+                    lines.push(`${ergName} — ${cal} Cals`);
+                    prevCanonical = ergName.toLowerCase();
+                    continue;
+                }
+
+                let move=null, cat=null;
+                for(let attempt=0;attempt<20;attempt++){
+                    cat=getRandom(Object.keys(movements));
+                    const candidate=getRandom(movements[cat]);
+                    if(options.equipment==='home' && !isAllowedForHome(candidate)) continue;
+                    if(candidate.toLowerCase().includes('run')){
+                        if(options.selectedType && options.selectedType.toString().toUpperCase()==='EMOM') continue;
+                        if(options.selectedType && options.selectedType.toString().toUpperCase()==='AMRAP' && runCount>=1) continue;
+                    }
+                    if(candidate.includes('(Calories)') && isChipper) continue;
+                    const canonical = (candidate || '').replace(/\s*\(.*\)$/, '').toLowerCase();
+                    if (canonical === prevCanonical) continue;
+                    if(!candidate.toLowerCase().includes('run') && chosen.has(canonical)) continue;
+                    move=candidate;
+                    chosen.add(canonical);
+                    break;
+                }
+
+                if(!move){
+                    const fallback=getRandom(['Air Squats','Push-ups','Sit-ups','Lunges','Burpees']);
+                    if(prevCanonical !== fallback.toLowerCase()){
+                        move = fallback;
+                        chosen.add(fallback.toLowerCase());
+                    } else {
+                        const other = ['Push-ups','Sit-ups','Air Squats','Lunges','Burpees'].find(m=>m.toLowerCase()!==prevCanonical) || fallback;
+                        move = other;
+                        chosen.add((other||fallback).toLowerCase());
+                    }
+                }
+
+                if(move.toLowerCase().includes('run')){
+                    const dist = chooseRunDistance(options);
+                    if(dist === null){
+                        const alt = getRandom(['Row (Calories)','Burpees','Air Squats']);
+                        if(alt.includes('(Calories)') && options.equipment === 'home'){
+                            lines.push('20 Burpees');
+                            prevCanonical = 'burpees';
+                        } else if(alt.includes('(Calories)')) {
+                            const dur = options.durSelect || 'medium';
+                            const cal = dur === 'short' ? '8 Cals' : (dur === 'long' ? '12 Cals' : '10 Cals');
+                            lines.push(`${alt.replace(' (Calories)','')} — ${cal}`);
+                            prevCanonical = alt.replace(' (Calories)','').toLowerCase();
+                        } else {
+                            lines.push(`20 ${alt}`);
+                            prevCanonical = alt.toLowerCase();
+                        }
+                    } else {
+                        lines.push(`Run ${dist}m`);
+                        prevCanonical = 'run';
+                        runCount++;
+                    }
+                    continue;
+                }
+
+                const reps = generateReps(cat, move, options);
+                if(reps === null && move.includes('(Calories)')) {
+                    const dur = options.durSelect || 'medium';
+                    const cal = dur==='short'?'8 Cals':(dur==='long'?'12 Cals':'10 Cals');
+                    lines.push(`${move.replace(' (Calories)','')} — ${cal}`);
+                    prevCanonical = move.replace(' (Calories)','').toLowerCase();
+                    continue;
+                }
+
+                const repStr = String(reps).trim();
+                if(/cals/i.test(repStr)){
+                    lines.push(`${move.replace(' (Calories)','')} — ${repStr}`);
+                    prevCanonical = move.replace(' (Calories)','').toLowerCase();
+                } else if(/\bDouble Unders\b/i.test(repStr) || repStr.toLowerCase().includes('double under')){
+                    lines.push(`${repStr}`);
+                    prevCanonical = 'double unders';
+                } else if(repStr.match(/ft$/i)){
+                    lines.push(`${repStr} ${move}`);
+                    prevCanonical = move.replace(' (Calories)','').toLowerCase();
+                } else if(isNaN(Number(repStr))){
+                    if(repStr.match(/\bDouble Unders\b/i) || repStr.match(/\bDouble-unders\b/i)){
+                        lines.push(`${repStr}`);
+                        prevCanonical = 'double unders';
+                    } else {
+                        lines.push(`${repStr} ${move}`);
+                        prevCanonical = move.replace(' (Calories)','').toLowerCase();
+                    }
+                } else {
+                    lines.push(`${repStr} ${move}`);
+                    prevCanonical = move.replace(' (Calories)','').toLowerCase();
+                }
+            }
+
+            return lines.join('\n');
+        }
+
+        // Prescriptions extraction (defensive)
+        function getPrescriptionsForContent(content){
+            if (!content || typeof content !== 'string') return [];
+            const lines=content.split('\n');
+            const prescriptionRows=[];
+            lines.forEach(line=>{
+                let found=false, moveName='', weights=null;
+                if(line.includes('Dumbbell')||line.includes('DB')){ moveName='Dumbbell Movements'; weights=weightPrescriptions['Dumbbell']; found=true; }
+                else if(line.includes('Snatch')&&!line.includes('Power')){ moveName='Snatch'; weights=weightPrescriptions['Snatch']; found=true; }
+                else if(line.includes('Power Clean')||line.includes('Squat Clean')){ moveName=line.includes('Squat')?'Squat Clean':'Power Clean'; weights=weightPrescriptions[moveName]; found=true; }
+                else if(line.includes('Clean')&&!line.includes('Snatch')){ moveName='Power Clean'; weights=weightPrescriptions[moveName]; found=true; }
+                else if(line.includes('Thruster')){ moveName='Thruster'; weights=weightPrescriptions['Thruster']; found=true; }
+                else if(line.includes('Deadlift')){ moveName='Deadlift'; weights=weightPrescriptions['Deadlift']; found=true; }
+                else if(line.includes('Overhead Squat')){ moveName='Overhead Squat'; weights=weightPrescriptions['Overhead Squat']; found=true; }
+                else if(line.includes('Wall Ball')){ moveName='Wall Ball'; weights=weightPrescriptions['Wall Ball']; found=true; }
+                else if(line.includes('Kettlebell Swing')||line.includes('Swing')){ moveName='Kettlebell Swing'; weights=weightPrescriptions['Kettlebell Swing']; found=true; }
+                else if(line.includes('Weighted Walking Lunges')){ moveName='Weighted Walking Lunges'; weights=weightPrescriptions['Weighted Walking Lunges']; found=true; }
+                if(found && weights && !prescriptionRows.some(r=>r.move===moveName)) prescriptionRows.push({move:moveName,weights:weights});
+            });
+            return prescriptionRows;
+        }
+
+        // Parse simple movement tokens
+        function parseMovements(content){
+            if (!content || typeof content !== 'string') return [];
+            const lines = content.split('\n');
+            const moves=[];
+            lines.forEach(line=>{
+                if(line.includes('Run')) moves.push('Run');
+                if(line.includes('Pull-up')) moves.push('Pull-up');
+                if(line.includes('Push-up')) moves.push('Push-up');
+                if(line.includes('Squat')) moves.push('Squat');
+                if(line.includes('Handstand Walk')) moves.push('Handstand Walk');
+            });
+            return moves;
+        }
+
+        // generateWODName (inserted and exposed globally to fix undefined error)
         function generateWODName(type, generatedMovements) {
-            const hasRun = generatedMovements.some(m => m.includes("Run"));
-            const hasPull = generatedMovements.some(m => m.includes("Pull-up"));
-            const hasPush = generatedMovements.some(m => m.includes("Push-up"));
-            const hasSquat = generatedMovements.some(m => m.includes("Squat"));
+            const moves = Array.isArray(generatedMovements) ? generatedMovements : [];
+            const hasRun = moves.some(m => m && m.includes('Run'));
+            const hasPull = moves.some(m => m && m.includes('Pull-up'));
+            const hasPush = moves.some(m => m && m.includes('Push-up'));
+            const hasSquat = moves.some(m => m && m.includes('Squat'));
 
             if (hasRun && hasPull && hasPush && hasSquat) return "Murph Lite";
             if (hasPull && hasPush && hasSquat) return "Murph Micro";
-            if (type === "EMOM") return getRandom(["The Clockwork", "Every Minute", "Minute Man", "Tick Tock"]);
-            if (type === "AMRAP") return getRandom(["The Grinder", "Non-Stop", "Never Ending", "Volume Junkie"]);
-            
+            if ((type || '').toString().toUpperCase() === 'EMOM') return getRandom(['The Clockwork','Every Minute','Minute Man','Tick Tock']);
+            if ((type || '').toString().toUpperCase() === 'AMRAP') return getRandom(['The Grinder','Non-Stop','Never Ending','Volume Junkie']);
+
             const prefixes = ["The", "Bad", "Little", "Super", "Unstable", "Crazy", "Hot", "Wicked", "Tiny", "Big"];
             const nouns = ["Chief", "Whale", "Sponge", "Ball", "Cakes", "Monster", "Cheese", "Pony", "Demon", "Thunder", "Grinder", "Hurricane"];
             const suffixes = ["Jr.", "Lite", "Burn", "Shred", "Smash"];
+
             const p = getRandom(prefixes);
             const n = getRandom(nouns);
             const s = Math.random() > 0.6 ? getRandom(suffixes) : "";
             return `${p} ${n} ${s}`.trim();
         }
+        window.generateWODName = generateWODName; // expose globally
 
-        function getPrescriptionsForContent(content) {
-            const lines = content.split('\n');
-            const prescriptionRows = [];
+        // Main generator (uses helpers above)
+        function generateWOD(){
+            try{
+                console.debug('generateWOD start');
+                const typeSelect = document.getElementById('wodType').value;
+                const durSelect = document.getElementById('wodDuration').value;
+                let wod = {};
+                let isGenerated = false;
 
-            lines.forEach(line => {
-                let found = false;
-                let moveName = "";
-                let weights = null;
+                if(typeSelect==='girls'){
+                    wod = getRandom(girlWods);
+                } else if(typeSelect==='heroes'){
+                    wod = getRandom(heroWods);
+                } else if(typeSelect==='home'){
+                    isGenerated = true;
+                    const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
+                    const selectedType = getRandom(types);
+                    wod.type = selectedType;
+                    const options = { equipment: 'home', selectedType: selectedType, durSelect: durSelect };
 
-                // Check keywords
-                if (line.includes("Dumbbell") || line.includes("DB")) {
-                    moveName = "Dumbbell Movements";
-                    weights = weightPrescriptions["Dumbbell"];
-                    found = true;
-                } else if (line.includes("Snatch") && !line.includes("Power")) {
-                    moveName = "Snatch";
-                    weights = weightPrescriptions["Snatch"];
-                    found = true;
-                } else if (line.includes("Power Clean") || line.includes("Squat Clean")) {
-                    moveName = line.includes("Squat") ? "Squat Clean" : "Power Clean";
-                    weights = weightPrescriptions[moveName];
-                    found = true;
-                } else if (line.includes("Clean") && !line.includes("Snatch")) {
-                    moveName = "Power Clean"; // Default to Power
-                    weights = weightPrescriptions[moveName];
-                    found = true;
-                } else if (line.includes("Thruster")) {
-                    moveName = "Thruster";
-                    weights = weightPrescriptions["Thruster"];
-                    found = true;
-                } else if (line.includes("Deadlift")) {
-                    moveName = "Deadlift";
-                    weights = weightPrescriptions["Deadlift"];
-                    found = true;
-                } else if (line.includes("Overhead Squat")) {
-                    moveName = "Overhead Squat";
-                    weights = weightPrescriptions["Overhead Squat"];
-                    found = true;
-                } else if (line.includes("Wall Ball")) {
-                    moveName = "Wall Ball";
-                    weights = weightPrescriptions["Wall Ball"];
-                    found = true;
-                } else if (line.includes("Kettlebell Swing") || line.includes("Swing")) {
-                    moveName = "Kettlebell Swing";
-                    weights = weightPrescriptions["Kettlebell Swing"];
-                    found = true;
-                } else if (line.includes("Weighted Walking Lunges")) {
-                    moveName = "Weighted Walking Lunges";
-                    weights = weightPrescriptions["Weighted Walking Lunges"];
-                    found = true;
-                }
-
-                if (found && weights) {
-                    // Check if we already added this movement type to avoid duplicates
-                    if (!prescriptionRows.some(r => r.move === moveName)) {
-                        prescriptionRows.push({ move: moveName, weights: weights });
-                    }
-                }
-            });
-
-            return prescriptionRows;
-        }
-        
-        function generateWOD() {
-            const typeSelect = document.getElementById('wodType').value;
-            const durSelect = document.getElementById('wodDuration').value;
-            let wod = {};
-            let isGenerated = false;
-
-            // 1. Girls or Heroes
-            if (typeSelect === 'girls') {
-                wod = getRandom(girlWods);
-            } else if (typeSelect === 'heroes') {
-                wod = getRandom(heroWods);
-            } 
-            // 2. Generate Custom
-            else {
-                isGenerated = true;
-                const types = ['AMRAP', 'EMOM', 'RFT', 'For Time', 'Chipper'];
-                const selectedType = typeSelect === 'any' ? getRandom(types) : typeSelect.toUpperCase();
-                
-                wod.type = selectedType;
-                
-                let generatedMoves = [];
-                if (selectedType === 'AMRAP') {
-                    const time = durSelect === 'short' ? 7 : (durSelect === 'medium' ? 15 : 30);
-                    wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3, 4, { selectedType: 'AMRAP', durSelect });
-                    generatedMoves = parseMovements(wod.content);
-                } else if (selectedType === 'EMOM') {
-                    // Keep EMOM behavior simplified and sensible (8-12 minutes, typical patterns)
-                    wod.content = buildEMOM(null, durSelect);
-                    generatedMoves = parseMovements(wod.content);
-                } else if (selectedType === 'RFT') {
-                    const rounds = durSelect === 'short' ? 3 : (durSelect === 'medium' ? 5 : 8);
-                    wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3, 3, { selectedType: 'RFT', durSelect });
-                    generatedMoves = parseMovements(wod.content);
-                } else if (selectedType === 'CHIPPER') {
-                    // Chipper: allow higher single-movement reps and chipper-style erg series
-                    wod.content = `For Time:\n` + buildMovementList(5, 7, { selectedType: 'CHIPPER', durSelect, allowHighReps: true });
-                    generatedMoves = parseMovements(wod.content);
-                } else {
-                    // For Time / default
-                    wod.content = `For Time:\n` + buildMovementList(4, 6, { selectedType: 'For Time', durSelect });
-                    generatedMoves = parseMovements(wod.content);
-                }
-
-                wod.name = generateWODName(selectedType, generatedMoves);
-            }
-
-            // Render
-            const display = document.getElementById('wodDisplayArea');
-            
-            let html = `<div class="wod-result">`;
-            
-            // Header
-            html += `
-                <div class="wod-header">
-                    <div class="wod-title">${wod.name}</div>
-                    <span class="wod-type-badge">${wod.type}</span>
-                </div>
-            `;
-
-            // Hero Story (if applicable)
-            if (wod.story) {
-                html += `
-                    <div class="wod-story">
-                        <h4>Background</h4>
-                        "${wod.story}"
-                        <div style="margin-top:0.5rem;color:var(--text-muted);font-size:0.9rem;"><strong>Intended stimulus:</strong> ${wod.stimulus || 'Mixed modal — see workout.'}</div>
-                    </div>
-                `;
-            }
-
-            // Content
-            html += `<div class="wod-content">${wod.content}</div>`;
-
-            // Prescriptions (ONLY for Generated WODs)
-            if (isGenerated) {
-                const prescriptions = getPrescriptionsForContent(wod.content);
-                
-                if (prescriptions.length > 0) {
-                    html += `
-                        <div class="wod-prescriptions">
-                            <span class="presc-title">Weight Prescriptions (M/F)</span>
-                            <div class="presc-grid">
-                                <div class="presc-header">Movement</div>
-                                <div class="presc-header">RX</div>
-                                <div class="presc-header">Intermediate</div>
-                                <div class="presc-header">Beginner</div>
-                    `;
-                    
-                    prescriptions.forEach(row => {
-                        html += `
-                            <div class="presc-row">
-                                <div style="font-weight:bold; color:white;">${row.move}</div>
-                                <div style="color:var(--primary); font-weight:bold;">${row.weights.rx}</div>
-                                <div style="color:white;">${row.weights.int}</div>
-                                <div style="color:var(--text-muted);">${row.weights.beg}</div>
-                            </div>
-                        `;
-                    });
-
-                    html += `</div></div>`;
-                }
-            }
-
-            // Footer (removed Est. Duration and Save button as requested)
-            html += `
-                <div style="padding: 1rem 1.5rem; display:flex; justify-content:flex-end; align-items:center; border-top: 1px solid #335373;">
-                    <small style="color:var(--text-muted); font-style: italic;">Generated by FreshWODs</small>
-                </div>
-            </div>`;
-
-            display.innerHTML = html;
-            display.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        /* --- MOVEMENT / REP GENERATION HELPERS --- */
-        function parseMovements(content) {
-            const lines = content.split('\n');
-            let moves = [];
-            lines.forEach(line => {
-                if(line.includes("Run")) moves.push("Run");
-                if(line.includes("Pull-up")) moves.push("Pull-up");
-                if(line.includes("Push-up")) moves.push("Push-up");
-                if(line.includes("Squat")) moves.push("Squat");
-                if(line.includes("Handstand Walk")) moves.push("Handstand Walk");
-            });
-            return moves;
-        }
-
-        function buildMovementList(min, max, options = {}) {
-            const count = Math.floor(Math.random() * (max - min + 1)) + min;
-            let list = [];
-            for(let i=0; i<count; i++) {
-                const category = getRandom(Object.keys(movements));
-                const move = getRandom(movements[category]);
-                const reps = generateReps(category, move, options);
-                if (typeof reps === 'string' && (reps.toLowerCase().includes('cals') || reps.toLowerCase().includes('ft') || reps.includes('-'))) {
-                    if (reps.toLowerCase().includes('cals')) {
-                        list.push(`${move.replace(' (Calories)', '')}, ${reps}`);
+                    if(selectedType==='AMRAP'){
+                        const time = durSelect==='short'?7:(durSelect==='medium'?15:30);
+                        wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,options);
+                    } else if(selectedType==='EMOM'){
+                        wod.content = buildEMOM(null,durSelect,options);
+                    } else if(selectedType==='RFT'){
+                        const rounds = durSelect==='short'?3:(durSelect==='medium'?5:8);
+                        wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3,3,options);
+                    } else if(selectedType==='CHIPPER'){
+                        wod.content = `For Time:\n` + buildMovementList(5,7,{selectedType:'CHIPPER',durSelect:durSelect,allowHighReps:true,equipment:'home'});
                     } else {
-                        list.push(`${reps} ${move}`);
+                        wod.content = `For Time:\n` + buildMovementList(4,6,{selectedType:'For Time',durSelect:durSelect,equipment:'home'});
                     }
+                    const generatedMoves = parseMovements(wod.content);
+                    wod.name = generateWODName(selectedType, generatedMoves);
                 } else {
-                    list.push(`${reps} ${move}`);
+                    isGenerated = true;
+                    const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
+                    const selectedType = typeSelect==='any'?getRandom(types):typeSelect.toUpperCase();
+                    wod.type = selectedType;
+
+                    if(selectedType==='AMRAP'){
+                        const time = durSelect==='short'?7:(durSelect==='medium'?15:30);
+                        wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,{ selectedType:'AMRAP', durSelect });
+                    } else if(selectedType==='EMOM'){
+                        wod.content = buildEMOM(null,durSelect,{selectedType:'EMOM'});
+                    } else if(selectedType==='RFT'){
+                        const rounds = durSelect==='short'?3:(durSelect==='medium'?5:8);
+                        wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3,3,{ selectedType:'RFT', durSelect });
+                    } else if(selectedType==='CHIPPER'){
+                        wod.content = `For Time:\n` + buildMovementList(5,7,{ selectedType:'CHIPPER', durSelect, allowHighReps:true });
+                    } else {
+                        wod.content = `For Time:\n` + buildMovementList(4,6,{ selectedType:'For Time', durSelect });
+                    }
+                    const generatedMoves = parseMovements(wod.content);
+                    wod.name = generateWODName(selectedType, generatedMoves);
                 }
-            }
-            return list.join('\n');
-        }
 
-        function generateReps(cat, move, options = {}) {
-            const selectedType = (options.selectedType || '').toString().toUpperCase();
-            const durSelect = options.durSelect || 'medium';
-            const allowHigh = !!options.allowHighReps || selectedType === 'CHIPPER';
-
-            // Handstand Walks -> always 25 or 50 ft
-            if (move.toLowerCase().includes('handstand walk')) {
-                const choices = [25, 50];
-                return getRandom(choices) + 'ft';
-            }
-
-            // Ergs calorie-based
-            if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
-                if (allowHigh) return '50-40-30-20-10 Cals';
-                if (durSelect === 'short') return '8/6 Cals';
-                if (durSelect === 'long') return '15/12 Cals';
-                return '10/8 Cals';
-            }
-
-            // Double Unders exception
-            if (move.toLowerCase().includes('double under')) {
-                if (allowHigh) return getRandom([150,200]);
-                if (durSelect === 'short') return getRandom([30,40,50]);
-                if (durSelect === 'long') return getRandom([100,150]);
-                return getRandom([50,75,100]);
-            }
-
-            // For chippers allow high reps
-            if (allowHigh) {
-                const highR = [15,20,25,30,40,50];
-                return getRandom(highR);
-            }
-
-            // Mono used to be timed — replaced with calories above. If still mono fallback small reps
-            if (cat === 'mono') {
-                return getRandom([8,10,12]);
-            }
-
-            // Default small, manageable reps (3-10)
-            const r = [3,4,5,6,7,8,9,10];
-            return getRandom(r);
-        }
-
-        /* --- EMOM builder (simplified patterns) --- */
-        function buildEMOM(_minutes, durSelect) {
-            const minutes = Math.floor(Math.random() * 5) + 8; // 8..12
-            const choosePattern = Math.random();
-            if (choosePattern < 0.55) {
-                // 3-move repeating cycle
-                const m1 = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
-                const m2 = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
-                const m3 = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
-                return `EMOM ${minutes}\n\nMinute 1: ${m1}\nMinute 2: ${m2}\nMinute 3: ${m3}`;
-            } else if (choosePattern < 0.9) {
-                // odd/even
-                const odd = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
-                const even = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
-                return `EMOM ${minutes}\n\nOdd minutes: ${odd}\nEven minutes: ${even}`;
-            } else {
-                // single repeating move
-                const every = formatEMOMMove(chooseEMOMMoveForPattern(), durSelect);
-                return `EMOM ${minutes}\n\nEvery minute: ${every}`;
+                renderWOD(wod, isGenerated);
+                console.debug('generateWOD done');
+            }catch(err){
+                console.error('generateWOD error', err);
+                try { window.__FW_LAST_ERROR = err; } catch(e){}
+                const msg = (err && err.message) ? `Error: ${err.message}` : 'Unknown error generating WOD';
+                showToast(msg);
+                const fallback = { name: 'Fallback WOD', type: 'For Time', content: '3 Rounds for time:\n10 Air Squats\n10 Push-ups\n10 Sit-ups', story: 'Fallback generated due to an internal error. See console or window.__FW_LAST_ERROR for details.', stimulus: 'General conditioning' };
+                renderWOD(fallback, true);
             }
         }
 
-        function chooseEMOMMoveForPattern() {
-            const bucket = Math.random();
-            if (bucket < 0.35) return getRandom(movements.gymnastics);
-            if (bucket < 0.7) return getRandom(movements.weightlifting);
-            return getRandom(movements.mono);
+        function renderWOD(wod, isGenerated){
+            try {
+                const display = document.getElementById('wodDisplayArea');
+                let html = `<div class="wod-result">`;
+                html += `<div class="wod-header"><div class="wod-title">${wod.name || 'WOD'}</div><span class="wod-type-badge">${wod.type || ''}</span></div>`;
+                if(wod && wod.story){
+                    html += `<div class="wod-story"><h4>Background</h4>"${wod.story}"<div style="margin-top:.5rem;color:var(--text-muted);font-size:.9rem;"><strong>Intended stimulus:</strong> ${wod.stimulus || 'Mixed modal — see workout.'}</div></div>`;
+                }
+                const contentSafe = (wod && typeof wod.content === 'string') ? wod.content : String(wod.content || '');
+                html += `<div class="wod-content">${contentSafe}</div>`;
+                if(isGenerated){
+                    const prescriptions = getPrescriptionsForContent(contentSafe);
+                    if(prescriptions.length>0){
+                        html += `<div class="wod-prescriptions"><span class="presc-title">Weight Prescriptions (M/F)</span><div class="presc-grid"><div class="presc-header">Movement</div><div class="presc-header">RX</div><div class="presc-header">Intermediate</div><div class="presc-header">Beginner</div>`;
+                        prescriptions.forEach(row=>{
+                            html += `<div class="presc-row"><div style="font-weight:bold;color:white;">${row.move}</div><div style="color:var(--primary);font-weight:bold;">${row.weights.rx}</div><div style="color:white;">${row.weights.int}</div><div style="color:var(--text-muted);">${row.weights.beg}</div></div>`;
+                        });
+                        html += `</div></div>`;
+                    }
+                }
+                html += `<div style="padding:1rem 1.5rem;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid #335373;"><small style="color:var(--text-muted);font-style:italic;">Generated by FreshWODs</small></div></div>`;
+                display.innerHTML = html;
+                display.scrollIntoView({ behavior:'smooth', block:'start' });
+            } catch (errRender) {
+                console.error('renderWOD error', errRender);
+                try { window.__FW_LAST_ERROR = errRender; } catch(e) {}
+                showToast('Error rendering WOD — check console (window.__FW_LAST_ERROR)');
+            }
         }
 
-        function formatEMOMMove(move, durSelect) {
-            // Ergs -> calories
-            if (move.includes('(Calories)') || /row|bike|ski/i.test(move) && move.toLowerCase().includes('calor')) {
-                return `${move.replace(' (Calories)', '')}, ${durSelect === 'short' ? '6/5 Cals' : (durSelect === 'long' ? '12/10 Cals' : '10/8 Cals')}`;
-            }
-            // Handstand Walk -> 25ft typical for EMOM
-            if (move.toLowerCase().includes('handstand walk')) {
-                return `${Math.random() < 0.75 ? 25 : 50}ft Handstand Walk`;
-            }
-            // Double Unders -> higher counts
-            if (move.toLowerCase().includes('double under')) {
-                return `${durSelect === 'short' ? getRandom([30,40,50]) : (durSelect === 'long' ? getRandom([100,120]) : getRandom([50,75,100]))} Double Unders`;
-            }
-            // otherwise get reps approximating 20-30s of work
-            return emomRepsForMove(move, durSelect);
-        }
-
-        function emomRepsForMove(move, durSelect) {
-            const m = move.toLowerCase();
-            if (m.includes('chest-to-bar') || m.includes('c2b')) {
-                const base = durSelect === 'short' ? 10 : (durSelect === 'long' ? 15 : 12);
-                return `${base} Chest-to-Bar Pull-ups`;
-            }
-            if (m.includes('pull-up')) return `${durSelect === 'short' ? 8 : (durSelect === 'long' ? 15 : 10)} Pull-ups`;
-            if (m.includes('push-up')) return `${durSelect === 'short' ? 10 : (durSelect === 'long' ? 20 : 12)} Push-ups`;
-            if (m.includes('thruster')) return `${durSelect === 'short' ? getRandom([5,6]) : getRandom([6,7,8])} Thrusters`;
-            if (m.includes('snatch') || m.includes('power clean') || m.includes('clean')) return `${getRandom([1,2,3])} ${capitalizeWords(move)}`;
-            if (m.includes('deadlift')) return `${durSelect === 'short' ? getRandom([1,2,3]) : getRandom([3,5])} Deadlifts`;
-            if (m.includes('wall ball')) return `${durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15])} Wall Balls`;
-            if (m.includes('kettlebell') || m.includes('kb swing')) return `${durSelect === 'short' ? getRandom([8,10]) : getRandom([12,15])} Kettlebell Swings`;
-            if (m.includes('handstand push')) return `${durSelect === 'short' ? getRandom([3,4]) : getRandom([5,8])} Handstand Push-ups`;
-            if (m.includes('muscle-up')) return `${getRandom([1,2,3])} Muscle-ups`;
-            if (m.includes('pistol')) return `${getRandom([3,5,8])} Pistols (each leg)`;
-            if (m.includes('box jump')) return `${getRandom([8,10,12])} Box Jumps`;
-            if (m.includes('toes to bar')) return `${durSelect === 'short' ? getRandom([8,10]) : getRandom([10,15])} Toes to Bar`;
-            if (m.includes('burpee')) return `${getRandom([8,10,12])} Burpees`;
-            // default
-            return `${getRandom([5,6,7,8,9,10])} ${capitalizeWords(move)}`;
-        }
-
-        function capitalizeWords(s) {
-            return s.replace(' (Calories)', '').trim().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        }
-
-        /* --- FEATURE 2: SCALING ADVISOR --- */
-        
+        // SCALING DB and UI functions
         const scalingDatabase = {
-            mu: {
-                title: "Muscle Up",
-                levels: [
-                    { label: "No Muscle Up Yet", desc: "Perform 3 Pull-ups + 3 Ring Dips (strict). If bar muscle up, perform 4 Chest-to-Bar Pull-ups." },
-                    { label: "Building Consistency", desc: "Perform 1-2 Reps at a time. Use a band for assistance or perform jumping muscle ups focusing on the transition." },
-                    { label: "RX", desc: "Perform strict kipping muscle ups as prescribed." }
-                ]
-            },
-            du: {
-                title: "Double Unders",
-                levels: [
-                    { label: "Learning", desc: "60 Single Unders for every prescribed 20 Double Unders. Focus on wrist flick and staying tall." },
-                    { label: "Inconsistent", desc: "Reduce volume by half (e.g., 25 instead of 50). Or perform 5-10 Single Unders, 1 Double Under attempt." },
-                    { label: "RX", desc: "Unbroken sets or large sets with short rest." }
-                ]
-            },
-            hsq: {
-                title: "Heavy Squat Clean",
-                levels: [
-                    { label: "Technique Focus", desc: "Reduce load to 60-65% of 1RM. Focus on speed under the bar." },
-                    { label: "Mobility Issue", desc: "Switch to Power Cleans + Front Squats. This allows you to catch high and squat separately." },
-                    { label: "New Lifter", desc: "Use Dumbbells (Hang Dumbbell Clean) or Kettlebells to learn the hip pop." }
-                ]
-            },
-            hspu: {
-                title: "Handstand Push Up",
-                levels: [
-                    { label: "Strict Strength", desc: "Perform Pike Push-ups (feet on box) to build shoulder strength. Aim for 15 reps." },
-                    { label: "Volume Issue", desc: "Perform Box HSPUs (hands on box, feet on floor) to reduce range of motion." },
-                    { label: "Kipping but Struggling", desc: "Perform 1 Strict HSPU + 2 Kipping HSPUs. Or use 1 abmat for elevation." }
-                ]
-            },
-            pullup: {
-                title: "Pull-ups / C2B",
-                levels: [
-                    { label: "Strict Pull-up", desc: "Use a band (light/medium) or Jumping Pull-ups. Negatives are key for strength." },
-                    { label: "Chest to Bar (C2B)", desc: "Scale to Chin-over-bar Pull-ups if the height isn't there yet." },
-                    { label: "High Volume", desc: "Break into small sets early (e.g., 5 sets of 5 instead of 25 unbroken)." }
-                ]
-            },
-            toes2bar: {
-                title: "Toes to Bar",
-                levels: [
-                    { label: "Core Strength", desc: "Perform Knees to Elbows or Knees to Chest (hanging). Focus on avoiding the 'kip' swing initially." },
-                    { label: "Flexibility", desc: "Perform Hanging Leg Raises (90 degrees) instead of full extension." },
-                    { label: "Grip Failure", desc: "Break sets early (e.g., 5s) before hands rip." }
-                ]
-            },
-            thruster: {
-                title: "Thruster",
-                levels: [
-                    { label: "Mobility", desc: "Separate movements: Front Squats + Push Press. This saves the shoulders." },
-                    { label: "Load", desc: "Use one Dumbbell or Kettlebell in the 'Goblet' position to learn the movement pattern." },
-                    { label: "Cardio Dump", desc: "Lower the weight significantly (e.g., 75lbs / 35lbs) to keep the intensity high." }
-                ]
-            },
-            pistols: {
-                title: "Pistol Squat",
-                levels: [
-                    { label: "Balance/Strength", desc: "Hold onto a rig for assistance. Use a box behind you to sit down to." },
-                    { label: "Standard Scaling", desc: "Perform Air Squats on one leg (weighted leg, free leg lightly touching floor)." },
-                    { label: "No Rig", desc: "Perform 2 or 3 standard Air Squats for every 1 Pistol." }
-                ]
-            }
+            mu:{title:"Muscle Up",levels:[{label:"No Muscle Up Yet",desc:"Perform 3 Pull-ups + 3 Ring Dips (strict). If bar muscle up, perform 4 Chest-to-Bar Pull-ups."},{label:"Building Consistency",desc:"Perform 1-2 Reps at a time. Use a band for assistance or perform jumping muscle ups focusing on the transition."},{label:"RX",desc:"Perform strict kipping muscle ups as prescribed."}]},
+            du:{title:"Double Unders",levels:[{label:"Learning",desc:"60 Single Unders for every prescribed 20 Double Unders. Focus on wrist flick and staying tall."},{label:"Inconsistent",desc:"Reduce volume by half (e.g., 25 instead of 50). Or perform 5-10 Single Unders, 1 Double Under attempt."},{label:"RX",desc:"Unbroken sets or large sets with short rest."}]},
+            hsq:{title:"Heavy Squat Clean",levels:[{label:"Technique Focus",desc:"Reduce load to 60-65% of 1RM. Focus on speed under the bar."},{label:"Mobility Issue",desc:"Switch to Power Cleans + Front Squats. This allows you to catch high and squat separately."},{label:"New Lifter",desc:"Use Dumbbells (Hang Dumbbell Clean) or Kettlebells to learn the hip pop."}]},
+            hspu:{title:"Handstand Push Up",levels:[{label:"Strict Strength",desc:"Perform Pike Push-ups (feet on box) to build shoulder strength. Aim for 15 reps."},{label:"Volume Issue",desc:"Perform Box HSPUs (hands on box, feet on floor) to reduce range of motion."},{label:"Kipping but Struggling",desc:"Perform 1 Strict HSPU + 2 Kipping HSPUs. Or use 1 abmat for elevation."}]},
+            pullup:{title:"Pull-ups / C2B",levels:[{label:"Strict Pull-up",desc:"Use a band (light/medium) or Jumping Pull-ups. Negatives are key for strength."},{label:"Chest to Bar (C2B)",desc:"Scale to Chin-over-bar Pull-ups if the height isn't there yet."},{label:"High Volume",desc:"Break into small sets early (e.g., 5 sets of 5 instead of 25 unbroken)."}]},
+            toes2bar:{title:"Toes to Bar",levels:[{label:"Core Strength",desc:"Perform Knees to Elbows or Knees to Chest (hanging). Focus on avoiding the 'kip' swing initially."},{label:"Flexibility",desc:"Perform Hanging Leg Raises (90 degrees) instead of full extension."},{label:"Grip Failure",desc:"Break sets early (e.g., 5s) before hands rip."}]},
+            thruster:{title:"Thruster",levels:[{label:"Mobility",desc:"Separate movements: Front Squats + Push Press. This saves the shoulders."},{label:"Load",desc:"Use one Dumbbell or Kettlebell in the 'Goblet' position to learn the movement pattern."},{label:"Cardio Dump",desc:"Lower the weight significantly (e.g., 75lbs / 35lbs) to keep the intensity high."}]},
+            pistols:{title:"Pistol Squat",levels:[{label:"Balance/Strength",desc:"Hold onto a rig for assistance. Use a box behind you to sit down to."},{label:"Standard Scaling",desc:"Perform Air Squats on one leg (weighted leg, free leg lightly touching floor)."},{label:"No Rig",desc:"Perform 2 or 3 standard Air Squats for every 1 Pistol."}]}
         };
 
-        function clearCustomInput() {
-            document.getElementById('customMovementInput').value = '';
-        }
-
-        function updateScalingAdvice() {
+        function clearCustomInput(){ document.getElementById('customMovementInput').value=''; }
+        function updateScalingAdvice(){
             const customVal = document.getElementById('customMovementInput').value.trim();
             const container = document.getElementById('scalingResults');
-            
             let data;
-
-            if (customVal) {
+            if(customVal){
                 data = {
                     title: customVal + " (Custom)",
                     levels: [
@@ -1274,21 +794,16 @@
                 const key = document.getElementById('movementSelect').value;
                 data = scalingDatabase[key];
             }
-            
-            let html = `<h3 style="margin-bottom:1rem; border-bottom:1px solid #335373; padding-bottom:0.5rem; color:white;">${data.title} Scaling</h3>`;
-            
+            let html = `<h3 style="margin-bottom:1rem;border-bottom:1px solid #335373;padding-bottom:0.5rem;color:white;">${data.title} Scaling</h3>`;
             data.levels.forEach((level, index) => {
-                const color = index === 0 ? '#F7A407' : (index === 1 ? '#ffffff' : '#8fa1b3'); 
-                html += `
-                    <div class="scaling-option" style="border-left-color: ${color}">
-                        <h4>${level.label}</h4>
-                        <p style="font-size: 0.95rem; color: #cbd5e1;">${level.desc}</p>
-                    </div>
-                `;
+                const color = index === 0 ? '#F7A407' : (index === 1 ? '#ffffff' : '#8fa1b3');
+                html += `<div class="scaling-option" style="border-left-color:${color}"><h4>${level.label}</h4><p style="font-size:.95rem;color:#cbd5e1;">${level.desc}</p></div>`;
             });
-
             container.innerHTML = html;
         }
+
+        console.debug = console.debug || console.log;
+        console.debug('FreshWODs v9 loaded — generateWODName injected and exposed globally.');
     </script>
 </body>
 </html>
