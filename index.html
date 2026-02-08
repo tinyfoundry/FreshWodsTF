@@ -167,7 +167,7 @@
                         </select>
                     </div>
                 </div>
-                <button class="action-btn" onclick="generateWOD()">Generate WOD</button>
+                <button class="action-btn" id="generateWodButton" type="button">Generate WOD</button>
             </div>
 
             <div id="wodDisplayArea"></div>
@@ -803,8 +803,16 @@
             container.innerHTML = html;
         }
 
+        window.generateWOD = generateWOD;
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('generateWodButton');
+            if (button) {
+                button.addEventListener('click', generateWOD);
+            }
+        });
+
         console.debug = console.debug || console.log;
-        console.debug('FreshWODs v9 loaded — generateWODName injected and exposed globally.');
+        console.debug('FreshWODs v9 loaded — generator button binding active.');
     </script>
 </body>
 </html>
