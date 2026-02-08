@@ -151,6 +151,7 @@
                             <option value="any">Surprise Me</option>
                             <option value="girls">"The Girls" (Benchmark)</option>
                             <option value="heroes">"Heroes" (Tribute)</option>
+                            <option value="open">"The Open" (Official)</option>
                             <option value="amrap">AMRAP</option>
                             <option value="emom">EMOM</option>
                             <option value="rft">Rounds For Time</option>
@@ -167,7 +168,7 @@
                         </select>
                     </div>
                 </div>
-                <button class="action-btn" onclick="generateWOD()">Generate WOD</button>
+                <button class="action-btn" id="generateWodButton" type="button">Generate WOD</button>
             </div>
 
             <div id="wodDisplayArea"></div>
@@ -313,6 +314,17 @@
             { name:"Eva", type:"Rounds for Time", content:"5 rounds of:\n800m Run\n30 Kettlebell Swings\n30 Pull-ups", story:"High-volume mixed modal benchmark.", stimulus:"Aerobic and mixed-modal endurance" }
         ];
 
+        const openWods = [
+            { name:"Open 24.1", type:"AMRAP", format:"15-minute AMRAP", content:"21 Dumbbell Snatches (50/35 lb)\n21 Lateral Burpees Over Dumbbell\n15 Dumbbell Snatches\n15 Lateral Burpees Over Dumbbell\n9 Dumbbell Snatches\n9 Lateral Burpees Over Dumbbell", story:"2024 Open opener with descending reps and fast transitions.", stimulus:"Grip stamina + burpee engine" },
+            { name:"Open 24.2", type:"For Time", format:"20-minute time cap", content:"50 Double-Unders\n20 Squat Cleans (135/95 lb)\n50 Double-Unders\n20 Squat Cleans (185/125 lb)\n50 Double-Unders\n20 Squat Cleans (225/155 lb)", story:"2024 Open mid-week ladder of double-unders and cleans.", stimulus:"Barbell cycling + jump rope stamina" },
+            { name:"Open 24.3", type:"For Time", format:"15-minute time cap", content:"5 Rounds For Time:\n10 Thrusters (95/65 lb)\n10 Chest-to-Bar Pull-ups\n\nThen:\n5 Rounds For Time:\n7 Thrusters (135/95 lb)\n7 Bar Muscle-ups", story:"2024 Open closer with escalating gymnastics and heavier thrusters.", stimulus:"Engine + high-skill fatigue" },
+            { name:"Open 23.1", type:"AMRAP", format:"14-minute AMRAP", content:"60 Calorie Row\n50 Toes-to-Bar\n40 Wall Balls (20/14 lb)\n30 Cleans (135/95 lb)\n20 Ring Muscle-ups", story:"2023 Open opener with a long chipper-style AMRAP.", stimulus:"Long aerobic + high-skill fatigue" },
+            { name:"Open 23.2A", type:"For Time", format:"15-minute time cap", content:"5 Burpee Pull-ups\n10 Shuttle Runs (1 rep = 25 ft down + 25 ft back)\n5 Burpee Pull-ups\n10 Shuttle Runs\n5 Burpee Pull-ups\n10 Shuttle Runs\n\nThen:\n10 minutes to establish:\n1RM Thruster", story:"2023 Open combo test with conditioning + strength.", stimulus:"Mixed modal endurance + max strength" },
+            { name:"Open 22.1", type:"AMRAP", format:"15-minute AMRAP", content:"3 Wall Walks\n12 Dumbbell Snatches (50/35 lb)\n15 Box Jump Overs (24/20 in)", story:"2022 Open opener emphasizing shoulder stamina.", stimulus:"Shoulder endurance + fast cycling" },
+            { name:"Open 21.1", type:"For Time", format:"15-minute time cap", content:"10-9-8-7-6-5-4-3-2-1:\nWall Walks\nDouble-Unders", story:"2021 Open opener pairing wall walks and DUs.", stimulus:"Skill consistency + shoulder durability" },
+            { name:"Open 20.1", type:"For Time", format:"15-minute time cap", content:"10 Rounds For Time:\n8 Ground-to-Overheads (95/65 lb)\n10 Bar-Facing Burpees", story:"2020 Open opener with barbell/burpee intervals.", stimulus:"Pacing + barbell conditioning" }
+        ];
+
         // HELPER: pick run distance taking workout type/context into account
         function chooseRunDistance(options = {}) {
             const sel = (options.selectedType || '').toString().toUpperCase();
@@ -400,6 +412,18 @@
             return emomRepsForMove(move,durSelect);
         }
 
+        function getDurationMinutes(durSelect, options = {}) {
+            if (durSelect === 'short') return 7;
+            if (durSelect === 'long') return options.longMinutes || 20;
+            return options.mediumMinutes || 12;
+        }
+
+        function getEmomRange(durSelect) {
+            if (durSelect === 'short') return [6, 7];
+            if (durSelect === 'long') return [16, 20];
+            return [10, 15];
+        }
+
         // EMOM helpers
         function chooseEMOMPatternAndMinutes(durRange = [8,12], patternOverride = null) {
             const patterns = patternOverride ? [patternOverride] : ['3','2','1'];
@@ -456,7 +480,7 @@
         }
 
         function buildEMOM(_minutes,durSelect,options={}){
-            const durRange = [8,12];
+            const durRange = getEmomRange(durSelect);
             const { pattern, minutes } = chooseEMOMPatternAndMinutes(durRange);
             if (pattern === '3') {
                 const avoid = new Set();
@@ -678,6 +702,8 @@
                     wod = getRandom(girlWods);
                 } else if(typeSelect==='heroes'){
                     wod = getRandom(heroWods);
+                } else if(typeSelect==='open'){
+                    wod = getRandom(openWods);
                 } else if(typeSelect==='home'){
                     isGenerated = true;
                     const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
@@ -686,7 +712,7 @@
                     const options = { equipment: 'home', selectedType: selectedType, durSelect: durSelect };
 
                     if(selectedType==='AMRAP'){
-                        const time = durSelect==='short'?7:(durSelect==='medium'?15:30);
+                        const time = getDurationMinutes(durSelect, { longMinutes: 20, mediumMinutes: 12 });
                         wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,options);
                     } else if(selectedType==='EMOM'){
                         wod.content = buildEMOM(null,durSelect,options);
@@ -707,7 +733,7 @@
                     wod.type = selectedType;
 
                     if(selectedType==='AMRAP'){
-                        const time = durSelect==='short'?7:(durSelect==='medium'?15:30);
+                        const time = getDurationMinutes(durSelect, { longMinutes: 20, mediumMinutes: 12 });
                         wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,{ selectedType:'AMRAP', durSelect });
                     } else if(selectedType==='EMOM'){
                         wod.content = buildEMOM(null,durSelect,{selectedType:'EMOM'});
@@ -744,7 +770,8 @@
                     html += `<div class="wod-story"><h4>Background</h4>"${wod.story}"<div style="margin-top:.5rem;color:var(--text-muted);font-size:.9rem;"><strong>Intended stimulus:</strong> ${wod.stimulus || 'Mixed modal — see workout.'}</div></div>`;
                 }
                 const contentSafe = (wod && typeof wod.content === 'string') ? wod.content : String(wod.content || '');
-                html += `<div class="wod-content">${contentSafe}</div>`;
+                const formatLine = wod && wod.format ? `Format: ${wod.format}\n\n` : '';
+                html += `<div class="wod-content">${formatLine}${contentSafe}</div>`;
                 if(isGenerated){
                     const prescriptions = getPrescriptionsForContent(contentSafe);
                     if(prescriptions.length>0){
@@ -803,8 +830,16 @@
             container.innerHTML = html;
         }
 
+        window.generateWOD = generateWOD;
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('generateWodButton');
+            if (button) {
+                button.addEventListener('click', generateWOD);
+            }
+        });
+
         console.debug = console.debug || console.log;
-        console.debug('FreshWODs v9 loaded — generateWODName injected and exposed globally.');
+        console.debug('FreshWODs v9 loaded — generator button binding active.');
     </script>
 </body>
 </html>
