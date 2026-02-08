@@ -229,6 +229,7 @@
         window.WODS = window.WODS || {};
         function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.className='show'; setTimeout(()=>t.className=t.className.replace('show',''),4000); }
         function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+        function safeGetRandom(arr){ return Array.isArray(arr) && arr.length ? arr[Math.floor(Math.random()*arr.length)] : null; }
         function capitalizeWords(s){ return s.replace(' (Calories)','').trim().split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '); }
 
         // Movements
