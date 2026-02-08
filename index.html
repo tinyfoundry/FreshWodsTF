@@ -6,14 +6,14 @@
     <title>Fresh WODs | Crossfit Companion</title>
     <style>
         :root{
-            --primary:#F7A407;
-            --primary-hover:#d68c00;
-            --accent-blue:#1A3A5E;
-            --bg-dark:#0B1621;
-            --bg-card:#122538;
-            --bg-input:#1E3A52;
+            --primary:#FA4616;
+            --primary-hover:#d43d12;
+            --accent-blue:#0021A5;
+            --bg-dark:#070d24;
+            --bg-card:#0f1e4d;
+            --bg-input:#142a6b;
             --text-main:#ffffff;
-            --text-muted:#8fa1b3;
+            --text-muted:#aab6dd;
             --border-radius:8px;
             --font-main:'Segoe UI', 'Helvetica', sans-serif;
             --shadow:0 4px 20px rgba(0,0,0,0.6);
@@ -28,7 +28,7 @@
             min-height:100vh;
             display:flex;
             flex-direction:column;
-            background-image:radial-gradient(circle at top right,#1a3a5e 0%,#0b1621 40%);
+            background-image:radial-gradient(circle at top right,#0037c7 0%,#070d24 40%);
         }
 
         header{
@@ -71,12 +71,12 @@
 
         h2{font-size:2rem;margin-bottom:1.5rem;color:var(--primary);text-transform:uppercase;font-weight:900;font-style:italic;text-shadow:0 2px 4px rgba(0,0,0,.5)}
 
-        .card{background:var(--bg-card);border-radius:var(--border-radius);padding:2rem;box-shadow:var(--shadow);margin-bottom:2rem;border:1px solid #233b52}
+        .card{background:var(--bg-card);border-radius:var(--border-radius);padding:2rem;box-shadow:var(--shadow);margin-bottom:2rem;border:1px solid #1b2f6d}
 
         .controls{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
         label{display:block;margin-bottom:.5rem;color:var(--primary);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-        select,input[type="text"]{width:100%;padding:.8rem;background:var(--bg-input);border:1px solid #335373;color:white;border-radius:4px;font-size:1rem;font-weight:600}
-        select:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(247,164,7,.2)}
+        select,input[type="text"]{width:100%;padding:.8rem;background:var(--bg-input);border:1px solid #1e3b8a;color:white;border-radius:4px;font-size:1rem;font-weight:600}
+        select:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(250,70,22,.2)}
 
         button.action-btn{
             background:var(--primary);
@@ -92,24 +92,32 @@
             transition:var(--transition);
             width:100%;
             font-style:italic;
-            box-shadow:0 4px 0 #b37200;
+            box-shadow:0 4px 0 #b33c10;
         }
-        button.action-btn:hover{background:var(--primary-hover);transform:translateY(-2px);box-shadow:0 6px 0 #b37200}
-        button.action-btn:active{transform:translateY(2px);box-shadow:0 0 0 #b37200}
+        button.action-btn:hover{background:var(--primary-hover);transform:translateY(-2px);box-shadow:0 6px 0 #b33c10}
+        button.action-btn:active{transform:translateY(2px);box-shadow:0 0 0 #b33c10}
 
-        .wod-result{background:#0f1e2e;padding:0;border-radius:8px;border:1px solid var(--primary);margin-top:1rem;position:relative;box-shadow:0 0 20px rgba(247,164,7,.1);overflow:hidden}
-        .wod-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #335373;padding:1.5rem;background:rgba(255,255,255,.02)}
+        .wod-result{background:#0b1b4a;padding:0;border-radius:8px;border:1px solid var(--primary);margin-top:1rem;position:relative;box-shadow:0 0 20px rgba(250,70,22,.15);overflow:hidden}
+        .wod-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e3b8a;padding:1.5rem;background:rgba(255,255,255,.02)}
         .wod-title{font-size:2rem;font-weight:900;color:white;text-transform:uppercase;font-style:italic}
         .wod-type-badge{background:var(--accent-blue);color:var(--primary);font-size:.75rem;font-weight:900;padding:4px 12px;border-radius:4px;text-transform:uppercase;border:1px solid var(--primary)}
         .wod-content{padding:1.5rem;font-size:1.25rem;white-space:pre-line;font-weight:500;color:#dceefb}
-        .wod-story{padding:1.5rem;background:rgba(247,164,7,.1);border-bottom:1px solid #335373;border-top:1px solid #335373;font-style:italic;color:#dceefb}
+        .wod-story{padding:1.5rem;background:rgba(250,70,22,.15);border-bottom:1px solid #1e3b8a;border-top:1px solid #1e3b8a;font-style:italic;color:#dceefb}
         .wod-story h4{color:var(--primary);margin-bottom:.5rem;text-transform:uppercase;font-style:normal;font-size:.9rem;letter-spacing:1px}
-        .wod-prescriptions{padding:1.5rem;background:#162b3f;border-top:1px solid var(--primary)}
+        .wod-prescriptions{padding:1.5rem;background:#0f245e;border-top:1px solid var(--primary)}
         .presc-title{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:1rem;display:block}
         .presc-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.5rem;font-size:.9rem}
-        .presc-header{font-weight:700;color:var(--primary);text-transform:uppercase;padding-bottom:.5rem;border-bottom:1px solid #335373;margin-bottom:.5rem}
+        .presc-header{font-weight:700;color:var(--primary);text-transform:uppercase;padding-bottom:.5rem;border-bottom:1px solid #1e3b8a;margin-bottom:.5rem}
         .presc-row{display:contents}
         .presc-row>div{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+        .open-details{padding:1.5rem;border-top:1px solid #1e3b8a;background:#0b1f57}
+        .open-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+        .open-card{background:#0f245e;border:1px solid #1e3b8a;border-radius:6px;padding:1rem}
+        .open-card h4{color:var(--primary);text-transform:uppercase;font-size:.8rem;letter-spacing:.8px;margin-bottom:.5rem}
+        .open-card p{white-space:pre-line;color:#dceefb;font-weight:600}
+        .benchmark-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;font-size:.85rem;margin-top:.5rem}
+        .benchmark-cell{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:.5rem;text-align:center}
+        .benchmark-cell span{display:block;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px}
 
         .scaling-option{background:rgba(255,255,255,.03);padding:1rem;border-radius:4px;margin-bottom:1rem;border-left:4px solid transparent;transition:var(--transition)}
         .scaling-option:hover{border-left-color:var(--primary);background:rgba(255,255,255,.05)}
@@ -126,6 +134,8 @@
             .nav-btn{flex:1;text-align:center;padding:.5rem;font-size:.8rem}
             .wod-title{font-size:1.5rem}
             .presc-grid{font-size:.8rem;grid-template-columns:1.2fr .8fr .8fr .8fr}
+            .open-grid{grid-template-columns:1fr}
+            .benchmark-grid{grid-template-columns:1fr 1fr}
         }
     </style>
 </head>
@@ -154,6 +164,7 @@
                             <option value="emom">EMOM</option>
                             <option value="rft">Rounds For Time</option>
                             <option value="chipper">Chipper</option>
+                            <option value="open">CrossFit Open</option>
                             <option value="home">Home / Limited Equipment</option>
                         </select>
                     </div>
@@ -310,6 +321,119 @@
             { name:"Nicole", type:"AMRAP", content:"AMRAP 20:\n400m Run\nMax Pull-ups", story:"Aerobic test with pulling volume.", stimulus:"Aerobic repeatability and pulling endurance" },
             { name:"Cindy", type:"AMRAP", content:"20-minute AMRAP:\n5 Pull-ups\n10 Push-ups\n15 Air Squats", story:"Long classic benchmark measuring consistent effort.", stimulus:"General conditioning and bodyweight strength endurance" },
             { name:"Eva", type:"Rounds for Time", content:"5 rounds of:\n800m Run\n30 Kettlebell Swings\n30 Pull-ups", story:"High-volume mixed modal benchmark.", stimulus:"Aerobic and mixed-modal endurance" }
+        ];
+
+        const openWods = [
+            {
+                name:"Open 15.1",
+                type:"AMRAP",
+                content:"AMRAP 9 minutes:\n15 Toes-to-Bar\n10 Deadlifts (115/75 lb)\n5 Snatches (115/75 lb)",
+                story:"CrossFit Open 2015, Week 1.",
+                stimulus:"Grip, core, and barbell cycling under fatigue.",
+                rx:"AMRAP 9:\n15 Toes-to-Bar\n10 Deadlifts (115/75 lb)\n5 Snatches (115/75 lb)",
+                scaled:"AMRAP 9:\n15 Hanging Knee Raises\n10 Deadlifts (75/55 lb)\n5 Snatches (75/55 lb)",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 16.1",
+                type:"AMRAP",
+                content:"AMRAP 20 minutes:\n25 Toes-to-Bar\n50 Double Unders\n15 Squat Cleans (135/85 lb)",
+                story:"CrossFit Open 2016, Week 1.",
+                stimulus:"High-volume midline with barbell strength endurance.",
+                rx:"AMRAP 20:\n25 Toes-to-Bar\n50 Double Unders\n15 Squat Cleans (135/85 lb)",
+                scaled:"AMRAP 20:\n25 Hanging Knee Raises\n50 Single Unders\n15 Squat Cleans (95/55 lb)",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 17.1",
+                type:"For Time",
+                content:"10 rounds for time:\n8 Chest-to-Bar Pull-ups\n10 Dumbbell Snatches (50/35 lb)\n15 Burpees Over Dumbbell",
+                story:"CrossFit Open 2017, Week 1.",
+                stimulus:"Fast cycling gymnastics and burpee stamina.",
+                rx:"10 rounds for time:\n8 Chest-to-Bar Pull-ups\n10 Dumbbell Snatches (50/35 lb)\n15 Burpees Over Dumbbell",
+                scaled:"10 rounds for time:\n8 Jumping Pull-ups\n10 Dumbbell Snatches (35/20 lb)\n15 Burpees Over Dumbbell",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 18.1",
+                type:"AMRAP",
+                content:"AMRAP 20 minutes:\n8 Toes-to-Bar\n10 Dumbbell Hang Clean & Jerks (50/35 lb)\n14/12 Calorie Row",
+                story:"CrossFit Open 2018, Week 1.",
+                stimulus:"Sustained aerobic pacing with midline control.",
+                rx:"AMRAP 20:\n8 Toes-to-Bar\n10 Dumbbell Hang Clean & Jerks (50/35 lb)\n14/12 Calorie Row",
+                scaled:"AMRAP 20:\n8 Hanging Knee Raises\n10 Dumbbell Hang Clean & Jerks (35/20 lb)\n12/10 Calorie Row",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 19.1",
+                type:"AMRAP",
+                content:"AMRAP 15 minutes:\n19 Wall Balls (20/14 lb)\n19 Calorie Row",
+                story:"CrossFit Open 2019, Week 1.",
+                stimulus:"Leg endurance and engine capacity.",
+                rx:"AMRAP 15:\n19 Wall Balls (20/14 lb)\n19 Calorie Row",
+                scaled:"AMRAP 15:\n19 Wall Balls (14/10 lb)\n15/12 Calorie Row",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 20.1",
+                type:"For Time",
+                content:"10 rounds for time:\n8 Ground-to-Overhead (95/65 lb)\n10 Bar-Facing Burpees",
+                story:"CrossFit Open 2020, Week 1.",
+                stimulus:"Shoulder stamina and burpee speed.",
+                rx:"10 rounds for time:\n8 Ground-to-Overhead (95/65 lb)\n10 Bar-Facing Burpees",
+                scaled:"10 rounds for time:\n8 Ground-to-Overhead (65/35 lb)\n10 Bar-Facing Burpees",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 21.1",
+                type:"AMRAP",
+                content:"AMRAP 15 minutes:\n1 Wall Walk\n10 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
+                story:"CrossFit Open 2021, Week 1.",
+                stimulus:"Shoulder fatigue paired with explosive jumping.",
+                rx:"AMRAP 15:\n1 Wall Walk\n10 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
+                scaled:"AMRAP 15:\n1 Wall Walk\n10 Dumbbell Snatches (35/20 lb)\n15 Box Step-ups (20/16\")",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 22.1",
+                type:"AMRAP",
+                content:"AMRAP 15 minutes:\n3 Wall Walks\n12 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
+                story:"CrossFit Open 2022, Week 1.",
+                stimulus:"High-rep shoulder endurance and leg drive.",
+                rx:"AMRAP 15:\n3 Wall Walks\n12 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
+                scaled:"AMRAP 15:\n3 Wall Walks\n12 Dumbbell Snatches (35/20 lb)\n15 Box Step-ups (20/16\")",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 23.1",
+                type:"AMRAP",
+                content:"AMRAP 14 minutes:\n60 Calorie Row\n50 Toes-to-Bar\n40 Wall Balls (20/14 lb)\n30 Power Cleans (135/85 lb)\n20 Ring Muscle-ups",
+                story:"CrossFit Open 2023, Week 1.",
+                stimulus:"Descending chipper with heavy pulling and midline.",
+                rx:"AMRAP 14:\n60 Calorie Row\n50 Toes-to-Bar\n40 Wall Balls (20/14 lb)\n30 Power Cleans (135/85 lb)\n20 Ring Muscle-ups",
+                scaled:"AMRAP 14:\n60 Calorie Row\n50 Hanging Knee Raises\n40 Wall Balls (14/10 lb)\n30 Power Cleans (75/55 lb)\n20 Pull-ups",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 24.1",
+                type:"For Time",
+                content:"21-15-9 reps for time:\nDumbbell Snatches (50/35 lb)\nBurpees Over Dumbbell",
+                story:"CrossFit Open 2024, Week 1.",
+                stimulus:"Fast-paced burpees with shoulder fatigue.",
+                rx:"21-15-9 for time:\nDumbbell Snatches (50/35 lb)\nBurpees Over Dumbbell",
+                scaled:"21-15-9 for time:\nDumbbell Snatches (35/20 lb)\nBurpees Over Dumbbell",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            },
+            {
+                name:"Open 25.1 (TBD)",
+                type:"TBD",
+                content:"To be announced.",
+                story:"Placeholder for CrossFit Open 2025.",
+                stimulus:"Awaiting official release.",
+                rx:"TBD",
+                scaled:"TBD",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
+            }
         ];
 
         // HELPER: pick run distance taking workout type/context into account
@@ -675,6 +799,8 @@
 
                 if(typeSelect==='girls'){
                     wod = getRandom(girlWods);
+                } else if(typeSelect==='open'){
+                    wod = getRandom(openWods);
                 } else if(typeSelect==='heroes'){
                     wod = getRandom(heroWods);
                 } else if(typeSelect==='home'){
@@ -744,6 +870,33 @@
                 }
                 const contentSafe = (wod && typeof wod.content === 'string') ? wod.content : String(wod.content || '');
                 html += `<div class="wod-content">${contentSafe}</div>`;
+                const hasOpenDetails = wod && (wod.rx || wod.scaled || wod.benchmarks);
+                if(hasOpenDetails){
+                    const rxSafe = (wod && typeof wod.rx === 'string') ? wod.rx : '';
+                    const scaledSafe = (wod && typeof wod.scaled === 'string') ? wod.scaled : '';
+                    const benchmarks = (wod && wod.benchmarks) ? wod.benchmarks : null;
+                    html += `<div class="open-details"><div class="open-grid">`;
+                    if(rxSafe){
+                        html += `<div class="open-card"><h4>RX</h4><p>${rxSafe}</p></div>`;
+                    }
+                    if(scaledSafe){
+                        html += `<div class="open-card"><h4>Scaled</h4><p>${scaledSafe}</p></div>`;
+                    }
+                    if(benchmarks){
+                        const p25 = benchmarks.p25 || 'N/A';
+                        const p50 = benchmarks.p50 || 'N/A';
+                        const p75 = benchmarks.p75 || 'N/A';
+                        const p90 = benchmarks.p90 || 'N/A';
+                        html += `<div class="open-card" style="grid-column:1/-1;"><h4>Benchmark Results (RX)</h4>`;
+                        html += `<div class="benchmark-grid">`;
+                        html += `<div class="benchmark-cell"><strong>${p25}</strong><span>25%</span></div>`;
+                        html += `<div class="benchmark-cell"><strong>${p50}</strong><span>50%</span></div>`;
+                        html += `<div class="benchmark-cell"><strong>${p75}</strong><span>75%</span></div>`;
+                        html += `<div class="benchmark-cell"><strong>${p90}</strong><span>90%+</span></div>`;
+                        html += `</div></div>`;
+                    }
+                    html += `</div></div>`;
+                }
                 if(isGenerated){
                     const prescriptions = getPrescriptionsForContent(contentSafe);
                     if(prescriptions.length>0){
@@ -754,7 +907,7 @@
                         html += `</div></div>`;
                     }
                 }
-                html += `<div style="padding:1rem 1.5rem;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid #335373;"><small style="color:var(--text-muted);font-style:italic;">Generated by FreshWODs</small></div></div>`;
+                html += `<div style="padding:1rem 1.5rem;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid #1e3b8a;"><small style="color:var(--text-muted);font-style:italic;">Generated by FreshWODs</small></div></div>`;
                 display.innerHTML = html;
                 display.scrollIntoView({ behavior:'smooth', block:'start' });
             } catch (errRender) {
@@ -794,9 +947,9 @@
                 const key = document.getElementById('movementSelect').value;
                 data = scalingDatabase[key];
             }
-            let html = `<h3 style="margin-bottom:1rem;border-bottom:1px solid #335373;padding-bottom:0.5rem;color:white;">${data.title} Scaling</h3>`;
+            let html = `<h3 style="margin-bottom:1rem;border-bottom:1px solid #1e3b8a;padding-bottom:0.5rem;color:white;">${data.title} Scaling</h3>`;
             data.levels.forEach((level, index) => {
-                const color = index === 0 ? '#F7A407' : (index === 1 ? '#ffffff' : '#8fa1b3');
+                const color = index === 0 ? '#FA4616' : (index === 1 ? '#ffffff' : '#aab6dd');
                 html += `<div class="scaling-option" style="border-left-color:${color}"><h4>${level.label}</h4><p style="font-size:.95rem;color:#cbd5e1;">${level.desc}</p></div>`;
             });
             container.innerHTML = html;
