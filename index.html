@@ -6,14 +6,14 @@
     <title>Fresh WODs | Crossfit Companion</title>
     <style>
         :root{
-            --primary:#F7A407;
-            --primary-hover:#d68c00;
-            --accent-blue:#1A3A5E;
-            --bg-dark:#0B1621;
-            --bg-card:#122538;
-            --bg-input:#1E3A52;
+            --primary:#FA4616;
+            --primary-hover:#d43d12;
+            --accent-blue:#0021A5;
+            --bg-dark:#070d24;
+            --bg-card:#0f1e4d;
+            --bg-input:#142a6b;
             --text-main:#ffffff;
-            --text-muted:#8fa1b3;
+            --text-muted:#aab6dd;
             --border-radius:8px;
             --font-main:'Segoe UI', 'Helvetica', sans-serif;
             --shadow:0 4px 20px rgba(0,0,0,0.6);
@@ -28,7 +28,7 @@
             min-height:100vh;
             display:flex;
             flex-direction:column;
-            background-image:radial-gradient(circle at top right,#1a3a5e 0%,#0b1621 40%);
+            background-image:radial-gradient(circle at top right,#0037c7 0%,#070d24 40%);
         }
 
         header{
@@ -71,12 +71,12 @@
 
         h2{font-size:2rem;margin-bottom:1.5rem;color:var(--primary);text-transform:uppercase;font-weight:900;font-style:italic;text-shadow:0 2px 4px rgba(0,0,0,.5)}
 
-        .card{background:var(--bg-card);border-radius:var(--border-radius);padding:2rem;box-shadow:var(--shadow);margin-bottom:2rem;border:1px solid #233b52}
+        .card{background:var(--bg-card);border-radius:var(--border-radius);padding:2rem;box-shadow:var(--shadow);margin-bottom:2rem;border:1px solid #1b2f6d}
 
         .controls{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
         label{display:block;margin-bottom:.5rem;color:var(--primary);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-        select,input[type="text"]{width:100%;padding:.8rem;background:var(--bg-input);border:1px solid #335373;color:white;border-radius:4px;font-size:1rem;font-weight:600}
-        select:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(247,164,7,.2)}
+        select,input[type="text"]{width:100%;padding:.8rem;background:var(--bg-input);border:1px solid #1e3b8a;color:white;border-radius:4px;font-size:1rem;font-weight:600}
+        select:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(250,70,22,.2)}
 
         button.action-btn{
             background:var(--primary);
@@ -92,22 +92,22 @@
             transition:var(--transition);
             width:100%;
             font-style:italic;
-            box-shadow:0 4px 0 #b37200;
+            box-shadow:0 4px 0 #b33c10;
         }
-        button.action-btn:hover{background:var(--primary-hover);transform:translateY(-2px);box-shadow:0 6px 0 #b37200}
-        button.action-btn:active{transform:translateY(2px);box-shadow:0 0 0 #b37200}
+        button.action-btn:hover{background:var(--primary-hover);transform:translateY(-2px);box-shadow:0 6px 0 #b33c10}
+        button.action-btn:active{transform:translateY(2px);box-shadow:0 0 0 #b33c10}
 
-        .wod-result{background:#0f1e2e;padding:0;border-radius:8px;border:1px solid var(--primary);margin-top:1rem;position:relative;box-shadow:0 0 20px rgba(247,164,7,.1);overflow:hidden}
-        .wod-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #335373;padding:1.5rem;background:rgba(255,255,255,.02)}
+        .wod-result{background:#0b1b4a;padding:0;border-radius:8px;border:1px solid var(--primary);margin-top:1rem;position:relative;box-shadow:0 0 20px rgba(250,70,22,.15);overflow:hidden}
+        .wod-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e3b8a;padding:1.5rem;background:rgba(255,255,255,.02)}
         .wod-title{font-size:2rem;font-weight:900;color:white;text-transform:uppercase;font-style:italic}
         .wod-type-badge{background:var(--accent-blue);color:var(--primary);font-size:.75rem;font-weight:900;padding:4px 12px;border-radius:4px;text-transform:uppercase;border:1px solid var(--primary)}
         .wod-content{padding:1.5rem;font-size:1.25rem;white-space:pre-line;font-weight:500;color:#dceefb}
-        .wod-story{padding:1.5rem;background:rgba(247,164,7,.1);border-bottom:1px solid #335373;border-top:1px solid #335373;font-style:italic;color:#dceefb}
+        .wod-story{padding:1.5rem;background:rgba(250,70,22,.15);border-bottom:1px solid #1e3b8a;border-top:1px solid #1e3b8a;font-style:italic;color:#dceefb}
         .wod-story h4{color:var(--primary);margin-bottom:.5rem;text-transform:uppercase;font-style:normal;font-size:.9rem;letter-spacing:1px}
-        .wod-prescriptions{padding:1.5rem;background:#162b3f;border-top:1px solid var(--primary)}
+        .wod-prescriptions{padding:1.5rem;background:#0f245e;border-top:1px solid var(--primary)}
         .presc-title{font-size:.85rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:1rem;display:block}
         .presc-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.5rem;font-size:.9rem}
-        .presc-header{font-weight:700;color:var(--primary);text-transform:uppercase;padding-bottom:.5rem;border-bottom:1px solid #335373;margin-bottom:.5rem}
+        .presc-header{font-weight:700;color:var(--primary);text-transform:uppercase;padding-bottom:.5rem;border-bottom:1px solid #1e3b8a;margin-bottom:.5rem}
         .presc-row{display:contents}
         .presc-row>div{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
 
@@ -754,7 +754,7 @@
                         html += `</div></div>`;
                     }
                 }
-                html += `<div style="padding:1rem 1.5rem;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid #335373;"><small style="color:var(--text-muted);font-style:italic;">Generated by FreshWODs</small></div></div>`;
+                html += `<div style="padding:1rem 1.5rem;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid #1e3b8a;"><small style="color:var(--text-muted);font-style:italic;">Generated by FreshWODs</small></div></div>`;
                 display.innerHTML = html;
                 display.scrollIntoView({ behavior:'smooth', block:'start' });
             } catch (errRender) {
@@ -794,9 +794,9 @@
                 const key = document.getElementById('movementSelect').value;
                 data = scalingDatabase[key];
             }
-            let html = `<h3 style="margin-bottom:1rem;border-bottom:1px solid #335373;padding-bottom:0.5rem;color:white;">${data.title} Scaling</h3>`;
+            let html = `<h3 style="margin-bottom:1rem;border-bottom:1px solid #1e3b8a;padding-bottom:0.5rem;color:white;">${data.title} Scaling</h3>`;
             data.levels.forEach((level, index) => {
-                const color = index === 0 ? '#F7A407' : (index === 1 ? '#ffffff' : '#8fa1b3');
+                const color = index === 0 ? '#FA4616' : (index === 1 ? '#ffffff' : '#aab6dd');
                 html += `<div class="scaling-option" style="border-left-color:${color}"><h4>${level.label}</h4><p style="font-size:.95rem;color:#cbd5e1;">${level.desc}</p></div>`;
             });
             container.innerHTML = html;
