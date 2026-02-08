@@ -418,42 +418,6 @@
             return options.mediumMinutes || 12;
         }
 
-        function parseDurationBounds(text) {
-            if (!text) return null;
-            const value = String(text);
-            const match = value.match(/(\d+)\s*[-–]\s*(\d+)\s*minute/);
-            if (match) {
-                return { min: Number(match[1]), max: Number(match[2]) };
-            }
-            const single = value.match(/(\d+)\s*minute/);
-            if (single) {
-                const minutes = Number(single[1]);
-                return { min: minutes, max: minutes };
-            }
-            return null;
-        }
-
-        function classifyDuration(minutes) {
-            if (minutes <= 7) return 'short';
-            if (minutes <= 15) return 'medium';
-            return 'long';
-        }
-
-        function getWodDurationBucket(wod) {
-            const source = [wod && wod.format, wod && wod.content].filter(Boolean).join(' ');
-            const bounds = parseDurationBounds(source);
-            if (bounds) {
-                const avg = (bounds.min + bounds.max) / 2;
-                return classifyDuration(avg);
-            }
-            return null;
-        }
-
-        function getWodOptionsForDuration(wods, durSelect) {
-            const matches = wods.filter((wod) => getWodDurationBucket(wod) === durSelect);
-            return matches.length ? matches : wods;
-        }
-
         function getEmomRange(durSelect) {
             if (durSelect === 'short') return [6, 7];
             if (durSelect === 'long') return [16, 20];
@@ -737,9 +701,9 @@
                 if(typeSelect==='girls'){
                     wod = getRandom(getWodOptionsForDuration(girlWods, durSelect));
                 } else if(typeSelect==='heroes'){
-                    wod = getRandom(getWodOptionsForDuration(heroWods, durSelect));
+                    wod = getRandom(heroWods);
                 } else if(typeSelect==='open'){
-                    wod = getRandom(getWodOptionsForDuration(openWods, durSelect));
+                    wod = getRandom(openWods);
                 } else if(typeSelect==='home'){
                     isGenerated = true;
                     const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
