@@ -839,6 +839,39 @@
                 } else if(typeSelect==='home'){
                     isGenerated = true;
                     wod = buildHomeWorkout(durSelect);
+                    if (typeof getWodOptionsForDuration === 'function') {
+                        return getWodOptionsForDuration(wods, durSelect);
+                    }
+                    return wods;
+                };
+                if(typeSelect==='girls'){
+                    wod = getRandom(getWodOptionsForDuration(girlWods, durSelect));
+                } else if(typeSelect==='heroes'){
+                    wod = getRandom(heroWods);
+                } else if(typeSelect==='open'){
+                    wod = getRandom(openWods);
+                } else if(typeSelect==='home'){
+                    isGenerated = true;
+                    const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
+                    const selectedType = getRandom(types);
+                    wod.type = selectedType;
+                    const options = { equipment: 'home', selectedType: selectedType, durSelect: durSelect };
+
+                    if(selectedType==='AMRAP'){
+                        const time = getDurationMinutes(durSelect, { longMinutes: 20, mediumMinutes: 12 });
+                        wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,options);
+                    } else if(selectedType==='EMOM'){
+                        wod.content = buildEMOM(null,durSelect,options);
+                    } else if(selectedType==='RFT'){
+                        const rounds = durSelect==='short'?3:(durSelect==='medium'?5:8);
+                        wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3,3,options);
+                    } else if(selectedType==='CHIPPER'){
+                        wod.content = `For Time:\n` + buildMovementList(5,7,{selectedType:'CHIPPER',durSelect:durSelect,allowHighReps:true,equipment:'home'});
+                    } else {
+                        wod.content = `For Time:\n` + buildMovementList(4,6,{selectedType:'For Time',durSelect:durSelect,equipment:'home'});
+                    }
+                    const generatedMoves = parseMovements(wod.content);
+                    wod.name = generateWODName(selectedType, generatedMoves);
                 } else {
                     isGenerated = true;
                     const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
