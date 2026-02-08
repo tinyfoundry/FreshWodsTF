@@ -227,7 +227,6 @@
             if(activeBtn) activeBtn.classList.add('active');
         }
         window.WODS = window.WODS || {};
-        window.wods = window.wods || window.WODS;
         function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.className='show'; setTimeout(()=>t.className=t.className.replace('show',''),4000); }
         function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
         function safeGetRandom(arr){ return Array.isArray(arr) && arr.length ? arr[Math.floor(Math.random()*arr.length)] : null; }
@@ -268,12 +267,9 @@
         };
 
         function pickHomeMovement(list, avoidTypes = new Set()) {
-            const options = Array.isArray(list) ? list.filter((item) => !avoidTypes.has(item.type)) : [];
-            const pick = safeGetRandom(options.length ? options : list);
-            if (!pick) {
-                return { label: 'Air Squats', rep: 20, type: 'squat' };
-            }
-            const rep = safeGetRandom(pick.reps) || pick.reps[0];
+            const options = list.filter((item) => !avoidTypes.has(item.type));
+            const pick = getRandom(options.length ? options : list);
+            const rep = getRandom(pick.reps);
             return { label: pick.label, rep: rep, type: pick.type };
         }
 
@@ -289,7 +285,7 @@
             const mediumFormats = ['AMRAP', 'EMOM', 'For Time', 'Intervals'];
             const longFormats = ['AMRAP', 'EMOM', 'For Time', 'Chipper', 'Intervals'];
             const formatPool = durSelect === 'short' ? shortFormats : (durSelect === 'long' ? longFormats : mediumFormats);
-            const format = safeGetRandom(formatPool) || 'For Time';
+            const format = getRandom(formatPool);
 
             const lower = pickHomeMovement(homeMovements.lowerBody);
             const upperIsPush = Math.random() < 0.5;
@@ -844,18 +840,37 @@
                     wod = getRandom(selectByDuration(openWods));
                 } else if(typeSelect==='home'){
                     isGenerated = true;
-                    try {
-                        wod = buildHomeWorkout(durSelect);
-                    } catch (homeErr) {
-                        console.error('home workout error', homeErr);
-                        wod = {
-                            name: 'Hotel Hustle',
-                            type: 'AMRAP',
-                            format: '10-minute AMRAP',
-                            content: 'AMRAP 10:\n20 Air Squats\n10 Push-ups\n200m Row',
-                            story: 'Fallback generated due to a home workout error.',
-                            stimulus: 'Lower body + push + engine'
-                        };
+                    wod = buildHomeWorkout(durSelect);
+                    if (typeof getWodOptionsForDuration === 'function') {
+                        return getWodOptionsForDuration(wods, durSelect);
+                    }
+                    return wods;
+                };
+                if(typeSelect==='girls'){
+                    wod = getRandom(getWodOptionsForDuration(girlWods, durSelect));
+                } else if(typeSelect==='heroes'){
+                    wod = getRandom(heroWods);
+                } else if(typeSelect==='open'){
+                    wod = getRandom(openWods);
+                } else if(typeSelect==='home'){
+                    isGenerated = true;
+                    const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
+                    const selectedType = getRandom(types);
+                    wod.type = selectedType;
+                    const options = { equipment: 'home', selectedType: selectedType, durSelect: durSelect };
+
+                    if(selectedType==='AMRAP'){
+                        const time = getDurationMinutes(durSelect, { longMinutes: 20, mediumMinutes: 12 });
+                        wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,options);
+                    } else if(selectedType==='EMOM'){
+                        wod.content = buildEMOM(null,durSelect,options);
+                    } else if(selectedType==='RFT'){
+                        const rounds = durSelect==='short'?3:(durSelect==='medium'?5:8);
+                        wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3,3,options);
+                    } else if(selectedType==='CHIPPER'){
+                        wod.content = `For Time:\n` + buildMovementList(5,7,{selectedType:'CHIPPER',durSelect:durSelect,allowHighReps:true,equipment:'home'});
+                    } else {
+                        wod.content = `For Time:\n` + buildMovementList(4,6,{selectedType:'For Time',durSelect:durSelect,equipment:'home'});
                     }
                 } else {
                     isGenerated = true;
