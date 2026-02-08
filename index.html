@@ -508,42 +508,6 @@
             return options.mediumMinutes || 12;
         }
 
-        function parseDurationBounds(text) {
-            if (!text) return null;
-            const value = String(text);
-            const match = value.match(/(\d+)\s*[-–]\s*(\d+)\s*minute/);
-            if (match) {
-                return { min: Number(match[1]), max: Number(match[2]) };
-            }
-            const single = value.match(/(\d+)\s*minute/);
-            if (single) {
-                const minutes = Number(single[1]);
-                return { min: minutes, max: minutes };
-            }
-            return null;
-        }
-
-        function classifyDuration(minutes) {
-            if (minutes <= 7) return 'short';
-            if (minutes <= 15) return 'medium';
-            return 'long';
-        }
-
-        function getWodDurationBucket(wod) {
-            const source = [wod && wod.format, wod && wod.content].filter(Boolean).join(' ');
-            const bounds = parseDurationBounds(source);
-            if (bounds) {
-                const avg = (bounds.min + bounds.max) / 2;
-                return classifyDuration(avg);
-            }
-            return null;
-        }
-
-        function getWodOptionsForDuration(wods, durSelect) {
-            const matches = wods.filter((wod) => getWodDurationBucket(wod) === durSelect);
-            return matches.length ? matches : wods;
-        }
-
         function getEmomRange(durSelect) {
             if (durSelect === 'short') return [6, 7];
             if (durSelect === 'long') return [16, 20];
@@ -831,14 +795,33 @@
                     return wods;
                 };
                 if(typeSelect==='girls'){
-                    wod = getRandom(selectByDuration(girlWods));
+                    wod = getRandom(getWodOptionsForDuration(girlWods, durSelect));
                 } else if(typeSelect==='heroes'){
-                    wod = getRandom(selectByDuration(heroWods));
+                    wod = getRandom(heroWods);
                 } else if(typeSelect==='open'){
-                    wod = getRandom(selectByDuration(openWods));
+                    wod = getRandom(openWods);
                 } else if(typeSelect==='home'){
                     isGenerated = true;
-                    wod = buildHomeWorkout(durSelect);
+                    const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
+                    const selectedType = getRandom(types);
+                    wod.type = selectedType;
+                    const options = { equipment: 'home', selectedType: selectedType, durSelect: durSelect };
+
+                    if(selectedType==='AMRAP'){
+                        const time = getDurationMinutes(durSelect, { longMinutes: 20, mediumMinutes: 12 });
+                        wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,options);
+                    } else if(selectedType==='EMOM'){
+                        wod.content = buildEMOM(null,durSelect,options);
+                    } else if(selectedType==='RFT'){
+                        const rounds = durSelect==='short'?3:(durSelect==='medium'?5:8);
+                        wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3,3,options);
+                    } else if(selectedType==='CHIPPER'){
+                        wod.content = `For Time:\n` + buildMovementList(5,7,{selectedType:'CHIPPER',durSelect:durSelect,allowHighReps:true,equipment:'home'});
+                    } else {
+                        wod.content = `For Time:\n` + buildMovementList(4,6,{selectedType:'For Time',durSelect:durSelect,equipment:'home'});
+                    }
+                    const generatedMoves = parseMovements(wod.content);
+                    wod.name = generateWODName(selectedType, generatedMoves);
                 } else {
                     isGenerated = true;
                     const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
@@ -944,7 +927,6 @@
         }
 
         window.generateWOD = generateWOD;
-        window.getWodOptionsForDuration = getWodOptionsForDuration;
         document.addEventListener('DOMContentLoaded', () => {
             const button = document.getElementById('generateWodButton');
             if (button) {
