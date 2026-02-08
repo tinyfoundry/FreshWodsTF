@@ -226,6 +226,7 @@
             const activeBtn = buttons.find(b=>b.getAttribute('onclick').includes(tabId));
             if(activeBtn) activeBtn.classList.add('active');
         }
+        window.WODS = window.WODS || {};
         function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.className='show'; setTimeout(()=>t.className=t.className.replace('show',''),4000); }
         function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
         function capitalizeWords(s){ return s.replace(' (Calories)','').trim().split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '); }
@@ -870,8 +871,6 @@
                     } else {
                         wod.content = `For Time:\n` + buildMovementList(4,6,{selectedType:'For Time',durSelect:durSelect,equipment:'home'});
                     }
-                    const generatedMoves = parseMovements(wod.content);
-                    wod.name = generateWODName(selectedType, generatedMoves);
                 } else {
                     isGenerated = true;
                     const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
