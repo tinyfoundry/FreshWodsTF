@@ -238,6 +238,96 @@
             gymnastics: ['Handstand Push-ups','Ring Dips','Chest-to-Bar Pull-ups','Muscle-ups','Pistols','Handstand Walk']
         };
 
+        const homeMovements = {
+            lowerBody: [
+                { label: 'Air Squats', reps: [20, 30, 40], type: 'squat' },
+                { label: 'Goblet Squats (35/20 lb)', reps: [12, 15, 18], type: 'squat' },
+                { label: 'Reverse Lunges (alternating)', reps: [12, 16, 20], type: 'lunge' },
+                { label: 'Step-ups (alternating)', reps: [12, 16, 20], type: 'lunge' },
+                { label: 'Box Step-ups (alternating)', reps: [12, 16, 20], type: 'lunge' }
+            ],
+            upperPush: [
+                { label: 'Push-ups', reps: [10, 15, 20], type: 'push' },
+                { label: 'Dumbbell Floor Press (35/20 lb)', reps: [10, 12, 15], type: 'push' },
+                { label: 'Single-Arm Dumbbell Shoulder Press (alternating, 35/20 lb)', reps: [8, 10, 12], type: 'push' }
+            ],
+            upperPull: [
+                { label: 'Pull-ups', reps: [6, 8, 10], type: 'pull' },
+                { label: 'Single-Arm Dumbbell Row (alternating, 35/20 lb)', reps: [10, 12, 15], type: 'pull' }
+            ],
+            engineCore: [
+                { label: 'Jump Rope', reps: [40, 60, 80], type: 'engine' },
+                { label: 'Row', reps: ['200m', '300m', '400m'], type: 'engine' },
+                { label: 'Ski', reps: ['10 Cals', '12 Cals', '15 Cals'], type: 'engine' },
+                { label: 'Sit-ups', reps: [15, 20, 25], type: 'core' },
+                { label: 'Plank Hold', reps: ['30 sec', '40 sec', '50 sec'], type: 'core' }
+            ]
+        };
+
+        function pickHomeMovement(list, avoidTypes = new Set()) {
+            const options = list.filter((item) => !avoidTypes.has(item.type));
+            const pick = getRandom(options.length ? options : list);
+            const rep = getRandom(pick.reps);
+            return { label: pick.label, rep: rep, type: pick.type };
+        }
+
+        function buildHomeMovementLine(move) {
+            if (String(move.rep).match(/(m|Cals|sec)/)) {
+                return `${move.label} — ${move.rep}`;
+            }
+            return `${move.rep} ${move.label}`;
+        }
+
+        function buildHomeWorkout(durSelect) {
+            const shortFormats = ['For Time', 'Chipper', 'Intervals'];
+            const mediumFormats = ['AMRAP', 'EMOM', 'For Time', 'Intervals'];
+            const longFormats = ['AMRAP', 'EMOM', 'For Time', 'Chipper', 'Intervals'];
+            const formatPool = durSelect === 'short' ? shortFormats : (durSelect === 'long' ? longFormats : mediumFormats);
+            const format = getRandom(formatPool);
+
+            const lower = pickHomeMovement(homeMovements.lowerBody);
+            const upperIsPush = Math.random() < 0.5;
+            const upper = upperIsPush ? pickHomeMovement(homeMovements.upperPush) : pickHomeMovement(homeMovements.upperPull);
+
+            const avoid = new Set();
+            if (upper.type === 'pull') avoid.add('engine');
+            if (upper.type === 'push') avoid.add('engine');
+            const engineCore = pickHomeMovement(homeMovements.engineCore, avoid);
+
+            let timeCap = '';
+            let content = '';
+            if (format === 'AMRAP') {
+                const minutes = getDurationMinutes(durSelect, { mediumMinutes: 12, longMinutes: 18 });
+                timeCap = `${minutes}-minute AMRAP`;
+                content = `AMRAP ${minutes}:\n${buildHomeMovementLine(lower)}\n${buildHomeMovementLine(upper)}\n${buildHomeMovementLine(engineCore)}`;
+            } else if (format === 'EMOM') {
+                const minutes = durSelect === 'long' ? 16 : 10;
+                timeCap = `EMOM ${minutes}`;
+                content = `EMOM ${minutes}\nMinute 1: ${buildHomeMovementLine(lower)}\nMinute 2: ${buildHomeMovementLine(upper)}\nMinute 3: ${buildHomeMovementLine(engineCore)}\n\n(repeat)`;
+            } else if (format === 'Chipper') {
+                const chipperLower = { ...lower, rep: lower.label.includes('Air Squats') ? 30 : 12 };
+                const chipperUpper = { ...upper, rep: upper.label.includes('Pull-ups') ? 8 : 12 };
+                const chipperEngine = { ...engineCore, rep: engineCore.label === 'Jump Rope' ? 40 : (engineCore.label === 'Row' ? '200m' : '10 Cals') };
+                timeCap = 'For Time (cap 20 min)';
+                content = `For Time:\n${buildHomeMovementLine(chipperLower)}\n${buildHomeMovementLine(chipperUpper)}\n${buildHomeMovementLine(chipperEngine)}\n12 Burpees`;
+            } else if (format === 'Intervals') {
+                const minutes = durSelect === 'short' ? 6 : (durSelect === 'long' ? 16 : 12);
+                timeCap = `Intervals (${minutes} min total)`;
+                content = `Every 3:00 x ${Math.floor(minutes / 3)}:\n1:00 ${lower.label}\n1:00 ${upper.label}\n1:00 ${engineCore.label}`;
+            } else {
+                const cap = durSelect === 'short' ? 7 : (durSelect === 'long' ? 20 : 12);
+                timeCap = `For Time (cap ${cap} min)`;
+                content = `For Time:\n${buildHomeMovementLine(lower)}\n${buildHomeMovementLine(upper)}\n${buildHomeMovementLine(engineCore)}`;
+            }
+
+            return {
+                name: generateWODName(format, []),
+                type: format,
+                format: timeCap,
+                content: content
+            };
+        }
+
         // Equipment exclusions for Home mode
         const excludedForHome = [
             '(Calories)','row','rower','bike','ski','erg',
