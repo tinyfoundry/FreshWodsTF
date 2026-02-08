@@ -115,6 +115,9 @@
         .open-card{background:#0f245e;border:1px solid #1e3b8a;border-radius:6px;padding:1rem}
         .open-card h4{color:var(--primary);text-transform:uppercase;font-size:.8rem;letter-spacing:.8px;margin-bottom:.5rem}
         .open-card p{white-space:pre-line;color:#dceefb;font-weight:600}
+        .benchmark-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;font-size:.85rem;margin-top:.5rem}
+        .benchmark-cell{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:.5rem;text-align:center}
+        .benchmark-cell span{display:block;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px}
 
         .scaling-option{background:rgba(255,255,255,.03);padding:1rem;border-radius:4px;margin-bottom:1rem;border-left:4px solid transparent;transition:var(--transition)}
         .scaling-option:hover{border-left-color:var(--primary);background:rgba(255,255,255,.05)}
@@ -132,6 +135,7 @@
             .wod-title{font-size:1.5rem}
             .presc-grid{font-size:.8rem;grid-template-columns:1.2fr .8fr .8fr .8fr}
             .open-grid{grid-template-columns:1fr}
+            .benchmark-grid{grid-template-columns:1fr 1fr}
         }
     </style>
 </head>
@@ -346,276 +350,110 @@
                 stimulus:"Gymnastics volume and cardio density.",
                 rx:"AMRAP 14:\n7 Ring Muscle-ups\n50 Wall Balls (20/14 lb to 10'/9')\n100 Double Unders",
                 scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Grip, core, and barbell cycling under fatigue.",
+                rx:"AMRAP 9:\n15 Toes-to-Bar\n10 Deadlifts (115/75 lb)\n5 Snatches (115/75 lb)",
+                scaled:"AMRAP 9:\n15 Hanging Knee Raises\n10 Deadlifts (75/55 lb)\n5 Snatches (75/55 lb)",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 16.1",
                 type:"AMRAP",
-                content:"AMRAP 20 minutes:\n25-ft Overhead Walking Lunge (95/65 lb)\n8 Bar-Facing Burpees\n25-ft Overhead Walking Lunge\n8 Chest-to-Bar Pull-ups",
+                content:"AMRAP 20 minutes:\n25 Toes-to-Bar\n50 Double Unders\n15 Squat Cleans (135/85 lb)",
                 story:"CrossFit Open 2016, Week 1.",
-                stimulus:"Shoulder stability and stamina under fatigue.",
-                rx:"AMRAP 20:\n25-ft OH Walking Lunge (95/65 lb)\n8 Bar-Facing Burpees\n25-ft OH Walking Lunge\n8 C2B Pull-ups",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 16.2",
-                type:"Extended AMRAP",
-                content:"4-minute intervals up to 20 minutes:\n25 Toes-to-Bar\n50 Double Unders\n15 Squat Cleans (135/85 lb)\nAdd 4 minutes with heavier cleans if completed.",
-                story:"CrossFit Open 2016, Week 2.",
-                stimulus:"Skill endurance with escalating barbell load.",
-                rx:"4:00 intervals:\n25 T2B, 50 DU, 15 Squat Cleans (135/85)\nIf finished, continue with heavier cleans at 8:00, 12:00, 16:00, 20:00.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 16.3",
-                type:"AMRAP",
-                content:"AMRAP 7 minutes:\n10 Power Snatches (75/55 lb)\n3 Bar Muscle-ups",
-                story:"CrossFit Open 2016, Week 3.",
-                stimulus:"Fast barbell cycling with high-skill gymnastics.",
-                rx:"AMRAP 7:\n10 Power Snatches (75/55 lb)\n3 Bar Muscle-ups",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"High-volume midline with barbell strength endurance.",
+                rx:"AMRAP 20:\n25 Toes-to-Bar\n50 Double Unders\n15 Squat Cleans (135/85 lb)",
+                scaled:"AMRAP 20:\n25 Hanging Knee Raises\n50 Single Unders\n15 Squat Cleans (95/55 lb)",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 17.1",
                 type:"For Time",
-                content:"20-minute cap:\n10 DB Snatches + 15 Burpee Box Jump-Overs\n20 + 15\n30 + 15\n40 + 15\n50 + 15",
+                content:"10 rounds for time:\n8 Chest-to-Bar Pull-ups\n10 Dumbbell Snatches (50/35 lb)\n15 Burpees Over Dumbbell",
                 story:"CrossFit Open 2017, Week 1.",
-                stimulus:"Grinding stamina with consistent burpee volume.",
-                rx:"Time cap 20:\n10/15, 20/15, 30/15, 40/15, 50/15\nDB Snatches (50/35 lb) + Burpee Box Jump-Overs (24/20 in).",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 17.2",
-                type:"AMRAP",
-                content:"AMRAP 12 minutes:\n2 rounds of 50-ft weighted walking lunge\n16 Toes-to-Bar\n8 Dumbbell Power Cleans\nAlternate T2B and Bar Muscle-ups every 2 rounds.",
-                story:"CrossFit Open 2017, Week 2.",
-                stimulus:"Grip endurance with alternating gymnastics.",
-                rx:"AMRAP 12:\n2 rds: 50-ft DB front-rack lunge (2x50/35), 16 T2B, 8 DB power cleans\nThen 2 rds with 16 Bar Muscle-ups.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 17.3",
-                type:"Timed Ladder",
-                content:"Complete 3 rounds of:\n6 C2B Pull-ups + 6 Squat Snatches (95/65 lb)\nThen 3 rounds of:\n7 C2B + 5 Snatches (135/95)\nAdd time if finished to continue heavier ladders.",
-                story:"CrossFit Open 2017, Week 3.",
-                stimulus:"Increasing load under time pressure.",
-                rx:"Ladder with time extensions:\n3 rds 6 C2B + 6 Squat Snatches (95/65)\n3 rds 7 C2B + 5 Snatches (135/95)\nThen heavier ladders if under time caps.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Fast cycling gymnastics and burpee stamina.",
+                rx:"10 rounds for time:\n8 Chest-to-Bar Pull-ups\n10 Dumbbell Snatches (50/35 lb)\n15 Burpees Over Dumbbell",
+                scaled:"10 rounds for time:\n8 Jumping Pull-ups\n10 Dumbbell Snatches (35/20 lb)\n15 Burpees Over Dumbbell",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 18.1",
                 type:"AMRAP",
-                content:"AMRAP 20 minutes:\n8 Toes-to-Bar\n10 DB Hang Clean & Jerks (50/35 lb)\n14/12 Calorie Row",
+                content:"AMRAP 20 minutes:\n8 Toes-to-Bar\n10 Dumbbell Hang Clean & Jerks (50/35 lb)\n14/12 Calorie Row",
                 story:"CrossFit Open 2018, Week 1.",
-                stimulus:"Sustained mixed-modal conditioning.",
-                rx:"AMRAP 20:\n8 T2B\n10 DB Hang Clean & Jerks (50/35)\n14/12 Cal Row",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 18.2",
-                type:"For Time",
-                content:"12-minute cap:\n1-2-3-...-9-10 reps\nDumbbell Front Squats + Bar-Facing Burpees",
-                story:"CrossFit Open 2018, Week 2.",
-                stimulus:"Ascending ladder speed under fatigue.",
-                rx:"Time cap 12:\n1-2-3-...-10 DB Front Squats (2x50/35) + Bar-Facing Burpees",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 18.3",
-                type:"For Time",
-                content:"14-minute cap:\n2 rounds:\n100 DU, 20 OHS (115/80), 100 DU, 12 Ring MU, 100 DU, 20 DB Snatches (50/35), 100 DU, 12 Bar MU",
-                story:"CrossFit Open 2018, Week 3.",
-                stimulus:"High-volume gymnastics and barbell skill.",
-                rx:"Time cap 14:\n2 rds of 100 DU, 20 OHS (115/80), 100 DU, 12 Ring MU, 100 DU, 20 DB Snatches (50/35), 100 DU, 12 Bar MU",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Sustained aerobic pacing with midline control.",
+                rx:"AMRAP 20:\n8 Toes-to-Bar\n10 Dumbbell Hang Clean & Jerks (50/35 lb)\n14/12 Calorie Row",
+                scaled:"AMRAP 20:\n8 Hanging Knee Raises\n10 Dumbbell Hang Clean & Jerks (35/20 lb)\n12/10 Calorie Row",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 19.1",
                 type:"AMRAP",
                 content:"AMRAP 15 minutes:\n19 Wall Balls (20/14 lb)\n19 Calorie Row",
                 story:"CrossFit Open 2019, Week 1.",
-                stimulus:"Leg endurance with aerobic output.",
-                rx:"AMRAP 15:\n19 Wall Balls (20/14)\n19 Cal Row",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 19.2",
-                type:"Extended AMRAP",
-                content:"8-minute window:\n25 T2B, 50 DU, 15 Squat Cleans (135/85)\nThen add 4 minutes with heavier cleans if completed.",
-                story:"CrossFit Open 2019, Week 2.",
-                stimulus:"Skill endurance with rising barbell load.",
-                rx:"Start 8:00:\n25 T2B, 50 DU, 15 Squat Cleans (135/85)\nIf finished, continue with heavier sets at 12:00, 16:00, 20:00.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 19.3",
-                type:"For Time",
-                content:"10-minute cap:\n200-ft single-arm DB overhead lunge (50/35)\n50 DB box step-ups (24/20 in)\n50 strict HSPU\n200-ft handstand walk",
-                story:"CrossFit Open 2019, Week 3.",
-                stimulus:"Shoulder stamina and skill under time pressure.",
-                rx:"Time cap 10:\n200-ft SA DB OH lunge (50/35)\n50 DB box step-ups (24/20)\n50 strict HSPU\n200-ft handstand walk",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Leg endurance and engine capacity.",
+                rx:"AMRAP 15:\n19 Wall Balls (20/14 lb)\n19 Calorie Row",
+                scaled:"AMRAP 15:\n19 Wall Balls (14/10 lb)\n15/12 Calorie Row",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 20.1",
                 type:"For Time",
-                content:"15-minute cap:\n10 rounds of\n8 Ground-to-Overheads (95/65 lb)\n10 Bar-Facing Burpees",
+                content:"10 rounds for time:\n8 Ground-to-Overhead (95/65 lb)\n10 Bar-Facing Burpees",
                 story:"CrossFit Open 2020, Week 1.",
-                stimulus:"Barbell efficiency under burpee fatigue.",
-                rx:"Time cap 15:\n10 rounds\n8 Ground-to-Overheads (95/65)\n10 Bar-Facing Burpees",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 20.2",
-                type:"AMRAP",
-                content:"AMRAP 20 minutes:\n4 DB Thrusters (2x50/35 lb)\n6 Toes-to-Bar\n24 Double Unders",
-                story:"CrossFit Open 2020, Week 2.",
-                stimulus:"Fast cycling with repeatable gymnastics.",
-                rx:"AMRAP 20:\n4 DB Thrusters (2x50/35)\n6 T2B\n24 DU",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 20.3",
-                type:"For Time",
-                content:"9-minute cap:\n21-15-9 Deadlifts (225/155) + HSPU\nThen 21-15-9 Deadlifts (315/205) + 50-ft Handstand Walk after each set",
-                story:"CrossFit Open 2020, Week 3.",
-                stimulus:"Heavy posterior chain with inverted skill.",
-                rx:"Time cap 9:\n21-15-9 DL (225/155) + HSPU\n21-15-9 DL (315/205) + 50-ft HS walk after each set",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Shoulder stamina and burpee speed.",
+                rx:"10 rounds for time:\n8 Ground-to-Overhead (95/65 lb)\n10 Bar-Facing Burpees",
+                scaled:"10 rounds for time:\n8 Ground-to-Overhead (65/35 lb)\n10 Bar-Facing Burpees",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 21.1",
-                type:"For Time",
-                content:"15-minute cap:\n1-3-6-9-15-21 Wall Walks\n10-30-60-90-150-210 Double Unders",
+                type:"AMRAP",
+                content:"AMRAP 15 minutes:\n1 Wall Walk\n10 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
                 story:"CrossFit Open 2021, Week 1.",
-                stimulus:"Escalating shoulder fatigue with jumping volume.",
-                rx:"Time cap 15:\n1,3,6,9,15,21 Wall Walks\n10,30,60,90,150,210 DU",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 21.2",
-                type:"For Time",
-                content:"20-minute cap:\n10 DB Snatches + 15 Burpee Box Jump-Overs\n20 + 15\n30 + 15\n40 + 15\n50 + 15",
-                story:"CrossFit Open 2021, Week 2.",
-                stimulus:"Long chipper with consistent burpee volume.",
-                rx:"Time cap 20:\nDB Snatches (50/35) + Burpee Box Jump-Overs (24/20)\n10/15, 20/15, 30/15, 40/15, 50/15",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 21.3",
-                type:"For Time",
-                content:"15-minute cap:\n15 Front Squats (95/65)\n30 T2B\n15 Thrusters (95/65)\nRest 1:00\n15 Front Squats\n30 C2B\n15 Thrusters\nRest 1:00\n15 Front Squats\n30 Bar Muscle-ups\n15 Thrusters",
-                story:"CrossFit Open 2021, Week 3.",
-                stimulus:"Couplet triplets with escalating skill.",
-                rx:"Time cap 15:\nFS 95/65 + T2B + Thrusters 95/65\nThen C2B set, then Bar MU set with 1:00 rests.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Shoulder fatigue paired with explosive jumping.",
+                rx:"AMRAP 15:\n1 Wall Walk\n10 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
+                scaled:"AMRAP 15:\n1 Wall Walk\n10 Dumbbell Snatches (35/20 lb)\n15 Box Step-ups (20/16\")",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 22.1",
                 type:"AMRAP",
-                content:"AMRAP 15 minutes:\n3 Wall Walks\n12 DB Snatches (50/35 lb)\n15 Box Jump-Overs (24/20 in)",
+                content:"AMRAP 15 minutes:\n3 Wall Walks\n12 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
                 story:"CrossFit Open 2022, Week 1.",
-                stimulus:"Shoulder stamina and explosive jumping.",
-                rx:"AMRAP 15:\n3 Wall Walks\n12 DB Snatches (50/35)\n15 Box Jump-Overs (24/20)",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 22.2",
-                type:"For Time",
-                content:"10-minute cap:\n1-2-3-...-10-...-1 Deadlifts (225/155)\n1-2-3-...-10-...-1 Bar-Facing Burpees",
-                story:"CrossFit Open 2022, Week 2.",
-                stimulus:"High-rep hinge with burpee density.",
-                rx:"Time cap 10:\nAscending then descending 1-10-1\nDeadlifts (225/155) + Bar-Facing Burpees",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 22.3",
-                type:"For Time",
-                content:"12-minute cap:\n21 Pull-ups, 42 DU, 21 Thrusters (95/65)\n18 C2B, 36 DU, 18 Thrusters (115/75)\n15 Bar MU, 30 DU, 15 Thrusters (135/85)",
-                story:"CrossFit Open 2022, Week 3.",
-                stimulus:"Chipper with increasing barbell load.",
-                rx:"Time cap 12:\n21/42/21 (95/65)\n18/36/18 (115/75)\n15/30/15 (135/85)",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"High-rep shoulder endurance and leg drive.",
+                rx:"AMRAP 15:\n3 Wall Walks\n12 Dumbbell Snatches (50/35 lb)\n15 Box Jumps (24/20\")",
+                scaled:"AMRAP 15:\n3 Wall Walks\n12 Dumbbell Snatches (35/20 lb)\n15 Box Step-ups (20/16\")",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 23.1",
                 type:"AMRAP",
-                content:"AMRAP 14 minutes:\n60 Cal Row\n50 T2B\n40 Wall Balls (20/14)\n30 Cleans (135/95)\n20 Ring Muscle-ups",
+                content:"AMRAP 14 minutes:\n60 Calorie Row\n50 Toes-to-Bar\n40 Wall Balls (20/14 lb)\n30 Power Cleans (135/85 lb)\n20 Ring Muscle-ups",
                 story:"CrossFit Open 2023, Week 1.",
-                stimulus:"Descending chipper under a tight time cap.",
-                rx:"AMRAP 14:\n60 Cal Row\n50 T2B\n40 Wall Balls (20/14)\n30 Cleans (135/95)\n20 Ring MU",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 23.2",
-                type:"AMRAP + 1RM",
-                content:"AMRAP 15 minutes:\n5 Burpee Pull-ups\n10 Shuttle Runs (50 ft)\nAdd 5 Burpee Pull-ups each round\nThen: 1-rep-max Thruster from the floor.",
-                story:"CrossFit Open 2023, Week 2.",
-                stimulus:"Sustained aerobic work followed by max strength.",
-                rx:"AMRAP 15:\n5 Burpee Pull-ups\n10 Shuttle Runs (50 ft)\nAdd 5 Burpee Pull-ups each round\nThen 1RM Thruster.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 23.3",
-                type:"For Time",
-                content:"12-minute cap with extensions:\n5 Wall Walks, 50 DU, 15 Snatches (95/65)\nIf finished by 6:00, continue 20 strict HSPU, 50 DU, 9 Snatches (185/125) by 9:00\nIf finished, 20 strict HSPU, 50 DU, 6 Snatches (225/155) by 12:00",
-                story:"CrossFit Open 2023, Week 3.",
-                stimulus:"Progressive intensity with skill under pressure.",
-                rx:"Time cap 12 with extensions:\n5 Wall Walks, 50 DU, 15 Snatches (95/65)\nThen heavier snatch ladders at 9:00 and 12:00 if under caps.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Descending chipper with heavy pulling and midline.",
+                rx:"AMRAP 14:\n60 Calorie Row\n50 Toes-to-Bar\n40 Wall Balls (20/14 lb)\n30 Power Cleans (135/85 lb)\n20 Ring Muscle-ups",
+                scaled:"AMRAP 14:\n60 Calorie Row\n50 Hanging Knee Raises\n40 Wall Balls (14/10 lb)\n30 Power Cleans (75/55 lb)\n20 Pull-ups",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
                 name:"Open 24.1",
                 type:"For Time",
-                content:"15-minute cap:\n21 DB Snatches (arm 1) + 21 lateral burpees\n21 DB Snatches (arm 2) + 21 lateral burpees\n15/15/9/9 with same pattern",
+                content:"21-15-9 reps for time:\nDumbbell Snatches (50/35 lb)\nBurpees Over Dumbbell",
                 story:"CrossFit Open 2024, Week 1.",
-                stimulus:"Unilateral stamina with burpee volume.",
-                rx:"Time cap 15:\n21/21, 21/21, 15/15, 15/15, 9/9, 9/9\nDB Snatches (50/35) + Lateral Burpees",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                stimulus:"Fast-paced burpees with shoulder fatigue.",
+                rx:"21-15-9 for time:\nDumbbell Snatches (50/35 lb)\nBurpees Over Dumbbell",
+                scaled:"21-15-9 for time:\nDumbbell Snatches (35/20 lb)\nBurpees Over Dumbbell",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             },
             {
-                name:"Open 24.2",
-                type:"AMRAP",
-                content:"AMRAP 20 minutes:\n300m Row\n10 Deadlifts (185/125)\n50 Double Unders",
-                story:"CrossFit Open 2024, Week 2.",
-                stimulus:"Engine work with a heavy hinge.",
-                rx:"AMRAP 20:\n300m Row\n10 Deadlifts (185/125)\n50 DU",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 24.3",
-                type:"For Time",
-                content:"15-minute cap:\n5 rounds of 10 Thrusters (95/65) + 10 C2B\nRest 1:00 (on the clock)\n5 rounds of 7 Thrusters (135/95) + 7 Bar MU",
-                story:"CrossFit Open 2024, Week 3.",
-                stimulus:"High-skill gymnastics under fatigue.",
-                rx:"Time cap 15:\n5 rds 10 Thrusters (95/65) + 10 C2B\nRest 1:00\n5 rds 7 Thrusters (135/95) + 7 Bar MU",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 25.1",
-                type:"AMRAP",
-                content:"AMRAP 15 minutes:\n3 Lateral Burpees over DB\n3 DB Hang Clean-to-Overheads\n30-ft DB Walking Lunge\nAdd 3 reps to burpees and clean-to-OH each round.",
-                story:"CrossFit Open 2025, Week 1.",
-                stimulus:"Escalating burpee and dumbbell volume.",
-                rx:"AMRAP 15:\n3/3/30 ft, 6/6/30 ft, 9/9/30 ft...\nSingle DB 50/35 lb.",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 25.2",
-                type:"For Time",
-                content:"12-minute cap:\n21 Pull-ups, 42 DU, 21 Thrusters (95/65)\n18 C2B, 36 DU, 18 Thrusters (115/75)\n15 Bar MU, 30 DU, 15 Thrusters (135/85)",
-                story:"CrossFit Open 2025, Week 2.",
-                stimulus:"Chipper with increasing barbell load.",
-                rx:"Time cap 12:\n21/42/21 (95/65)\n18/36/18 (115/75)\n15/30/15 (135/85)",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
-            },
-            {
-                name:"Open 25.3",
-                type:"For Time",
-                content:"20-minute cap:\n5 Wall Walks, 50 Cal Row\n5 Wall Walks, 25 Deadlifts (225/155)\n5 Wall Walks, 25 Cleans (135/85)\n5 Wall Walks, 25 Snatches (95/65)\n5 Wall Walks, 50 Cal Row",
-                story:"CrossFit Open 2025, Week 3.",
-                stimulus:"High-skill gymnastics with descending barbell loads.",
-                rx:"Time cap 20:\n5 WW + 50 Cal Row\n5 WW + 25 DL (225/155)\n5 WW + 25 Cleans (135/85)\n5 WW + 25 Snatches (95/65)\n5 WW + 50 Cal Row",
-                scaled:"Scaled: Follow CrossFit Open scaled standards for reduced load and movement substitutions."
+                name:"Open 25.1 (TBD)",
+                type:"TBD",
+                content:"To be announced.",
+                story:"Placeholder for CrossFit Open 2025.",
+                stimulus:"Awaiting official release.",
+                rx:"TBD",
+                scaled:"TBD",
+                benchmarks:{p25:"N/A",p50:"N/A",p75:"N/A",p90:"N/A"}
             }
         ];
 
@@ -1053,16 +891,30 @@
                 }
                 const contentSafe = (wod && typeof wod.content === 'string') ? wod.content : String(wod.content || '');
                 html += `<div class="wod-content">${contentSafe}</div>`;
-                const hasOpenDetails = wod && (wod.rx || wod.scaled);
+                const hasOpenDetails = wod && (wod.rx || wod.scaled || wod.benchmarks);
                 if(hasOpenDetails){
                     const rxSafe = (wod && typeof wod.rx === 'string') ? wod.rx : '';
                     const scaledSafe = (wod && typeof wod.scaled === 'string') ? wod.scaled : '';
+                    const benchmarks = (wod && wod.benchmarks) ? wod.benchmarks : null;
                     html += `<div class="open-details"><div class="open-grid">`;
                     if(rxSafe){
                         html += `<div class="open-card"><h4>RX</h4><p>${rxSafe}</p></div>`;
                     }
                     if(scaledSafe){
                         html += `<div class="open-card"><h4>Scaled</h4><p>${scaledSafe}</p></div>`;
+                    }
+                    if(benchmarks){
+                        const p25 = benchmarks.p25 || 'N/A';
+                        const p50 = benchmarks.p50 || 'N/A';
+                        const p75 = benchmarks.p75 || 'N/A';
+                        const p90 = benchmarks.p90 || 'N/A';
+                        html += `<div class="open-card" style="grid-column:1/-1;"><h4>Benchmark Results (RX)</h4>`;
+                        html += `<div class="benchmark-grid">`;
+                        html += `<div class="benchmark-cell"><strong>${p25}</strong><span>25%</span></div>`;
+                        html += `<div class="benchmark-cell"><strong>${p50}</strong><span>50%</span></div>`;
+                        html += `<div class="benchmark-cell"><strong>${p75}</strong><span>75%</span></div>`;
+                        html += `<div class="benchmark-cell"><strong>${p90}</strong><span>90%+</span></div>`;
+                        html += `</div></div>`;
                     }
                     html += `</div></div>`;
                 }
