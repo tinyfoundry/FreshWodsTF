@@ -788,6 +788,12 @@
                 let wod = {};
                 let isGenerated = false;
 
+                const selectByDuration = (wods) => {
+                    if (typeof getWodOptionsForDuration === 'function') {
+                        return getWodOptionsForDuration(wods, durSelect);
+                    }
+                    return wods;
+                };
                 if(typeSelect==='girls'){
                     wod = getRandom(getWodOptionsForDuration(girlWods, durSelect));
                 } else if(typeSelect==='heroes'){
