@@ -60,6 +60,43 @@
     { name: 'City Memorial', durationBucket: 'medium', type: 'For Time', format: 'For Time', content: '800m Run\n40 Deadlifts\n40 Push-ups\n800m Run', story: 'Community hero variation honoring local responders.', stimulus: 'Strength-endurance and aerobic stress' }
   ];
 
+
+  const HERO_STORY_OVERRIDES = {
+    Murph: 'Lt. Michael P. Murphy was a U.S. Navy SEAL and Medal of Honor recipient killed in Afghanistan in 2005. This workout honors his service, sacrifice, and commitment to his team.',
+    DT: 'SSgt. Timothy P. Davis was a U.S. Air Force pararescueman killed in Iraq in 2009. DT reflects his grit and the relentless effort required in service.',
+    Randy: 'Randy Simmons was a 27-year LAPD veteran and SWAT officer killed in the line of duty in 2008. This workout honors his courage and lifelong public service.',
+    Josh: 'Army Staff Sgt. Joshua Hager was killed in action in Afghanistan in 2011. This workout honors his sacrifice and the strength of those who served beside him.',
+    Glen: 'U.S. Navy SEAL Glen Doherty was killed during the 2012 attacks in Benghazi. This workout honors his selfless service and willingness to run toward danger.'
+  };
+
+  const HERO_CONTENT_OVERRIDES = {
+    DT: '12 Deadlifts (155/105 lb)\n9 Hang Power Cleans (155/105 lb)\n6 Push Jerks (155/105 lb)',
+    Josh: '21 Overhead Squats (135/95 lb)\n42 Pull-ups',
+    Whitten: '800m Run\n50 Back Squats (95/65 lb)\n800m Run',
+    Holleyman: '10 Deadlifts (225/155 lb)\n12 Burpees\n400m Run',
+    Badger: '30 Squat Cleans (95/65 lb)\n30 Pull-ups\n800m Run',
+    'The Seven': '7 HSPU\n7 Thrusters (95/65 lb)\n7 Knees-to-elbows\n7 Deadlifts (245/165 lb)\n7 Burpees\n7 KB Swings (53/35 lb)\n7 Pull-ups',
+    Johnson: 'Run 400m\n20 Kettlebell Swings (53/35 lb)\n20 Box Jumps',
+    Morrison: 'Wall Balls (20/14 lb)\nBox Jumps\nKB Swings (53/35 lb)',
+    DANIEL: '50 Pull-ups\n400m Run\n21 Thrusters (95/65 lb)',
+    Rahat: '21-15-9\nPower Cleans (135/95 lb)\nBurpees',
+    Adrian: '3 Forward Rolls\n5 Wall Climbs\n7 Thrusters (95/65 lb)\n9 Burpees',
+    Glen: '30 Clean and Jerks (135/95 lb)\nRun 1 mile\n10 Rope Climbs',
+    Tyler: '7 Muscle-ups\n21 Sumo Deadlift High Pulls (95/65 lb)\n14 Hand Release Push-ups\nRun 400m',
+    'City Memorial': '800m Run\n40 Deadlifts (225/155 lb)\n40 Push-ups\n800m Run',
+    Nate: '2 Muscle-ups\n4 Handstand Push-ups\n8 Kettlebell Swings (53/35 lb)',
+    Riley: '200m Run\n21 Kettlebell Swings (53/35 lb)\n12 Pull-ups',
+    Ben: '10 Thrusters (95/65 lb)\n10 Bar-Facing Burpees',
+    'Tommy Mac': '12 Burpees\n12 Thrusters (95/65 lb)\n12 Toes-to-Bar'
+  };
+
+  heroes.forEach((hero) => {
+    const contentOverride = HERO_CONTENT_OVERRIDES[hero.name];
+    if (contentOverride) hero.content = contentOverride;
+    hero.hero_story = HERO_STORY_OVERRIDES[hero.name]
+      || `${hero.name} is a Hero memorial workout created to honor a fallen service member, first responder, or public servant. It is intended to be performed with respect, effort, and gratitude for their sacrifice.`;
+  });
+
   const openWorkouts = [
     { name:'Open 15.1', year:2015, type:'AMRAP', durationBucket:'medium', format:'9-minute AMRAP', content:'15 Toes-to-Bars\n10 Deadlifts (115/75 lb)\n5 Snatches (115/75 lb)', story:'2015 opener focused on barbell efficiency and gymnastics pacing.', stimulus:'Mixed modal threshold pace' },
     { name:'Open 15.1a', year:2015, type:'Max Lift', durationBucket:'short', format:'6-minute cap', content:'Establish a 1-rep-max Clean & Jerk', story:'Immediate post-metcon max-lift test to expose recovery and composure.', stimulus:'Peak power under fatigue' },
@@ -128,14 +165,18 @@
 
   const RX_WEIGHTS = [
     { match: /ground-to-overheads?|gtoh/i, rx: '95/65 lb' },
+    { match: /hang power cleans?/i, rx: '155/105 lb' },
+    { match: /push jerks?/i, rx: '155/105 lb' },
     { match: /clean\s*(and|&)\s*jerks?|c&j/i, rx: '135/95 lb' },
+    { match: /sumo deadlift high pulls?|sdhp/i, rx: '95/65 lb' },
+    { match: /back squats?/i, rx: '185/135 lb' },
     { match: /squat cleans?/i, rx: '135/95 lb' },
     { match: /power cleans?/i, rx: '135/95 lb' },
     { match: /dumbbell snatches?|db snatches?/i, rx: '50/35 lb' },
     { match: /power snatches?/i, rx: '75/55 lb' },
     { match: /snatches?/i, rx: '95/65 lb' },
     { match: /deadlifts?/i, rx: '225/155 lb' },
-    { match: /overhead squats?|ohs/i, rx: '95/65 lb' },
+    { match: /overhead squats?|ohs/i, rx: '135/95 lb' },
     { match: /thrusters?/i, rx: '95/65 lb' },
     { match: /wall[- ]?balls?/i, rx: '20/14 lb' },
     { match: /kettlebell swings?|kb swings?/i, rx: '53/35 lb' },
@@ -173,19 +214,49 @@
     if (activeButton) activeButton.classList.add('active');
   }
 
-  function buildMovementList(count) {
-    const { getRandom } = window.FWUtils;
-    const lines = [];
-    const allPools = appConfig.movements || fallbackConfig.movements;
-    const keys = Object.keys(allPools);
-    for (let i = 0; i < count; i += 1) {
-      const category = getRandom(keys);
-      const movement = getRandom(allPools[category]) || 'Air Squats';
-      const reps = getRandom([8, 10, 12, 15, 20]);
-      lines.push(`${reps} ${movement}`);
-    }
-    return lines.join('\n');
-  }
+  const movementPatterns = {
+    lower: ['Air Squats', 'Lunges', 'Wall Balls', 'Thrusters', 'Deadlifts', 'Power Cleans'],
+    upper: ['Pull-ups', 'Push-ups', 'Handstand Push-ups', 'Toes to Bar', 'Chest-to-Bar Pull-ups'],
+    engineCore: ['Run 200m', 'Run 400m', 'Row 15 Calories', 'Double Unders', 'Sit-ups']
+  };
+
+  const emomTemplates = [
+    { name: 'EMOM Rotor', type: 'EMOM', durationBucket: 'short', format: 'EMOM 10', content: `Min 1: 10 Thrusters
+Min 2: 12 Pull-ups` },
+    { name: 'EMOM Engine', type: 'EMOM', durationBucket: 'medium', format: 'EMOM 12', content: `Min 1: 12 Deadlifts
+Min 2: 10 Push-ups
+Min 3: 14 Cal Row` },
+    { name: 'EMOM Builder', type: 'EMOM', durationBucket: 'long', format: 'EMOM 20', content: `Min 1: 10 Power Cleans
+Min 2: 12 Toes to Bar
+Min 3: 14 Wall Balls
+Min 4: 40-sec Plank` }
+  ];
+
+  const rftTemplates = [
+    { name: 'Iron Pace', type: 'RFT', durationBucket: 'short', format: '3 rounds for time', content: `12 Thrusters
+10 Pull-ups
+200m Run` },
+    { name: 'Classic Triplet', type: 'RFT', durationBucket: 'medium', format: '4 rounds for time', content: `10 Deadlifts
+12 Push-ups
+250m Row` },
+    { name: 'Endurance RFT', type: 'RFT', durationBucket: 'long', format: '5 rounds for time', content: `12 Power Cleans
+15 Sit-ups
+400m Run` }
+  ];
+
+  const chipperTemplates = [
+    { name: 'Fast Chipper', type: 'CHIPPER', durationBucket: 'short', format: 'For Time (cap 10 min)', content: `30 Wall Balls
+20 Pull-ups
+400m Run` },
+    { name: 'Midline Chipper', type: 'CHIPPER', durationBucket: 'medium', format: 'For Time (cap 15 min)', content: `40 Deadlifts
+30 Push-ups
+20 Toes to Bar
+500m Row` },
+    { name: 'Long Chipper', type: 'CHIPPER', durationBucket: 'long', format: 'For Time (cap 20 min)', content: `50 Thrusters
+40 Sit-ups
+30 Pull-ups
+800m Run` }
+  ];
 
   function generateName(type) {
     const { getRandom } = window.FWUtils;
@@ -193,25 +264,125 @@
     return `${type} ${getRandom(words)}`;
   }
 
+  function getPatternFromMovement(movement) {
+    const lowerHit = movementPatterns.lower.some((m) => movement.includes(m));
+    if (lowerHit) return 'lower';
+    const upperHit = movementPatterns.upper.some((m) => movement.includes(m));
+    if (upperHit) return 'upper';
+    return 'engineCore';
+  }
+
+  function isShoulderDominant(movement) {
+    return /(thruster|hspu|push|jerk|snatch|overhead|wall walk)/i.test(movement);
+  }
+
+  function isSquatPattern(movement) {
+    return /(squat|thruster|wall ball)/i.test(movement);
+  }
+
+  // Validation rule: enforce movement balance, no duplicates, and no bad back-to-back pairings.
+  function isBalancedSequence(moves) {
+    const names = moves.map((m) => m.movement);
+    if (new Set(names).size !== names.length) return false;
+    const patterns = new Set(moves.map((m) => m.pattern));
+    if (!patterns.has('lower') || !patterns.has('upper') || !patterns.has('engineCore')) return false;
+    for (let i = 1; i < names.length; i += 1) {
+      if (isShoulderDominant(names[i - 1]) && isShoulderDominant(names[i])) return false;
+      if (isSquatPattern(names[i - 1]) && isSquatPattern(names[i])) return false;
+    }
+    return true;
+  }
+
+  function buildBalancedMoves(count) {
+    const { getRandom } = window.FWUtils;
+    const pools = appConfig.movements || fallbackConfig.movements;
+    const all = [
+      ...((pools.weightlifting || []).map((movement) => ({ movement, pattern: 'lower' }))),
+      ...((pools.bodyweight || []).map((movement) => ({ movement, pattern: getPatternFromMovement(movement) }))),
+      ...((pools.gymnastics || []).map((movement) => ({ movement, pattern: 'upper' }))),
+      ...((pools.mono || []).map((movement) => ({ movement, pattern: 'engineCore' })))
+    ];
+    const candidates = all.filter(Boolean);
+    for (let attempt = 0; attempt < 25; attempt += 1) {
+      const selected = [];
+      while (selected.length < count && candidates.length) {
+        const pick = getRandom(candidates);
+        if (!pick || selected.some((m) => m.movement === pick.movement)) continue;
+        selected.push(pick);
+      }
+      if (selected.length === count && isBalancedSequence(selected)) return selected;
+    }
+    return [
+      { movement: 'Thrusters', pattern: 'lower' },
+      { movement: 'Pull-ups', pattern: 'upper' },
+      { movement: 'Run 400m', pattern: 'engineCore' }
+    ].slice(0, count);
+  }
+
+  function toMovementLine(movement, repOptions) {
+    const reps = window.FWUtils.getRandom(repOptions);
+    return `${reps} ${movement}`;
+  }
+
+  function generateTemplateWod(kind, duration) {
+    const pools = { emom: emomTemplates, rft: rftTemplates, chipper: chipperTemplates };
+    const source = pools[kind] || [];
+    const filtered = window.FWUtils.filterWodsByDuration(source, duration);
+    return window.FWUtils.getRandom(filtered) || window.FWUtils.getRandom(source);
+  }
+
+  function buildDynamicEmom(duration) {
+    const { getRandom } = window.FWUtils;
+    const options = duration === 'short' ? [10, 12] : (duration === 'medium' ? [12, 16] : [16, 20]);
+    const minutes = getRandom(options);
+    const cycleLength = getRandom([2, 3, 4]);
+    const moves = buildBalancedMoves(cycleLength);
+    const lines = moves.map((move, idx) => `Min ${idx + 1}: ${toMovementLine(move.movement, [8, 10, 12, 14])}`);
+    return { name: generateName('EMOM'), type: 'EMOM', durationBucket: duration, format: `EMOM ${minutes}`, content: lines.join('\n') };
+  }
+
+  function buildDynamicRft(duration) {
+    const rounds = duration === 'short' ? 3 : (duration === 'long' ? 5 : 4);
+    const moves = buildBalancedMoves(3);
+    return {
+      name: generateName('RFT'),
+      type: 'RFT',
+      durationBucket: duration,
+      format: `${rounds} rounds for time`,
+      content: moves.map((move) => toMovementLine(move.movement, [10, 12, 15])).join('\n')
+    };
+  }
+
+  function buildDynamicAmrap(duration) {
+    const minutes = window.FWUtils.getDurationMinutes(duration, { short: 7, medium: 12, long: 20 });
+    const moves = buildBalancedMoves(3);
+    return {
+      name: generateName('AMRAP'),
+      type: 'AMRAP',
+      durationBucket: duration,
+      format: `${minutes}-minute AMRAP`,
+      content: `AMRAP ${minutes}:\n${moves.map((move) => toMovementLine(move.movement, [10, 12, 15])).join('\n')}`
+    };
+  }
+
+  function buildDynamicChipper(duration) {
+    const cap = duration === 'short' ? 10 : (duration === 'long' ? 20 : 15);
+    const moves = buildBalancedMoves(4);
+    return {
+      name: generateName('Chipper'),
+      type: 'CHIPPER',
+      durationBucket: duration,
+      format: `For Time (cap ${cap} min)`,
+      content: moves.map((move) => toMovementLine(move.movement, [20, 25, 30])).join('\n')
+    };
+  }
+
   function generateDynamicWod(typeSelect, duration) {
-    const { getDurationMinutes } = window.FWUtils;
-    const type = typeSelect === 'any' ? window.FWUtils.getRandom(['AMRAP', 'EMOM', 'RFT', 'For Time', 'CHIPPER']) : typeSelect.toUpperCase();
-    if (type === 'AMRAP') {
-      const minutes = getDurationMinutes(duration, { short: 7, medium: 12, long: 20 });
-      return { name: generateName('AMRAP'), type, format: `${minutes}-minute AMRAP`, content: `AMRAP ${minutes}:\n${buildMovementList(3)}` };
-    }
-    if (type === 'EMOM') {
-      const minutes = duration === 'short' ? 10 : (duration === 'long' ? 18 : 12);
-      return { name: generateName('EMOM'), type, format: `EMOM ${minutes}`, content: `EMOM ${minutes}\nMinute 1: ${buildMovementList(1)}\nMinute 2: ${buildMovementList(1)}` };
-    }
-    if (type === 'RFT') {
-      const rounds = duration === 'short' ? 3 : (duration === 'long' ? 6 : 4);
-      return { name: generateName('RFT'), type, format: `${rounds} rounds for time`, content: `${rounds} rounds for time:\n${buildMovementList(3)}` };
-    }
-    if (type === 'CHIPPER') {
-      return { name: generateName('Chipper'), type: 'CHIPPER', format: 'For Time (cap 20 min)', content: `For Time:\n${buildMovementList(5)}` };
-    }
-    return { name: generateName('Classic'), type: 'For Time', format: `For Time (cap ${duration === 'short' ? 7 : duration === 'long' ? 20 : 15} min)`, content: `For Time:\n${buildMovementList(4)}` };
+    if (typeSelect === 'emom') return buildDynamicEmom(duration);
+    if (typeSelect === 'rft') return buildDynamicRft(duration);
+    if (typeSelect === 'chipper') return buildDynamicChipper(duration);
+    if (typeSelect === 'amrap') return buildDynamicAmrap(duration);
+    return buildDynamicAmrap(duration);
   }
 
   function renderWod(wod) {
@@ -219,8 +390,9 @@
     if (!display) return;
     const formatLine = wod.format ? `Format: ${wod.format}\n\n` : '';
     const contentWithRx = addRxToContent(wod.content || '');
-    const detail = wod.story
-      ? `<div style="padding:1rem;border-top:1px solid #335373;border-bottom:1px solid #335373;background:rgba(255,255,255,.02)"><strong>Background:</strong> ${wod.story}${wod.stimulus ? `<br/><strong>Stimulus:</strong> ${wod.stimulus}` : ''}</div>`
+    const storyText = wod.hero_story || wod.story;
+    const detail = storyText
+      ? `<div style="padding:1rem;border-top:1px solid #335373;border-bottom:1px solid #335373;background:rgba(255,255,255,.02)"><strong>Background:</strong> ${storyText}${wod.stimulus ? `<br/><strong>Stimulus:</strong> ${wod.stimulus}` : ''}</div>`
       : '';
 
     display.innerHTML = `
@@ -244,6 +416,18 @@
       if (typeSelect === 'girls' || typeSelect === 'heroes' || typeSelect === 'open') {
         const list = window.FWUtils.filterWodsByDuration(curated[typeSelect], duration);
         wod = window.FWUtils.getRandom(list) || window.FWUtils.getRandom(curated[typeSelect]);
+      } else if (typeSelect === 'any') {
+        const surprisePools = [
+          { key: 'girls', wods: curated.girls },
+          { key: 'heroes', wods: curated.heroes },
+          { key: 'open', wods: curated.open },
+          { key: 'emom', wods: emomTemplates },
+          { key: 'rft', wods: rftTemplates },
+          { key: 'chipper', wods: chipperTemplates }
+        ];
+        const selectedPool = window.FWUtils.getRandom(surprisePools);
+        const filtered = window.FWUtils.filterWodsByDuration(selectedPool.wods, duration);
+        wod = window.FWUtils.getRandom(filtered) || window.FWUtils.getRandom(selectedPool.wods);
       } else {
         wod = generateDynamicWod(typeSelect, duration);
       }
