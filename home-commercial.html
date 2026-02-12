@@ -19,13 +19,17 @@
     .action-btn{width:100%;background:var(--primary);border:none;padding:1rem;font-weight:900;text-transform:uppercase;cursor:pointer;border-radius:4px}
     .wod-result{background:#0f1e2e;border:1px solid var(--primary);border-radius:8px;margin-top:1rem;overflow:hidden}
     .wod-header{display:flex;justify-content:space-between;padding:1rem;border-bottom:1px solid #335373}
+    .wod-title{font-size:1.3rem;font-weight:900;text-transform:uppercase}
+    .wod-type-badge{background:var(--accent-blue);color:var(--primary);padding:4px 10px;border:1px solid var(--primary);border-radius:4px;font-size:.75rem;font-weight:900}
     .wod-content{padding:1rem;white-space:pre-line}
+    #toast{visibility:hidden;position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:var(--primary);color:#111;padding:.8rem 1rem;border-radius:4px;font-weight:800}
+    #toast.show{visibility:visible}
   </style>
 </head>
 <body>
   <header>
     <div class="brand">Fresh <span>WODs</span></div>
-    <button class="nav-btn" onclick="window.location.href='index.html'">Back to WOD Gen</button>
+    <button class="nav-btn" id="backToWodGen" type="button">Back to WOD Gen</button>
   </header>
 
   <main>
@@ -56,41 +60,13 @@
       </div>
       <button class="action-btn" id="generateHomeButton" type="button">Generate Home / Commercial WOD</button>
     </div>
+
     <div id="homeDisplayArea"></div>
   </main>
 
-  <script>
-    const DEFAULT_HOME_CONFIG = {
-      movements: {
-        lower:[{name:'Air Squats',reps:[20,30,40]},{name:'Reverse Lunges (alternating)',reps:[12,16,20]},{name:'Step-ups (alternating)',reps:[12,16,20]},{name:'Goblet Squats',reps:[12,15,18],requires:['dumbbells']}],
-        upperPush:[{name:'Push-ups',reps:[10,15,20]},{name:'Dumbbell Floor Press',reps:[10,12,15],requires:['dumbbells']}],
-        upperPull:[{name:'Pull-ups',reps:[6,8,10],requires:['pullupBar']},{name:'Single-Arm Dumbbell Row (alternating)',reps:[10,12,15],requires:['dumbbells']}],
-        engineCore:[{name:'Run',reps:['200m','300m','400m'],requires:['treadmillOrRun']},{name:'Jump Rope',reps:[40,60,80],requires:['jumpRope']},{name:'Row',reps:['200m','300m','400m'],requires:['rower']},{name:'Sit-ups',reps:[15,20,25]}]
-      }
-    };
-    let homeConfig = DEFAULT_HOME_CONFIG;
-    const rnd = (arr) => Array.isArray(arr)&&arr.length ? arr[Math.floor(Math.random()*arr.length)] : null;
-    const getDurationMinutes=(d)=>d==='short'?7:(d==='long'?18:12);
-    async function loadHomeConfig(){
-      try { const r=await fetch('./home-commercial-config.json',{cache:'no-store'}); if(!r.ok) throw new Error(); homeConfig=await r.json(); }
-      catch{ homeConfig=DEFAULT_HOME_CONFIG; }
-    }
-    function getEquipment(){ return {dumbbells:homeHasDumbbells.checked,treadmillOrRun:homeHasRun.checked,jumpRope:homeHasJumpRope.checked,pullupBar:homeHasPullupBar.checked,rower:homeHasRower.checked,noErgs:homeNoErgs.checked}; }
-    function allow(m,e){ return (m.requires||[]).every(k=>e[k]) && !(e.noErgs && m.name==='Row'); }
-    function pick(group,e){ const pool=(group||[]).filter(m=>allow(m,e)); const m=rnd(pool.length?pool:group)||{name:'Air Squats',reps:[20]}; return {name:m.name,rep:rnd(m.reps)||m.reps[0]}; }
-    function line(m){ const r=String(m.rep); return /m|sec/.test(r)?`${m.name} — ${r}`:`${r} ${m.name}`; }
-    function build(){
-      const dur=homeDuration.value, e=getEquipment(), cfg=(homeConfig.movements||DEFAULT_HOME_CONFIG.movements);
-      const lower=pick(cfg.lower,e), upper=(Math.random()<0.5?pick(cfg.upperPush,e):pick(cfg.upperPull,e)), engine=pick(cfg.engineCore,e);
-      const fmt=rnd(['AMRAP','EMOM','For Time'])||'For Time';
-      if(fmt==='AMRAP'){ const m=getDurationMinutes(dur); return {name:'Home Engine Builder',type:'AMRAP',format:`${m}-minute AMRAP`,content:`AMRAP ${m}:\n${line(lower)}\n${line(upper)}\n${line(engine)}`}; }
-      if(fmt==='EMOM'){ const m=dur==='long'?18:12; return {name:'Garage Clockwork',type:'EMOM',format:`EMOM ${m}`,content:`EMOM ${m}\nMinute 1: ${line(lower)}\nMinute 2: ${line(upper)}\nMinute 3: ${line(engine)}`}; }
-      const cap=dur==='short'?7:(dur==='long'?20:15); return {name:'Home Classic',type:'For Time',format:`For Time (cap ${cap} min)`,content:`For Time:\n${line(lower)}\n${line(upper)}\n${line(engine)}`};
-    }
-    function render(w){
-      homeDisplayArea.innerHTML = `<div class='wod-result'><div class='wod-header'><div>${w.name}</div><div>${w.type}</div></div><div class='wod-content'>Format: ${w.format}\n\n${w.content}</div></div>`;
-    }
-    document.addEventListener('DOMContentLoaded', async ()=>{ await loadHomeConfig(); generateHomeButton.addEventListener('click', ()=>render(build()));});
-  </script>
+  <div id="toast">Notification</div>
+
+  <script defer src="utils.js"></script>
+  <script defer src="home-commercial.js"></script>
 </body>
 </html>
