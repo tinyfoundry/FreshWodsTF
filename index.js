@@ -126,6 +126,47 @@
   const curated = { girls, heroes, open: openWorkouts };
   let appConfig = fallbackConfig;
 
+  const RX_WEIGHTS = [
+    { match: /ground-to-overheads?|gtoh/i, rx: '95/65 lb' },
+    { match: /clean\s*(and|&)\s*jerks?|c&j/i, rx: '135/95 lb' },
+    { match: /squat cleans?/i, rx: '135/95 lb' },
+    { match: /power cleans?/i, rx: '135/95 lb' },
+    { match: /dumbbell snatches?|db snatches?/i, rx: '50/35 lb' },
+    { match: /power snatches?/i, rx: '75/55 lb' },
+    { match: /snatches?/i, rx: '95/65 lb' },
+    { match: /deadlifts?/i, rx: '225/155 lb' },
+    { match: /overhead squats?|ohs/i, rx: '95/65 lb' },
+    { match: /thrusters?/i, rx: '95/65 lb' },
+    { match: /wall[- ]?balls?/i, rx: '20/14 lb' },
+    { match: /kettlebell swings?|kb swings?/i, rx: '53/35 lb' },
+    { match: /dumbbell hang clean\s*(to|-)\s*(overheads?)?|db hang c&oh/i, rx: '50/35 lb' },
+    { match: /dumbbell (walking )?lunges?|db walking lunge/i, rx: '50/35 lb' },
+    { match: /dumbbell thrusters?|db thrusters?/i, rx: '2x50/35 lb' },
+    { match: /cleans?/i, rx: '135/95 lb' }
+  ];
+
+  function lineAlreadyHasWeight(line) {
+    return /(\d+\s*\/\s*\d+\s*lb|\b\d+\s*lb\b|\bRX\b)/i.test(line);
+  }
+
+  function getRxWeightForLine(line) {
+    const entry = RX_WEIGHTS.find((item) => item.match.test(line));
+    return entry ? entry.rx : null;
+  }
+
+  function addRxToContent(content) {
+    const lines = String(content || '').split('\n');
+    return lines
+      .map((line) => {
+        const trimmed = line.trim();
+        if (!trimmed || lineAlreadyHasWeight(trimmed)) return line;
+        const rx = getRxWeightForLine(trimmed);
+        if (!rx) return line;
+        return `${line} (${rx})`;
+      })
+      .join('\n');
+  }
+
   function switchMainNav(activeButtonId) {
     document.querySelectorAll('.nav-btn').forEach((button) => button.classList.remove('active'));
     const activeButton = document.getElementById(activeButtonId);
@@ -177,6 +218,7 @@
     const display = document.getElementById('wodDisplayArea');
     if (!display) return;
     const formatLine = wod.format ? `Format: ${wod.format}\n\n` : '';
+    const contentWithRx = addRxToContent(wod.content || '');
     const detail = wod.story
       ? `<div style="padding:1rem;border-top:1px solid #335373;border-bottom:1px solid #335373;background:rgba(255,255,255,.02)"><strong>Background:</strong> ${wod.story}${wod.stimulus ? `<br/><strong>Stimulus:</strong> ${wod.stimulus}` : ''}</div>`
       : '';
@@ -188,7 +230,7 @@
           <span class="wod-type-badge">${wod.type || ''}</span>
         </div>
         ${detail}
-        <div class="wod-content">${formatLine}${wod.content || ''}</div>
+        <div class="wod-content">${formatLine}${contentWithRx}</div>
       </div>
     `;
   }
