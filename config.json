@@ -1,0 +1,8 @@
+{
+  "movements": {
+    "mono": ["Run", "Burpees", "Double Unders"],
+    "bodyweight": ["Pull-ups", "Push-ups", "Air Squats", "Sit-ups", "Lunges"],
+    "weightlifting": ["Thrusters", "Deadlifts", "Power Cleans", "Snatches"],
+    "gymnastics": ["Handstand Push-ups", "Chest-to-Bar Pull-ups", "Toes to Bar"]
+  }
+}
