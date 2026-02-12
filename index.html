@@ -135,7 +135,7 @@
         <div class="brand">Fresh <span>WODs</span></div>
         <nav>
             <button class="nav-btn active" onclick="switchTab('wod')">WOD Gen</button>
-            <button class="nav-btn" onclick="switchTab('scale')">Scale</button>
+            <button class="nav-btn" onclick="window.location.href='home-commercial.html'">Home / Commercial</button>
         </nav>
     </header>
 
@@ -151,12 +151,12 @@
                             <option value="any">Surprise Me</option>
                             <option value="girls">"The Girls" (Benchmark)</option>
                             <option value="heroes">"Heroes" (Tribute)</option>
+                            <option value="open">"The Open" (Official)</option>
                             <option value="amrap">AMRAP</option>
                             <option value="emom">EMOM</option>
                             <option value="rft">Rounds For Time</option>
                             <option value="chipper">Chipper</option>
-                            <option value="home">Home / Limited Equipment</option>
-                        </select>
+                                                    </select>
                     </div>
                     <div style="flex: 1; min-width:200px">
                         <label>Duration / Intensity</label>
@@ -167,39 +167,42 @@
                         </select>
                     </div>
                 </div>
-                <button class="action-btn" onclick="generateWOD()">Generate WOD</button>
+                <button class="action-btn" id="generateWodButton" type="button">Generate WOD</button>
             </div>
 
             <div id="wodDisplayArea"></div>
         </section>
 
-        <!-- Scaling Advisor -->
-        <section id="scale-section">
-            <h2>Scaling Advisor</h2>
+        <!-- Home / Commercial Generator -->
+        <section id="home-section">
+            <h2>Home / Commercial</h2>
             <div class="card">
-                <p style="margin-bottom:1rem;color:var(--text-muted);font-style:italic">Select a common movement or type your own.</p>
+                <p style="margin-bottom:1rem;color:var(--text-muted);font-style:italic">Mostly bodyweight + cardio + light dumbbells. No barbells.</p>
                 <div class="controls">
-                    <div style="flex:1;min-width:200px">
-                        <label>Common Movements</label>
-                        <select id="movementSelect" onchange="clearCustomInput(); updateScalingAdvice();">
-                            <option value="mu">Muscle Up</option>
-                            <option value="du">Double Unders</option>
-                            <option value="hsq">Heavy Squat Clean</option>
-                            <option value="hspu">Handstand Push Up (HSPU)</option>
-                            <option value="pullup">Strict / Chest-to-Bar Pull-up</option>
-                            <option value="toes2bar">Toes to Bar</option>
-                            <option value="thruster">Thruster</option>
-                            <option value="pistols">Pistol Squat</option>
+                    <div style="flex:1;min-width:220px">
+                        <label>Duration / Intensity</label>
+                        <select id="homeDuration">
+                            <option value="short">Short (Sprint)</option>
+                            <option value="medium" selected>Medium (Classic)</option>
+                            <option value="long">Long (Endurance)</option>
                         </select>
                     </div>
-                    <div style="flex:1;min-width:200px">
-                        <label>Or Type Custom</label>
-                        <input type="text" id="customMovementInput" placeholder="e.g. Snatch, Burpee..." oninput="updateScalingAdvice()"/>
+                </div>
+                <div class="controls" style="align-items:flex-start;">
+                    <div style="flex:1;min-width:220px">
+                        <label><input type="checkbox" id="homeHasDumbbells" checked/> Dumbbells up to 50 lb</label>
+                        <label><input type="checkbox" id="homeHasRun" checked/> Treadmill or running space</label>
+                        <label><input type="checkbox" id="homeHasJumpRope"/> Jump rope</label>
+                    </div>
+                    <div style="flex:1;min-width:220px">
+                        <label><input type="checkbox" id="homeHasPullupBar"/> Pull-up bar</label>
+                        <label><input type="checkbox" id="homeHasRower"/> Rower (optional)</label>
+                        <label><input type="checkbox" id="homeNoErgs" checked/> No ergs (default)</label>
                     </div>
                 </div>
-
-                <div id="scalingResults"></div>
+                <button class="action-btn" id="generateHomeButton" type="button">Generate Home / Commercial WOD</button>
             </div>
+            <div id="homeDisplayArea"></div>
         </section>
     </main>
 
@@ -225,8 +228,11 @@
             const activeBtn = buttons.find(b=>b.getAttribute('onclick').includes(tabId));
             if(activeBtn) activeBtn.classList.add('active');
         }
+        window.WODS = window.WODS || {};
+        window.wods = window.wods || window.WODS;
         function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.className='show'; setTimeout(()=>t.className=t.className.replace('show',''),4000); }
         function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+        function safeGetRandom(arr){ return Array.isArray(arr) && arr.length ? arr[Math.floor(Math.random()*arr.length)] : null; }
         function capitalizeWords(s){ return s.replace(' (Calories)','').trim().split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '); }
 
         // Movements
@@ -237,6 +243,120 @@
             gymnastics: ['Handstand Push-ups','Ring Dips','Chest-to-Bar Pull-ups','Muscle-ups','Pistols','Handstand Walk']
         };
 
+        const DEFAULT_HOME_CONFIG = {
+            constraints: { maxDumbbellLb: 50, noBarbells: true, noErgsByDefault: true },
+            movements: {
+                lower: [
+                    { name: 'Air Squats', reps: [20, 30, 40] },
+                    { name: 'Reverse Lunges (alternating)', reps: [12, 16, 20] },
+                    { name: 'Step-ups (alternating)', reps: [12, 16, 20] },
+                    { name: 'Goblet Squats', reps: [12, 15, 18], requires: ['dumbbells'] }
+                ],
+                upperPush: [
+                    { name: 'Push-ups', reps: [10, 15, 20] },
+                    { name: 'Dumbbell Floor Press', reps: [10, 12, 15], requires: ['dumbbells'] },
+                    { name: 'Single-Arm Dumbbell Shoulder Press (alternating)', reps: [8, 10, 12], requires: ['dumbbells'] }
+                ],
+                upperPull: [
+                    { name: 'Pull-ups', reps: [6, 8, 10], requires: ['pullupBar'] },
+                    { name: 'Single-Arm Dumbbell Row (alternating)', reps: [10, 12, 15], requires: ['dumbbells'] }
+                ],
+                engineCore: [
+                    { name: 'Run', reps: ['200m', '300m', '400m'], requires: ['treadmillOrRun'] },
+                    { name: 'Jump Rope', reps: [40, 60, 80], requires: ['jumpRope'] },
+                    { name: 'Row', reps: ['200m', '300m', '400m'], requires: ['rower'] },
+                    { name: 'Sit-ups', reps: [15, 20, 25] },
+                    { name: 'Plank Hold', reps: ['30 sec', '40 sec', '50 sec'] }
+                ]
+            }
+        };
+
+        let homeConfig = DEFAULT_HOME_CONFIG;
+
+        async function loadHomeConfig() {
+            try {
+                const resp = await fetch('./home-commercial-config.json', { cache: 'no-store' });
+                if (!resp.ok) throw new Error('home config fetch failed');
+                homeConfig = await resp.json();
+                console.debug('home-commercial-config loaded');
+            } catch (e) {
+                console.warn('Using default home config', e);
+                homeConfig = DEFAULT_HOME_CONFIG;
+            }
+        }
+
+        function getHomeEquipmentSelections(){
+            return {
+                dumbbells: !!document.getElementById('homeHasDumbbells')?.checked,
+                treadmillOrRun: !!document.getElementById('homeHasRun')?.checked,
+                jumpRope: !!document.getElementById('homeHasJumpRope')?.checked,
+                pullupBar: !!document.getElementById('homeHasPullupBar')?.checked,
+                rower: !!document.getElementById('homeHasRower')?.checked,
+                noErgs: !!document.getElementById('homeNoErgs')?.checked
+            };
+        }
+
+        function allowsMovement(move, equipment) {
+            const requires = move.requires || [];
+            if (!requires.length) return true;
+            return requires.every((req) => equipment[req]);
+        }
+
+        function pickConfigMove(group, equipment) {
+            const pool = (group || []).filter((m) => allowsMovement(m, equipment)).filter((m) => !(equipment.noErgs && m.name === 'Row'));
+            const picked = safeGetRandom(pool.length ? pool : group);
+            if (!picked) return { name: 'Air Squats', rep: 20 };
+            return { name: picked.name, rep: safeGetRandom(picked.reps) || picked.reps[0] };
+        }
+
+        function formatHomeLine(move) {
+            const rep = String(move.rep);
+            if (/m|sec/.test(rep)) return `${move.name} — ${rep}`;
+            return `${rep} ${move.name}`;
+        }
+
+        function buildHomeWorkoutFromConfig(durSelect, equipment) {
+            const cfg = (homeConfig && homeConfig.movements) ? homeConfig.movements : DEFAULT_HOME_CONFIG.movements;
+            const lower = pickConfigMove(cfg.lower, equipment);
+            const upper = Math.random() < 0.5 ? pickConfigMove(cfg.upperPush, equipment) : pickConfigMove(cfg.upperPull, equipment);
+            const engine = pickConfigMove(cfg.engineCore, equipment);
+            const format = safeGetRandom(['AMRAP', 'EMOM', 'For Time']) || 'For Time';
+
+            if (format === 'AMRAP') {
+                const mins = getDurationMinutes(durSelect, { mediumMinutes: 12, longMinutes: 18 });
+                return {
+                    name: 'Home Engine Builder',
+                    type: 'AMRAP',
+                    format: `${mins}-minute AMRAP`,
+                    content: `AMRAP ${mins}:
+${formatHomeLine(lower)}
+${formatHomeLine(upper)}
+${formatHomeLine(engine)}`
+                };
+            }
+            if (format === 'EMOM') {
+                const mins = durSelect === 'long' ? 18 : 12;
+                return {
+                    name: 'Garage Clockwork',
+                    type: 'EMOM',
+                    format: `EMOM ${mins}`,
+                    content: `EMOM ${mins}
+Minute 1: ${formatHomeLine(lower)}
+Minute 2: ${formatHomeLine(upper)}
+Minute 3: ${formatHomeLine(engine)}`
+                };
+            }
+            const cap = durSelect === 'short' ? 7 : (durSelect === 'long' ? 20 : 15);
+            return {
+                name: 'Home Classic',
+                type: 'For Time',
+                format: `For Time (cap ${cap} min)`,
+                content: `For Time:
+${formatHomeLine(lower)}
+${formatHomeLine(upper)}
+${formatHomeLine(engine)}`
+            };
+        }
         // Equipment exclusions for Home mode
         const excludedForHome = [
             '(Calories)','row','rower','bike','ski','erg',
@@ -311,6 +431,17 @@
             { name:"Nicole", type:"AMRAP", content:"AMRAP 20:\n400m Run\nMax Pull-ups", story:"Aerobic test with pulling volume.", stimulus:"Aerobic repeatability and pulling endurance" },
             { name:"Cindy", type:"AMRAP", content:"20-minute AMRAP:\n5 Pull-ups\n10 Push-ups\n15 Air Squats", story:"Long classic benchmark measuring consistent effort.", stimulus:"General conditioning and bodyweight strength endurance" },
             { name:"Eva", type:"Rounds for Time", content:"5 rounds of:\n800m Run\n30 Kettlebell Swings\n30 Pull-ups", story:"High-volume mixed modal benchmark.", stimulus:"Aerobic and mixed-modal endurance" }
+        ];
+
+        const openWods = [
+            { name:"Open 24.1", type:"AMRAP", format:"15-minute AMRAP", content:"21 Dumbbell Snatches (50/35 lb)\n21 Lateral Burpees Over Dumbbell\n15 Dumbbell Snatches\n15 Lateral Burpees Over Dumbbell\n9 Dumbbell Snatches\n9 Lateral Burpees Over Dumbbell", story:"2024 Open opener with descending reps and fast transitions.", stimulus:"Grip stamina + burpee engine" },
+            { name:"Open 24.2", type:"For Time", format:"20-minute time cap", content:"50 Double-Unders\n20 Squat Cleans (135/95 lb)\n50 Double-Unders\n20 Squat Cleans (185/125 lb)\n50 Double-Unders\n20 Squat Cleans (225/155 lb)", story:"2024 Open mid-week ladder of double-unders and cleans.", stimulus:"Barbell cycling + jump rope stamina" },
+            { name:"Open 24.3", type:"For Time", format:"15-minute time cap", content:"5 Rounds For Time:\n10 Thrusters (95/65 lb)\n10 Chest-to-Bar Pull-ups\n\nThen:\n5 Rounds For Time:\n7 Thrusters (135/95 lb)\n7 Bar Muscle-ups", story:"2024 Open closer with escalating gymnastics and heavier thrusters.", stimulus:"Engine + high-skill fatigue" },
+            { name:"Open 23.1", type:"AMRAP", format:"14-minute AMRAP", content:"60 Calorie Row\n50 Toes-to-Bar\n40 Wall Balls (20/14 lb)\n30 Cleans (135/95 lb)\n20 Ring Muscle-ups", story:"2023 Open opener with a long chipper-style AMRAP.", stimulus:"Long aerobic + high-skill fatigue" },
+            { name:"Open 23.2A", type:"For Time", format:"15-minute time cap", content:"5 Burpee Pull-ups\n10 Shuttle Runs (1 rep = 25 ft down + 25 ft back)\n5 Burpee Pull-ups\n10 Shuttle Runs\n5 Burpee Pull-ups\n10 Shuttle Runs\n\nThen:\n10 minutes to establish:\n1RM Thruster", story:"2023 Open combo test with conditioning + strength.", stimulus:"Mixed modal endurance + max strength" },
+            { name:"Open 22.1", type:"AMRAP", format:"15-minute AMRAP", content:"3 Wall Walks\n12 Dumbbell Snatches (50/35 lb)\n15 Box Jump Overs (24/20 in)", story:"2022 Open opener emphasizing shoulder stamina.", stimulus:"Shoulder endurance + fast cycling" },
+            { name:"Open 21.1", type:"For Time", format:"15-minute time cap", content:"10-9-8-7-6-5-4-3-2-1:\nWall Walks\nDouble-Unders", story:"2021 Open opener pairing wall walks and DUs.", stimulus:"Skill consistency + shoulder durability" },
+            { name:"Open 20.1", type:"For Time", format:"15-minute time cap", content:"10 Rounds For Time:\n8 Ground-to-Overheads (95/65 lb)\n10 Bar-Facing Burpees", story:"2020 Open opener with barbell/burpee intervals.", stimulus:"Pacing + barbell conditioning" }
         ];
 
         // HELPER: pick run distance taking workout type/context into account
@@ -400,6 +531,54 @@
             return emomRepsForMove(move,durSelect);
         }
 
+        function getDurationMinutes(durSelect, options = {}) {
+            if (durSelect === 'short') return 7;
+            if (durSelect === 'long') return options.longMinutes || 20;
+            return options.mediumMinutes || 12;
+        }
+
+        function parseDurationBounds(text) {
+            if (!text) return null;
+            const value = String(text);
+            const match = value.match(/(\d+)\s*[-–]\s*(\d+)\s*minute/);
+            if (match) {
+                return { min: Number(match[1]), max: Number(match[2]) };
+            }
+            const single = value.match(/(\d+)\s*minute/);
+            if (single) {
+                const minutes = Number(single[1]);
+                return { min: minutes, max: minutes };
+            }
+            return null;
+        }
+
+        function classifyDuration(minutes) {
+            if (minutes <= 7) return 'short';
+            if (minutes <= 15) return 'medium';
+            return 'long';
+        }
+
+        function getWodDurationBucket(wod) {
+            const source = [wod && wod.format, wod && wod.content].filter(Boolean).join(' ');
+            const bounds = parseDurationBounds(source);
+            if (bounds) {
+                const avg = (bounds.min + bounds.max) / 2;
+                return classifyDuration(avg);
+            }
+            return null;
+        }
+
+        function getWodOptionsForDuration(wods, durSelect) {
+            const matches = wods.filter((wod) => getWodDurationBucket(wod) === durSelect);
+            return matches.length ? matches : wods;
+        }
+
+        function getEmomRange(durSelect) {
+            if (durSelect === 'short') return [6, 7];
+            if (durSelect === 'long') return [16, 20];
+            return [10, 15];
+        }
+
         // EMOM helpers
         function chooseEMOMPatternAndMinutes(durRange = [8,12], patternOverride = null) {
             const patterns = patternOverride ? [patternOverride] : ['3','2','1'];
@@ -456,7 +635,7 @@
         }
 
         function buildEMOM(_minutes,durSelect,options={}){
-            const durRange = [8,12];
+            const durRange = getEmomRange(durSelect);
             const { pattern, minutes } = chooseEMOMPatternAndMinutes(durRange);
             if (pattern === '3') {
                 const avoid = new Set();
@@ -674,32 +853,18 @@
                 let wod = {};
                 let isGenerated = false;
 
+                const selectByDuration = (wods) => {
+                    const durationFilter = (typeof window !== 'undefined' && typeof window.getWodOptionsForDuration === 'function')
+                        ? window.getWodOptionsForDuration
+                        : (typeof getWodOptionsForDuration === 'function' ? getWodOptionsForDuration : null);
+                    return durationFilter ? durationFilter(wods, durSelect) : wods;
+                };
                 if(typeSelect==='girls'){
-                    wod = getRandom(girlWods);
+                    wod = getRandom(selectByDuration(girlWods));
                 } else if(typeSelect==='heroes'){
-                    wod = getRandom(heroWods);
-                } else if(typeSelect==='home'){
-                    isGenerated = true;
-                    const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
-                    const selectedType = getRandom(types);
-                    wod.type = selectedType;
-                    const options = { equipment: 'home', selectedType: selectedType, durSelect: durSelect };
-
-                    if(selectedType==='AMRAP'){
-                        const time = durSelect==='short'?7:(durSelect==='medium'?15:30);
-                        wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,options);
-                    } else if(selectedType==='EMOM'){
-                        wod.content = buildEMOM(null,durSelect,options);
-                    } else if(selectedType==='RFT'){
-                        const rounds = durSelect==='short'?3:(durSelect==='medium'?5:8);
-                        wod.content = `${rounds} Rounds for time:\n` + buildMovementList(3,3,options);
-                    } else if(selectedType==='CHIPPER'){
-                        wod.content = `For Time:\n` + buildMovementList(5,7,{selectedType:'CHIPPER',durSelect:durSelect,allowHighReps:true,equipment:'home'});
-                    } else {
-                        wod.content = `For Time:\n` + buildMovementList(4,6,{selectedType:'For Time',durSelect:durSelect,equipment:'home'});
-                    }
-                    const generatedMoves = parseMovements(wod.content);
-                    wod.name = generateWODName(selectedType, generatedMoves);
+                    wod = getRandom(selectByDuration(heroWods));
+                } else if(typeSelect==='open'){
+                    wod = getRandom(selectByDuration(openWods));
                 } else {
                     isGenerated = true;
                     const types = ['AMRAP','EMOM','RFT','For Time','CHIPPER'];
@@ -707,7 +872,7 @@
                     wod.type = selectedType;
 
                     if(selectedType==='AMRAP'){
-                        const time = durSelect==='short'?7:(durSelect==='medium'?15:30);
+                        const time = getDurationMinutes(durSelect, { longMinutes: 20, mediumMinutes: 12 });
                         wod.content = `As Many Rounds/Reps as Possible in ${time} Minutes:\n` + buildMovementList(3,4,{ selectedType:'AMRAP', durSelect });
                     } else if(selectedType==='EMOM'){
                         wod.content = buildEMOM(null,durSelect,{selectedType:'EMOM'});
@@ -735,16 +900,41 @@
             }
         }
 
-        function renderWOD(wod, isGenerated){
+        function generateHomeWOD(){
             try {
-                const display = document.getElementById('wodDisplayArea');
+                const durSelect = document.getElementById('homeDuration').value;
+                const equipment = getHomeEquipmentSelections();
+                const wod = buildHomeWorkoutFromConfig(durSelect, equipment);
+                renderWOD(wod, true, 'homeDisplayArea');
+            } catch (err) {
+                console.error('generateHomeWOD error', err);
+                try { window.__FW_LAST_ERROR = err; } catch(e){}
+                showToast((err && err.message) ? `Error: ${err.message}` : 'Home workout generation error');
+                renderWOD({
+                    name: 'Home Fallback',
+                    type: 'For Time',
+                    format: 'For Time (cap 12 min)',
+                    content: `For Time:
+20 Air Squats
+12 Push-ups
+300m Run`,
+                    story: 'Fallback used due to a home configuration error.',
+                    stimulus: 'Lower + push + monostructural'
+                }, true, 'homeDisplayArea');
+            }
+        }
+
+        function renderWOD(wod, isGenerated, targetId = 'wodDisplayArea'){
+            try {
+                const display = document.getElementById(targetId);
                 let html = `<div class="wod-result">`;
                 html += `<div class="wod-header"><div class="wod-title">${wod.name || 'WOD'}</div><span class="wod-type-badge">${wod.type || ''}</span></div>`;
                 if(wod && wod.story){
                     html += `<div class="wod-story"><h4>Background</h4>"${wod.story}"<div style="margin-top:.5rem;color:var(--text-muted);font-size:.9rem;"><strong>Intended stimulus:</strong> ${wod.stimulus || 'Mixed modal — see workout.'}</div></div>`;
                 }
                 const contentSafe = (wod && typeof wod.content === 'string') ? wod.content : String(wod.content || '');
-                html += `<div class="wod-content">${contentSafe}</div>`;
+                const formatLine = wod && wod.format ? `Format: ${wod.format}\n\n` : '';
+                html += `<div class="wod-content">${formatLine}${contentSafe}</div>`;
                 if(isGenerated){
                     const prescriptions = getPrescriptionsForContent(contentSafe);
                     if(prescriptions.length>0){
@@ -803,8 +993,19 @@
             container.innerHTML = html;
         }
 
+        window.generateWOD = generateWOD;
+        window.generateHomeWOD = generateHomeWOD;
+        window.getWodOptionsForDuration = getWodOptionsForDuration;
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadHomeConfig();
+            const button = document.getElementById('generateWodButton');
+            if (button) button.addEventListener('click', generateWOD);
+            const homeButton = document.getElementById('generateHomeButton');
+            if (homeButton) homeButton.addEventListener('click', generateHomeWOD);
+        });
+
         console.debug = console.debug || console.log;
-        console.debug('FreshWODs v9 loaded — generateWODName injected and exposed globally.');
+        console.debug('FreshWODs v9 loaded — generator button binding active.');
     </script>
 </body>
 </html>
