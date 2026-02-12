@@ -135,6 +135,7 @@
         <div class="brand">Fresh <span>WODs</span></div>
         <nav>
             <button class="nav-btn active" onclick="switchTab('wod')">WOD Gen</button>
+            <button class="nav-btn" onclick="window.location.href='home-commercial.html'">Home / Commercial</button>
             <button class="nav-btn" onclick="switchTab('home')">Home / Commercial</button>
         </nav>
     </header>
@@ -914,6 +915,10 @@ ${formatHomeLine(engine)}`
                     name: 'Home Fallback',
                     type: 'For Time',
                     format: 'For Time (cap 12 min)',
+                    content: `For Time:
+20 Air Squats
+12 Push-ups
+300m Run`,
                     content: 'For Time:
 20 Air Squats
 12 Push-ups
