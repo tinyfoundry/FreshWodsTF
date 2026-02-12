@@ -51,6 +51,7 @@
   }
 
   function getWodDurationBucket(wod) {
+    if (wod && wod.durationBucket) return wod.durationBucket;
     const source = [wod && wod.format, wod && wod.content].filter(Boolean).join(' ');
     const bounds = parseDurationBounds(source);
     if (!bounds) return null;
