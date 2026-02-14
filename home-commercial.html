@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fresh WODs | Home / Commercial</title>
+  <style>
+    :root{--primary:#F7A407;--accent-blue:#1A3A5E;--bg-dark:#0B1621;--bg-card:#122538;--bg-input:#1E3A52;--text-main:#fff;--text-muted:#8fa1b3}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:var(--bg-dark);color:var(--text-main);min-height:100vh;background-image:radial-gradient(circle at top right,#1a3a5e 0%,#0b1621 40%)}
+    header{background:var(--accent-blue);padding:1rem 1.5rem;border-bottom:4px solid var(--primary);display:flex;justify-content:space-between;align-items:center}
+    .brand{font-weight:900;font-size:1.4rem;text-transform:uppercase}.brand span{color:var(--primary)}
+    .nav-btn{background:var(--primary);border:none;padding:.6rem 1rem;font-weight:800;cursor:pointer;border-radius:4px}
+    main{max-width:900px;margin:0 auto;padding:2rem 1rem}
+    .card{background:var(--bg-card);border:1px solid #233b52;border-radius:8px;padding:1.25rem}
+    .controls{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+    label{display:block;margin-bottom:.5rem;color:var(--primary);font-size:.85rem;font-weight:700;text-transform:uppercase}
+    select{width:100%;padding:.75rem;background:var(--bg-input);border:1px solid #335373;color:#fff;border-radius:4px}
+    .action-btn{width:100%;background:var(--primary);border:none;padding:1rem;font-weight:900;text-transform:uppercase;cursor:pointer;border-radius:4px}
+    .wod-result{background:#0f1e2e;border:1px solid var(--primary);border-radius:8px;margin-top:1rem;overflow:hidden}
+    .wod-header{display:flex;justify-content:space-between;padding:1rem;border-bottom:1px solid #335373}
+    .wod-title{font-size:1.3rem;font-weight:900;text-transform:uppercase}
+    .wod-type-badge{background:var(--accent-blue);color:var(--primary);padding:4px 10px;border:1px solid var(--primary);border-radius:4px;font-size:.75rem;font-weight:900}
+    .wod-content{padding:1rem;white-space:pre-line}
+    #toast{visibility:hidden;position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:var(--primary);color:#111;padding:.8rem 1rem;border-radius:4px;font-weight:800}
+    #toast.show{visibility:visible}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Fresh <span>WODs</span></div>
+    <button class="nav-btn" id="backToWodGen" type="button">Back to WOD Gen</button>
+  </header>
+
+  <main>
+    <h2 style="color:var(--primary);margin-bottom:1rem;text-transform:uppercase">Home / Commercial</h2>
+    <div class="card">
+      <p style="color:var(--text-muted);font-style:italic">No barbells. Bodyweight + cardio + light dumbbells.</p>
+      <div class="controls">
+        <div style="flex:1;min-width:220px">
+          <label>Duration / Intensity</label>
+          <select id="homeDuration">
+            <option value="short">Short (Sprint)</option>
+            <option value="medium" selected>Medium (Classic)</option>
+            <option value="long">Long (Endurance)</option>
+          </select>
+        </div>
+      </div>
+      <div class="controls" style="align-items:flex-start;">
+        <div style="flex:1;min-width:220px">
+          <label><input type="checkbox" id="homeHasAssaultBike"/> Assault Bike</label>
+          <label><input type="checkbox" id="homeHasBarbell"/> Barbell (optional)</label>
+          <label><input type="checkbox" id="homeHasBoxJumps"/> Box jumps</label>
+        </div>
+        <div style="flex:1;min-width:220px">
+          <label><input type="checkbox" id="homeHasRower"/> Rower</label>
+          <label><input type="checkbox" id="homeNoErgs"/> Force no ergs</label>
+        </div>
+      </div>
+      <button class="action-btn" id="generateHomeButton" type="button">Generate Home / Commercial WOD</button>
+    </div>
+
+    <div id="homeDisplayArea"></div>
+  </main>
+
+  <div id="toast">Notification</div>
+
+  <script defer src="utils.js"></script>
+  <script defer src="home-commercial.js"></script>
+</body>
+</html>
