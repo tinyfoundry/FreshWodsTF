@@ -42,14 +42,28 @@
       assaultBike: !!document.getElementById('homeHasAssaultBike')?.checked,
       barbell: !!document.getElementById('homeHasBarbell')?.checked,
       boxJumps: !!document.getElementById('homeHasBoxJumps')?.checked,
-      noErgs: !!document.getElementById('homeNoErgs')?.checked
+      noErgs: !!document.getElementById('homeNoErgs')?.checked,
+      gymType: document.getElementById('homeGymType')?.value || 'commercial'
     };
+  }
+
+
+  function isBarbellMovement(movement) {
+    return /barbell|clean|snatch|deadlift|thruster|push press/i.test(movement.name || '');
+  }
+
+  function allowsByGymType(movement, equipment) {
+    // Barbell selection explicitly overrides gym-type barbell exclusions.
+    if (equipment.barbell && isBarbellMovement(movement)) return true;
+    if (equipment.gymType === 'home' && isBarbellMovement(movement)) return false;
+    return true;
   }
 
   function movementAllowed(movement, equipment) {
     const requires = movement.requires || [];
     const requiresMatch = requires.every((requiredItem) => equipment[requiredItem]);
     if (!requiresMatch) return false;
+    if (!allowsByGymType(movement, equipment)) return false;
     if (equipment.noErgs && (movement.name === 'Row' || movement.name === 'Assault Bike')) return false;
     return true;
   }
