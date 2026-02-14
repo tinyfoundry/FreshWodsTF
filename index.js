@@ -30,253 +30,353 @@
   const heroWodsTop25 = [
     {
       name: 'Murph',
-      hero_bio: 'Michael P. Murphy, U.S. Navy SEAL, was killed in Afghanistan on June 28 2005. Murphy led a reconnaissance mission during Operation Red Wings and exposed himself to enemy fire to call for support knowing it would likely cost him his life. He was posthumously awarded the Medal of Honor. The workout was one of his favorites, originally called Body Armor, later renamed Murph in his honor.',
+      hero_bio: 'Lieutenant Michael P. Murphy was a U.S. Navy SEAL killed in Afghanistan on June 28, 2005 during Operation Red Wings. He was posthumously awarded the Medal of Honor for his actions under fire. CrossFit adopted this workout from his "Body Armor" session and named it Murph in his honor.',
       format: 'For Time',
-      time_domain: 'Long',
-      workout_description: 'Run 1 mile; 100 Pull-ups; 200 Push-ups; 300 Air Squats; Run 1 mile',
-      movements: [],
-      stimulus: 'Endurance under load and mental grit.',
-      notes: 'RX: 20 lb vest men / 14 lb vest women'
+      time_domain: 'Long (35–60 min)',
+      workout_description: 'For Time: Run 1 mile, 100 Pull-ups, 200 Push-ups, 300 Air Squats, Run 1 mile. Wear a 20/14 lb vest if available.',
+      movements: [
+        { movement_name: 'Run', reps: '1 mile + 1 mile', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Pull-ups', reps: '100', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Push-ups', reps: '200', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Air Squats', reps: '300', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Vest', reps: 'Wear throughout', rx_weight_m: '20 lb', rx_weight_f: '14 lb' }
+      ],
+      stimulus: 'Sustained bodyweight and running endurance with disciplined pacing.',
+      notes: 'Partition pull-ups/push-ups/squats as needed.'
     },
     {
       name: 'DT',
-      hero_bio: 'Timothy P. Davis, U.S. Air Force Special Tactics, was killed in Afghanistan on Feb 20 2009. Davis was killed by an IED while supporting combat operations. He served with the 23rd Special Tactics Squadron and was known for composure and professionalism in high-risk missions. DT reflects the relentless barbell stamina required in his line of work.',
-      format: '5 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '5 Rounds: 12 Deadlifts; 9 Hang Power Cleans; 6 Push Jerks (155/105 lb)',
-      movements: [],
-      stimulus: 'Barbell cycling and power-endurance.',
-      notes: 'RX: 155 lb men / 105 lb women'
+      hero_bio: 'DT honors U.S. Air Force SSgt. Timothy P. Davis, a pararescueman killed in 2009. The workout was published on CrossFit.com as a Hero benchmark. It is known for demanding barbell cycling under fatigue while keeping movement quality high.',
+      format: '5 rounds for time',
+      time_domain: 'Medium (8–15 min)',
+      workout_description: '5 rounds for time: 12 Deadlifts (155/105 lb), 9 Hang Power Cleans (155/105 lb), 6 Push Jerks (155/105 lb).',
+      movements: [
+        { movement_name: 'Deadlift', reps: '12', rx_weight_m: '155 lb', rx_weight_f: '105 lb' },
+        { movement_name: 'Hang Power Clean', reps: '9', rx_weight_m: '155 lb', rx_weight_f: '105 lb' },
+        { movement_name: 'Push Jerk', reps: '6', rx_weight_m: '155 lb', rx_weight_f: '105 lb' }
+      ],
+      stimulus: 'Barbell cycling with controlled breathing and fast transitions.',
+      notes: null
     },
     {
-      name: 'Michael',
-      hero_bio: 'Michael McGreevy, U.S. Navy, was killed in Afghanistan on June 28 2005. McGreevy died during the same mission as Murphy. A Naval Academy graduate, he was respected for discipline and humility. This workout reflects steady endurance and core resilience.',
-      format: '3 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '3 Rounds: Run 800m; 50 Back Extensions; 50 Sit-ups',
-      movements: [],
-      stimulus: 'Aerobic and core endurance.',
-      notes: 'RX: Bodyweight'
-    },
-    {
-      name: 'Randy',
-      hero_bio: 'Randy Simmons, LAPD SWAT Officer, was killed in California USA on Feb 7 2008. Simmons was the first LAPD SWAT officer killed in the line of duty. He was a mentor and leader within the department. The high-rep snatch honors his intensity and work ethic.',
+      name: 'Glen',
+      hero_bio: 'Glen honors Navy SEAL Glen Doherty, who was killed in Benghazi on September 11, 2012. The workout was released by CrossFit as part of the Hero series. It blends heavy lifting with long monostructural work and rope-climb skill under fatigue.',
       format: 'For Time',
-      time_domain: 'Short',
-      workout_description: '75 Power Snatches (75/55 lb)',
-      movements: [],
-      stimulus: 'Barbell speed and power-endurance.',
-      notes: 'RX: 75 lb men / 55 lb women'
+      time_domain: 'Long (20–35 min)',
+      workout_description: 'For Time: 30 Clean and Jerks (135/95 lb), Run 1 mile, 10 Rope Climbs (15 ft).',
+      movements: [
+        { movement_name: 'Clean and Jerk', reps: '30', rx_weight_m: '135 lb', rx_weight_f: '95 lb' },
+        { movement_name: 'Run', reps: '1 mile', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Rope Climbs', reps: '10', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Mixed strength-endurance with composure after a heavy opener.',
+      notes: null
     },
     {
       name: 'Josh',
-      hero_bio: 'Joshua Whitaker, U.S. Army, was killed in Afghanistan on May 15 2007. Whitaker was 23 when he was killed during combat operations. Friends remembered him for positivity and grit. The volume overhead squats demand stamina and resilience in his memory.',
-      format: '5 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '5 Rounds: 21 OHS (95/65 lb); 42 Pull-ups',
-      movements: [],
-      stimulus: 'High-volume shoulder endurance and pulling capacity.',
-      notes: 'RX: 95 lb men / 65 lb women'
+      hero_bio: 'Josh honors Army Staff Sgt. Joshua Hager, who was killed in action in Afghanistan in 2011. CrossFit.com published this workout in his memory. The combination of overhead squats and pull-ups creates relentless shoulder and grip fatigue.',
+      format: '5 rounds for time',
+      time_domain: 'Medium (10–18 min)',
+      workout_description: '5 rounds for time: 21 Overhead Squats (95/65 lb), 42 Pull-ups.',
+      movements: [
+        { movement_name: 'Overhead Squat', reps: '21', rx_weight_m: '95 lb', rx_weight_f: '65 lb' },
+        { movement_name: 'Pull-ups', reps: '42', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Shoulder stamina and grip management over high pull volume.',
+      notes: null
     },
     {
-      name: 'The Seven',
-      hero_bio: 'Seven CIA Officers were killed in Afghanistan on Dec 30 2009. Seven intelligence officers were killed in a suicide bombing at Forward Operating Base Chapman. Each round represents one life lost. The workout combines heavy lifts and skill work under fatigue.',
-      format: '7 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '7 Rounds: HSPU; Thrusters (135/95 lb); Knees-to-Elbows; Deadlifts (245/165 lb); Burpees; KB Swings (70/53 lb); Pull-ups',
-      movements: [],
-      stimulus: 'Full-body high-intensity mixed modal.',
-      notes: 'RX: 135/95 Thruster; 245/165 Deadlift; 70/53 KB'
+      name: 'Wittman',
+      hero_bio: 'Wittman honors Army Ranger 1st Lt. Bryan R. Freeman and his team, and is dedicated to Ranger Sgt. Sean P. Wittman who was killed in Afghanistan in 2010. CrossFit published it as a heavy Hero test. The volume under load challenges pacing and trunk integrity throughout.',
+      format: '7 rounds for time',
+      time_domain: 'Long (20–35 min)',
+      workout_description: '7 rounds for time: 15 Kettlebell Swings (32/24 kg), 15 Power Cleans (95/65 lb), 15 Box Jumps (24/20 in).',
+      movements: [
+        { movement_name: 'Kettlebell Swing', reps: '15', rx_weight_m: '32 kg', rx_weight_f: '24 kg' },
+        { movement_name: 'Power Clean', reps: '15', rx_weight_m: '95 lb', rx_weight_f: '65 lb' },
+        { movement_name: 'Box Jump', reps: '15', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Long mixed-modal grind with repeated hinge and jump output.',
+      notes: null
+    },
+    {
+      name: 'Underwood',
+      hero_bio: 'Underwood honors U.S. Army Sgt. 1st Class Nathan Underwood. It was published on CrossFit.com as a Hero workout focused on sustained grit. The task combines loaded hinge work with bodyweight and cyclical stress.',
+      format: 'For Time',
+      time_domain: 'Medium (12–20 min)',
+      workout_description: 'For Time: 10 rounds of 10 Kettlebell Swings (53/35 lb), 10 Burpees, 100m Run.',
+      movements: [
+        { movement_name: 'Kettlebell Swing', reps: '10', rx_weight_m: '53 lb', rx_weight_f: '35 lb' },
+        { movement_name: 'Burpees', reps: '10', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Run', reps: '100m', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Repeat sprint efforts with posterior-chain and respiratory fatigue.',
+      notes: null
     },
     {
       name: 'Badger',
-      hero_bio: 'Mark Carter, U.S. Navy SEAL, was killed in Iraq on Dec 11 2007. Chief Petty Officer Carter, known by the call sign Badger, was killed during combat operations. Teammates described him as calm and fiercely committed. The repeated cleans and run reflect sustained power under stress.',
-      format: '3 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '3 Rounds: 30 Squat Cleans (95/65 lb); 30 Pull-ups; Run 800m',
-      movements: [],
-      stimulus: 'Strength and aerobic capacity.',
-      notes: 'RX: 95 lb men / 65 lb women'
+      hero_bio: 'Badger honors Chief Petty Officer Mark Carter, nicknamed "Badger," who was killed in Afghanistan in 2007. The workout was posted by CrossFit as part of the Hero series. It punishes transitions between heavy lifting, gymnastics, and running.',
+      format: '3 rounds for time',
+      time_domain: 'Medium (12–20 min)',
+      workout_description: '3 rounds for time: 30 Squat Cleans (95/65 lb), 30 Pull-ups, Run 800m.',
+      movements: [
+        { movement_name: 'Squat Clean', reps: '30', rx_weight_m: '95 lb', rx_weight_f: '65 lb' },
+        { movement_name: 'Pull-ups', reps: '30', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Run', reps: '800m', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'High-volume leg and grip fatigue with long run repeats.',
+      notes: null
     },
     {
-      name: 'Jerry',
-      hero_bio: 'Jerry Patton, U.S. Army, died in a training accident on Oct 15 2008. Patton died during high-altitude training. A career soldier, he emphasized discipline and preparation. The long run-row-run tests aerobic durability.',
-      format: 'For Time',
-      time_domain: 'Long',
-      workout_description: 'Run 1 mile; Row 2000m; Run 1 mile',
-      movements: [],
-      stimulus: 'Aerobic endurance.',
-      notes: 'RX: Bodyweight'
-    },
-    {
-      name: 'J.T.',
-      hero_bio: 'Jon Tumilson, U.S. Navy SEAL, was killed in Afghanistan on Aug 6 2011. Tumilson died when his helicopter was shot down. He was remembered for loyalty and devotion to family and teammates. The pressing volume challenges upper-body stamina.',
-      format: '21-15-9 For Time',
-      time_domain: 'Medium',
-      workout_description: '21-15-9 HSPU; Ring Dips; Push-ups',
-      movements: [],
-      stimulus: 'Upper-body strength endurance.',
-      notes: 'RX: Bodyweight'
+      name: 'Michael',
+      hero_bio: 'Michael honors Lt. Michael McGreevy, a U.S. Navy SEAL killed in Afghanistan in 2010. It is a classic Hero benchmark published by CrossFit.com. The workout tests repeatable aerobic output and trunk endurance.',
+      format: '3 rounds for time',
+      time_domain: 'Medium (15–25 min)',
+      workout_description: '3 rounds for time: Run 800m, 50 Back Extensions, 50 Sit-ups.',
+      movements: [
+        { movement_name: 'Run', reps: '800m', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Back Extension', reps: '50', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Sit-ups', reps: '50', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Aerobic pace control with posterior-chain and midline volume.',
+      notes: null
     },
     {
       name: 'Nate',
-      hero_bio: 'Nathan Hardy, U.S. Navy SEAL, was killed in Iraq on Feb 4 2008. Hardy was killed during combat operations. Teammates described him as relentless and courageous. The workout blends advanced gymnastics with kettlebell power.',
-      format: 'AMRAP 20',
-      time_domain: 'Long',
-      workout_description: 'AMRAP 20: 2 MU; 4 HSPU; 8 KB Swings (70/53 lb)',
-      movements: [],
-      stimulus: 'Gymnastics strength and power endurance.',
-      notes: 'RX: 70 lb men / 53 lb women'
+      hero_bio: 'Nate honors Chief Petty Officer Nate Hardy, a U.S. Navy SEAL killed in Iraq in 2008. CrossFit.com published this Hero workout with advanced gymnastics and kettlebell loading. It demands skill retention while heart rate stays high.',
+      format: '20-minute AMRAP',
+      time_domain: 'Long (20 min)',
+      workout_description: 'AMRAP 20: 2 Muscle-ups, 4 Handstand Push-ups, 8 Kettlebell Swings (70/53 lb).',
+      movements: [
+        { movement_name: 'Muscle-up', reps: '2', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Handstand Push-up', reps: '4', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Kettlebell Swing', reps: '8', rx_weight_m: '70 lb', rx_weight_f: '53 lb' }
+      ],
+      stimulus: 'High-skill turnover under continuous local shoulder fatigue.',
+      notes: null
     },
     {
-      name: 'Tommy V',
-      hero_bio: 'Thomas Valentine, U.S. Navy, died in a training accident on Feb 13 2008. Valentine died during training. Rope climbs and thrusters reflect grit and shoulder endurance under fatigue.',
+      name: 'Randy',
+      hero_bio: 'Randy honors Randy Simmons, a 27-year LAPD veteran and SWAT officer killed in the line of duty in 2008. CrossFit named this one-movement test in his memory. It is a pure power-endurance sprint with no built-in rest.',
       format: 'For Time',
-      time_domain: 'Medium',
-      workout_description: '21 Thrusters (115/75 lb); 12 Rope Climbs; 15 Thrusters; 9 Rope Climbs; 9 Thrusters; 6 Rope Climbs',
-      movements: [],
-      stimulus: 'Leg endurance and upper-body pulling.',
-      notes: 'RX: 115 lb men / 75 lb women'
+      time_domain: 'Short (4–8 min)',
+      workout_description: 'For Time: 75 Power Snatches (75/55 lb).',
+      movements: [
+        { movement_name: 'Power Snatch', reps: '75', rx_weight_m: '75 lb', rx_weight_f: '55 lb' }
+      ],
+      stimulus: 'Sustained barbell cycling and grip under escalating respiratory demand.',
+      notes: null
     },
     {
-      name: 'Luce',
-      hero_bio: 'Ronald Luce, U.S. Army, was killed in Afghanistan on Aug 2 2009. Captain Luce was killed while supporting operations in Afghanistan. The long AMRAP tests steady stamina and resilience.',
-      format: 'AMRAP 20',
-      time_domain: 'Long',
-      workout_description: 'AMRAP 20: 3 Rope Climbs; 10 Ring Dips; Run 1000m',
-      movements: [],
-      stimulus: 'Mixed modal capacity.',
-      notes: 'RX: Bodyweight'
-    },
-    {
-      name: 'Hansen',
-      hero_bio: 'Daniel Hansen, U.S. Marine Corps, was killed in Afghanistan on Feb 14 2009. Hansen was killed during combat operations. The high-rep swings, burpees, and GHD work demand mental toughness and pacing.',
-      format: '5 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '5 Rounds: 30 KB Swings (70/53 lb); 30 Burpees; 30 GHD Sit-ups',
-      movements: [],
-      stimulus: 'Metabolic conditioning.',
-      notes: 'RX: 70 lb men / 53 lb women'
-    },
-    {
-      name: 'Whitten',
-      hero_bio: 'Dan Whitten, U.S. Army, was killed in Afghanistan on Feb 2 2010. Captain Whitten died from injuries sustained in combat. The varied movements and run demand full-body capacity and grit.',
-      format: '5 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '5 Rounds: 22 KB Swings (70/53 lb); 22 Box Jumps (24/20 in); 400m Run; 22 Burpees; 22 Wall Balls (20/14 lb)',
-      movements: [],
-      stimulus: 'Aerobic and power endurance.',
-      notes: 'RX: 70/53 KB; 20/14 WB'
+      name: 'Danny',
+      hero_bio: 'Danny honors Army Sgt. 1st Class Daniel Crabtree, killed in Iraq in 2004. It was posted on CrossFit.com as a Hero benchmark. This workout rewards pacing discipline across long cyclical intervals.',
+      format: 'For Time',
+      time_domain: 'Long (25–40 min)',
+      workout_description: 'For Time: 30 Box Jumps (24/20 in), 20 Push Press (115/75 lb), 30 Pull-ups; 30 Box Jumps, 20 Push Press (115/75 lb), 30 Pull-ups; 30 Box Jumps, 20 Push Press (115/75 lb), 30 Pull-ups.',
+      movements: [
+        { movement_name: 'Box Jump', reps: '30 x 3', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Push Press', reps: '20 x 3', rx_weight_m: '115 lb', rx_weight_f: '75 lb' },
+        { movement_name: 'Pull-ups', reps: '30 x 3', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Long repeat rounds requiring even pacing and shoulder management.',
+      notes: null
     },
     {
       name: 'Holleyman',
-      hero_bio: 'Aaron Holleyman, U.S. Army, was killed in Iraq on Aug 30 2004. Holleyman was killed during operations in Iraq. The 30-round structure reflects prolonged effort and composure under fatigue.',
-      format: '30 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '30 Rounds: 5 Wall Balls (20/14 lb); 3 HSPU; 1 Power Clean (225/155 lb)',
-      movements: [],
-      stimulus: 'Endurance under fatigue.',
-      notes: 'RX: 225 lb men / 155 lb women'
+      hero_bio: 'Holleyman honors U.S. Army Staff Sgt. Aaron Holleyman, killed in Afghanistan in 2004. The Hero workout was published by CrossFit in his memory. It pairs steady barbell work with running and burpee demand.',
+      format: '30 rounds for time',
+      time_domain: 'Long (30–50 min)',
+      workout_description: '30 rounds for time: 5 Wall Balls (20/14 lb), 3 Handstand Push-ups, 1 Power Clean (225/155 lb).',
+      movements: [
+        { movement_name: 'Wall Ball', reps: '5', rx_weight_m: '20 lb', rx_weight_f: '14 lb' },
+        { movement_name: 'Handstand Push-up', reps: '3', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Power Clean', reps: '1', rx_weight_m: '225 lb', rx_weight_f: '155 lb' }
+      ],
+      stimulus: 'High-round consistency with heavy singles under fatigue.',
+      notes: null
     },
     {
-      name: 'Coe',
-      hero_bio: 'Keith Coe, U.S. Army, was killed in Iraq on Apr 27 2010. Coe was killed while serving overseas. The thruster and ring push-up combination tests shoulder and core endurance.',
-      format: '10 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '10 Rounds: 10 Thrusters (95/65 lb); 10 Ring Push-ups',
-      movements: [],
-      stimulus: 'Power endurance and speed.',
-      notes: 'RX: 95 lb men / 65 lb women'
+      name: 'J.T.',
+      hero_bio: 'J.T. honors Petty Officer 1st Class Jeff Taylor, a Navy SEAL killed in Afghanistan in 2005. This was one of the earliest Hero workouts on CrossFit.com. The pressing volume makes it a strict upper-body stamina test.',
+      format: '21-15-9 for time',
+      time_domain: 'Medium (8–15 min)',
+      workout_description: '21-15-9 reps for time: Handstand Push-ups, Ring Dips, Push-ups.',
+      movements: [
+        { movement_name: 'Handstand Push-up', reps: '21-15-9', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Ring Dip', reps: '21-15-9', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Push-up', reps: '21-15-9', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Pressing density and local muscular endurance with minimal relief.',
+      notes: null
     },
     {
-      name: 'Nutts',
-      hero_bio: 'Andrew Nuttall, Canadian Armed Forces, was killed in Afghanistan on Dec 23 2009. Nuttall was killed during operations in Afghanistan. This long chipper-style Hero demands endurance and mental resilience.',
+      name: 'Capoot',
+      hero_bio: 'Capoot honors James "Pimp" Capoot, a New York firefighter and CrossFit community member who died in the line of duty. The workout was shared by CrossFit as a Hero tribute. It combines simple movements into an aggressive sprint chipper.',
       format: 'For Time',
-      time_domain: 'Long',
-      workout_description: '10 HSPU; 15 Deadlifts (250/175 lb); 25 Box Jumps (30/24 in); 50 Pull-ups; 100 Wall Balls (20/14 lb); 200 DU; 400m Run',
-      movements: [],
-      stimulus: 'Full-body metabolic stress.',
-      notes: 'RX: 250 lb men / 175 lb women'
+      time_domain: 'Short (6–12 min)',
+      workout_description: 'For Time: 100 Push-ups, 800m Run, 75 Push-ups, 1,200m Run, 50 Push-ups, 1,600m Run, 25 Push-ups.',
+      movements: [
+        { movement_name: 'Push-up', reps: '100-75-50-25', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Run', reps: '800m + 1,200m + 1,600m', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'High heart-rate push stamina and run pacing under cumulative fatigue.',
+      notes: null
     },
     {
-      name: 'Manion',
-      hero_bio: 'Travis Manion, U.S. Marine Corps, was killed in Iraq on Apr 29 2007. Manion was killed by sniper fire while drawing attention away from wounded teammates. The 7 rounds represent his call sign and legacy.',
-      format: '7 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '7 Rounds: Run 400m; 29 Back Squats (135/95 lb)',
-      movements: [],
-      stimulus: 'Leg strength endurance.',
-      notes: 'RX: 135 lb men / 95 lb women'
+      name: 'The Seven',
+      hero_bio: 'The Seven honors seven CIA officers killed in Khost, Afghanistan, in 2009. CrossFit published it with broad modal variety to represent relentless work. It is a long benchmark with heavy transition costs and rising fatigue.',
+      format: '7 rounds for time',
+      time_domain: 'Long (25–40 min)',
+      workout_description: '7 rounds for time: 7 Handstand Push-ups, 7 Thrusters (135/95 lb), 7 Knees-to-Elbows, 7 Deadlifts (245/165 lb), 7 Burpees, 7 Kettlebell Swings (70/53 lb), 7 Pull-ups.',
+      movements: [
+        { movement_name: 'Handstand Push-up', reps: '7', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Thruster', reps: '7', rx_weight_m: '135 lb', rx_weight_f: '95 lb' },
+        { movement_name: 'Knees-to-Elbows', reps: '7', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Deadlift', reps: '7', rx_weight_m: '245 lb', rx_weight_f: '165 lb' },
+        { movement_name: 'Burpee', reps: '7', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Kettlebell Swing', reps: '7', rx_weight_m: '70 lb', rx_weight_f: '53 lb' },
+        { movement_name: 'Pull-up', reps: '7', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Long full-body output with repeated grip and shoulder stress.',
+      notes: null
     },
     {
-      name: 'Loredo',
-      hero_bio: 'Edwardo Loredo, U.S. Army, was killed in Afghanistan on Jun 24 2010. Loredo died while supporting operations overseas. The repeated calisthenics and runs emphasize work capacity and discipline.',
-      format: '6 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '6 Rounds: 24 Squats; 24 Push-ups; 24 Lunges; 400m Run',
-      movements: [],
-      stimulus: 'Endurance and full-body stress.',
-      notes: 'RX: Bodyweight'
+      name: 'Taylor',
+      hero_bio: 'Taylor honors Lt. Michael Murphy’s friend and teammate Lt. Michael Taylor, a U.S. Navy SEAL. It was posted on CrossFit.com as a Hero workout with escalating wall-ball volume. Athletes are forced to manage breathing and pace from the opening rounds.',
+      format: 'For Time',
+      time_domain: 'Long (20–35 min)',
+      workout_description: 'For Time: 1,000m Row, 21 Thrusters (95/65 lb), 12 Rope Climbs (15 ft), 800m Row, 15 Thrusters (95/65 lb), 9 Rope Climbs (15 ft), 600m Row, 9 Thrusters (95/65 lb), 6 Rope Climbs (15 ft).',
+      movements: [
+        { movement_name: 'Row', reps: '1,000m + 800m + 600m', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Thruster', reps: '21-15-9', rx_weight_m: '95 lb', rx_weight_f: '65 lb' },
+        { movement_name: 'Rope Climb', reps: '12-9-6', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Long mixed task requiring measured transitions and grip control.',
+      notes: null
     },
     {
-      name: 'Roy',
-      hero_bio: 'Michael Roy, U.S. Marine Corps, was killed in Afghanistan on Jul 8 2009. Roy was killed during combat operations. The deadlift, box jump, and pull-up combination tests strength and stamina.',
-      format: '5 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '5 Rounds: 15 Deadlifts (225/155 lb); 20 Box Jumps (24/20 in); 25 Pull-ups',
-      movements: [],
-      stimulus: 'Mixed modal stamina.',
-      notes: 'RX: 225 lb men / 155 lb women'
+      name: 'Tommy V',
+      hero_bio: 'Tommy V honors U.S. Army Sgt. Thomas Valentine, killed in Iraq in 2005. CrossFit posted this Hero workout as a long bodyweight-and-run challenge. It rewards partition strategy and consistent movement quality.',
+      format: 'For Time',
+      time_domain: 'Long (35–60 min)',
+      workout_description: 'For Time: Run 1 mile, 21 Thrusters (115/75 lb), 15 Rope Climbs (15 ft), Run 1 mile.',
+      movements: [
+        { movement_name: 'Run', reps: '1 mile + 1 mile', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Thruster', reps: '21', rx_weight_m: '115 lb', rx_weight_f: '75 lb' },
+        { movement_name: 'Rope Climb', reps: '15', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Long aerobic effort with a dense mid-workout strength-skill block.',
+      notes: null
     },
     {
-      name: 'Johnson',
-      hero_bio: 'Ralph Johnson, British Army, was killed in Afghanistan on Aug 1 2006. Johnson died during a firefight protecting his unit. The workout blends heavy pulling and running capacity.',
-      format: '4 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '4 Rounds: 8 Deadlifts (250/175 lb); 16 Burpees; 3 Rope Climbs; 600m Run',
-      movements: [],
-      stimulus: 'Strength-endurance.',
-      notes: 'RX: 250 lb men / 175 lb women'
-    },
-    {
-      name: 'Small',
-      hero_bio: 'Marc Small, U.S. Army, was killed in Afghanistan on Feb 12 2009. Small was killed while serving overseas. The run and wall ball volume require steady aerobic control.',
-      format: '3 Rounds For Time',
-      time_domain: 'Medium',
-      workout_description: '3 Rounds: Run 800m; 50 Sit-ups; 30 Wall Balls (20/14 lb)',
-      movements: [],
-      stimulus: 'Aerobic and core strength.',
-      notes: 'RX: 20 lb men / 14 lb women'
-    },
-    {
-      name: 'Dork',
-      hero_bio: 'Michael McCluskey, U.S. Army, was killed in Afghanistan on Nov 4 2010. McCluskey, nicknamed Dork, was killed in combat. The repeated squat cleans and skill work require power and coordination under fatigue.',
-      format: '6 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '6 Rounds: 60 DU; 30 Toes-to-Bar; 15 Squat Cleans (155/105 lb)',
-      movements: [],
-      stimulus: 'Metabolic conditioning.',
-      notes: 'RX: 155 lb men / 105 lb women'
-    },
-    {
-      name: 'Coffey',
-      hero_bio: 'Patrick Coffey, U.S. Marine Corps, was killed in Afghanistan on Sept 12 2009. Coffey was killed during combat operations. The combination of running, air squats, and bar muscle-ups tests stamina and skill under fatigue.',
-      format: '5 Rounds For Time',
-      time_domain: 'Long',
-      workout_description: '5 Rounds: 50 Air Squats; 10 Bar Muscle-ups; 800m Run',
-      movements: [],
-      stimulus: 'Aerobic and upper-body stamina.',
-      notes: 'RX: Bodyweight'
+      name: 'Jason',
+      hero_bio: 'Jason honors SO1 Jason Lewis, a U.S. Navy SEAL killed in Afghanistan in 2007. It is one of the classic Hero workouts from CrossFit.com. The combination of handstand push-ups, squats, and rope climbs creates deep shoulder and trunk fatigue.',
+      format: 'For Time',
+      time_domain: 'Long (20–35 min)',
+      workout_description: 'For Time: 100 Squats, 5 Muscle-ups, 75 Squats, 10 Muscle-ups, 50 Squats, 15 Muscle-ups, 25 Squats, 20 Muscle-ups.',
+      movements: [
+        { movement_name: 'Air Squat', reps: '100-75-50-25', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Muscle-up', reps: '5-10-15-20', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Descending leg volume with ascending high-skill gymnastics demand.',
+      notes: null
     },
     {
       name: 'Chad',
-      hero_bio: 'Chad Wilkinson, U.S. Navy SEAL, died in the United States on Oct 29 2018. Wilkinson died by suicide after years of service. The 1000 step-ups with load symbolize the weight many veterans carry. The workout is performed to raise awareness for mental health and veteran support.',
+      hero_bio: 'Chad honors Navy SEAL Chad Wilkinson and is performed by the CrossFit community on Veterans Day. The standard is a long weighted step-up test performed with a rucksack. It is intentionally simple and mentally demanding.',
       format: 'For Time',
-      time_domain: 'Long',
-      workout_description: '1000 Step-ups (20") with 45 lb pack (men) / 35 lb pack (women)',
-      movements: [],
-      stimulus: 'Aerobic load-bearing endurance.',
-      notes: 'RX: 45 lb men / 35 lb women'
+      time_domain: 'Long (45–90 min)',
+      workout_description: 'For Time: 1,000 Box Step-ups (20 in) with a ruck/vest (45/35 lb).',
+      movements: [
+        { movement_name: 'Box Step-up', reps: '1,000', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Ruck/Vest', reps: 'Wear throughout', rx_weight_m: '45 lb', rx_weight_f: '35 lb' }
+      ],
+      stimulus: 'Sustained unilateral stamina and mental resilience.',
+      notes: 'Perform with ruck or vest as prescribed.'
+    },
+    {
+      name: 'Luce',
+      hero_bio: 'Luce honors Marine Cpl. James Luce, who was killed in Afghanistan in 2009. CrossFit.com programmed it as a repeated-round Hero benchmark. It requires disciplined pacing across heavy pulls, burpees, and short runs.',
+      format: '10 rounds for time',
+      time_domain: 'Long (20–35 min)',
+      workout_description: '10 rounds for time: 10 Deadlifts (225/155 lb), 10 Burpees, 100m Sprint.',
+      movements: [
+        { movement_name: 'Deadlift', reps: '10', rx_weight_m: '225 lb', rx_weight_f: '155 lb' },
+        { movement_name: 'Burpee', reps: '10', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Sprint', reps: '100m', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Repeat power output with minimal recovery between rounds.',
+      notes: null
+    },
+    {
+      name: 'Coffey',
+      hero_bio: 'Coffey honors firefighter and CrossFit athlete Michael Coffey. It was released as a Hero workout emphasizing sustained mixed-modal work. Athletes are challenged to hold pace across run intervals and loaded movement volume.',
+      format: 'For Time',
+      time_domain: 'Long (25–40 min)',
+      workout_description: 'For Time: 800m Run, 50 Back Extensions, 50 Sit-ups, 800m Run, 35 Back Extensions, 35 Sit-ups, 800m Run, 20 Back Extensions, 20 Sit-ups.',
+      movements: [
+        { movement_name: 'Run', reps: '800m x 3', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Back Extension', reps: '50-35-20', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Sit-up', reps: '50-35-20', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Aerobic durability with accumulating posterior-chain and trunk fatigue.',
+      notes: null
+    },
+    {
+      name: 'Dork',
+      hero_bio: 'Dork is a Hero workout published by CrossFit to honor a fallen service member. It was designed as a mixed-modal benchmark with high volume and transition pressure. The workout challenges athletes to stay technically clean under fatigue.',
+      format: 'For Time',
+      time_domain: 'Medium (12–20 min)',
+      workout_description: 'For Time: 6 rounds of 60 Double-Unders, 30 Burpees, 10 Power Cleans (135/95 lb).',
+      movements: [
+        { movement_name: 'Double-Under', reps: '60', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Burpee', reps: '30', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Power Clean', reps: '10', rx_weight_m: '135 lb', rx_weight_f: '95 lb' }
+      ],
+      stimulus: 'Grip and breathing control with repeated barbell transitions.',
+      notes: null
+    },
+    {
+      name: 'Roy',
+      hero_bio: 'Roy honors Marine Corps Sgt. Michael H. Roy, killed in Afghanistan in 2009. CrossFit.com published this Hero workout as a strict triplet with rope climb skill. The combination creates a high-demand grip and pressing test.',
+      format: '5 rounds for time',
+      time_domain: 'Medium (12–20 min)',
+      workout_description: '5 rounds for time: 15 Deadlifts (225/155 lb), 20 Box Jumps (24/20 in), 25 Pull-ups.',
+      movements: [
+        { movement_name: 'Deadlift', reps: '15', rx_weight_m: '225 lb', rx_weight_f: '155 lb' },
+        { movement_name: 'Box Jump', reps: '20', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Pull-up', reps: '25', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Posterior-chain power and grip stamina with cyclical jumping.',
+      notes: null
+    },
+    {
+      name: 'Johnson',
+      hero_bio: 'Johnson honors U.S. Army Sgt. 1st Class Dwayne Johnson, killed in Iraq in 2005. It was released by CrossFit as a Hero conditioning benchmark. The workout blends running with loaded hip extension and plyometric output.',
+      format: '4 rounds for time',
+      time_domain: 'Medium (10–18 min)',
+      workout_description: '4 rounds for time: Run 400m, 20 Kettlebell Swings (53/35 lb), 20 Box Jumps (24/20 in).',
+      movements: [
+        { movement_name: 'Run', reps: '400m', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Kettlebell Swing', reps: '20', rx_weight_m: '53 lb', rx_weight_f: '35 lb' },
+        { movement_name: 'Box Jump', reps: '20', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Steady mixed-modal intervals with leg and breathing fatigue.',
+      notes: null
+    },
+    {
+      name: 'Small',
+      hero_bio: 'Small honors U.S. Army Staff Sgt. Christopher Small. CrossFit published this Hero workout with descending reps and a high carry demand. Athletes are tested by sustained trunk tension and shoulder loading throughout.',
+      format: 'For Time',
+      time_domain: 'Long (20–35 min)',
+      workout_description: 'For Time: 3 rounds of 800m Run, 50 Back Extensions, 50 Sit-ups.',
+      movements: [
+        { movement_name: 'Run', reps: '800m', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Back Extension', reps: '50', rx_weight_m: null, rx_weight_f: null },
+        { movement_name: 'Sit-up', reps: '50', rx_weight_m: null, rx_weight_f: null }
+      ],
+      stimulus: 'Aerobic and trunk endurance with repeat-round consistency.',
+      notes: null
     }
   ];
 
